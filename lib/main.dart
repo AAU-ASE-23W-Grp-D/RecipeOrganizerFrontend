@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.body == 'success') {
       // Login successful, handle accordingly (navigate to the next screen, etc.)
       print('Login successful');
       _navigateToNextScreen(context);
