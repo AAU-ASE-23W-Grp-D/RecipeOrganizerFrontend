@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -56,8 +58,32 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController userController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    final String username = usernameController.text;
+    final String password = passwordController.text;
+
+    final response = await http.post(
+      Uri.parse('http://localhost:8080/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'password': password,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // Login successful, handle accordingly (navigate to the next screen, etc.)
+      print('Login successful');
+    } else {
+      // Login failed, handle accordingly (show error message, etc.)
+      print('Login failed');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextFormField(
-                  controller: userController,
+                  controller: usernameController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: "Username"),
                   validator: (value) {
@@ -108,15 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
                 child: Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Navigate the user to the Home page
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please fill input')),
-                        );
-                      }
-                    },
+                    onPressed: _login,
                     child: const Text('Submit'),
                   ),
                 ),
