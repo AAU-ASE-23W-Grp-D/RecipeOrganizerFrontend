@@ -66,7 +66,8 @@ class _LoginPageState extends State<LoginPage> {
     final String password = passwordController.text;
 
     final response = await http.post(
-      Uri.parse('http://localhost:8080/login'),
+      //TODO: CHANGE IP TO YOUR IP
+      Uri.parse('http://192.168.0.11:8080/api/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -79,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       // Login successful, handle accordingly (navigate to the next screen, etc.)
       print('Login successful');
+      _navigateToNextScreen(context);
     } else {
       // Login failed, handle accordingly (show error message, etc.)
       print('Login failed');
@@ -141,6 +143,26 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewScreen()));
+  }
+
+}
+
+class NewScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('New Screen')),
+      body: const Center(
+        child: Text(
+          'This is a new screen',
+          style: TextStyle(fontSize: 24.0),
         ),
       ),
     );
