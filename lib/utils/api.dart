@@ -27,5 +27,5 @@ Future<void> login(String username, String password, BuildContext context) async
 }
 
 void _navigateToNextScreen(BuildContext context) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewScreen()));
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NewScreen()));
 }
