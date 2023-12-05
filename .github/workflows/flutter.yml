@@ -22,6 +22,11 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Disable analytics
+        run: |
+            flutter config --no-analytics
+            dart --disable-analytics
+
       - name: Install dependencies
         run: flutter pub get
 
