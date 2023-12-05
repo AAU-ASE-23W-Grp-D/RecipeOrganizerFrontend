@@ -6,7 +6,7 @@ import 'package:recipe_organizer_frontend/screens/new_screen.dart';
 Future<void> login(String username, String password, BuildContext context) async {
   final response = await http.post(
     //TODO: CHANGE IP TO YOUR IP
-    Uri.parse('http://192.168.0.11:8080/api/login'),
+    Uri.parse('http://localhost:8080/api/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
