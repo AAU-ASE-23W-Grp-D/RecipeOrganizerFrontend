@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,11 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Responsive NavBar',
+      title: 'Recipe Organizer: Homepage',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white, // Set your app bar background color
+          backgroundColor: Color.fromRGBO(121,220,241,0), // Set your app bar background color
           elevation: 0, // Remove shadow
         ),
       ),
@@ -32,19 +33,20 @@ class MyHomePage extends StatelessWidget {
         child: Builder(
           builder: (BuildContext context) {
             return AppBar(
-              title: const Text('Your App'),
+              title: const Text('Recipe Organizer'),
               actions: [
                 MediaQuery.of(context).size.width > 600
-                    ? const DesktopNavbar()
-                    : const MobileNavbar(),
+                    ?  const DesktopNavbar()
+                    :  const MobileNavbar(),
               ],
             );
           },
         ),
       ),
-      body: const Center(
-        child: Text('Your Content Here'),
+      body:  const Center(
+        child: Text('No Recipes available yet'),
       ),
+      
     );
   }
 }
@@ -56,10 +58,52 @@ class DesktopNavbar extends StatelessWidget {
     return Row(
       children: [
         NavItem(title: 'Home'),
-        NavItem(title: 'About'),
-        NavItem(title: 'Services'),
-        NavItem(title: 'Contact'),
+        NavItem(title: 'Recipes'),
+        NavItem(title: 'Search'),
+        NavItem(title: 'Login', onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SecondRoute()),
+            );
+          },
+          ),
       ],
+    );
+  }
+}
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Second Route'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Go back!'),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginRoute extends StatelessWidget {
+  const LoginRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Recipe Organizer',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const LoginPage(title: 'Recipe Organizer'),
     );
   }
 }
@@ -71,17 +115,17 @@ class MobileNavbar extends StatelessWidget {
     return PopupMenuButton(
       icon: const Icon(Icons.menu),
       itemBuilder: (BuildContext context) => [
-        PopupMenuItem(
+         PopupMenuItem(
           child: NavItem(title: 'Home'),
         ),
-        PopupMenuItem(
-          child: NavItem(title: 'About'),
+         PopupMenuItem(
+          child: NavItem(title: 'Recipes'),
         ),
-        PopupMenuItem(
-          child: NavItem(title: 'Services'),
+         PopupMenuItem(
+          child: NavItem(title: 'Search'),
         ),
-        PopupMenuItem(
-          child: NavItem(title: 'Contact'),
+         PopupMenuItem(
+          child: NavItem(title: 'Login'),
         ),
       ],
     );
@@ -90,20 +134,21 @@ class MobileNavbar extends StatelessWidget {
 
 class NavItem extends StatelessWidget {
   final String title;
+  final VoidCallback? onPressed;
 
-  NavItem({required this.title});
+  NavItem({super.key, required this.title, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: TextButton(
         onPressed: () {
           // Handle navigation or action when the item is tapped
         },
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.black, // Set your text color
             fontWeight: FontWeight.bold,
           ),
@@ -112,3 +157,6 @@ class NavItem extends StatelessWidget {
     );
   }
 }
+
+
+
