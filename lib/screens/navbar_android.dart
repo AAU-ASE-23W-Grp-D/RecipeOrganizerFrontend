@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage>{
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => LoginPage(title: 'Recipe Organizer')
+                    builder: (context) => LoginPage(title: 'Recipe Organizer: Login Page')
                     ),
           );}
             },
@@ -39,12 +39,29 @@ class _MyHomePageState extends State<MyHomePage>{
             tabs: [
               GButton(icon: Icons.home, text: 'Home',),
               GButton(icon: Icons.favorite, text: 'Liked Recipes'),
-              GButton(icon: Icons.search, text: 'Search'),
+              GButton(icon: Icons.schedule, text: 'Time Manager'),
               GButton(icon: Icons.person, text: 'Profile')
               ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Color.fromRGBO(121,220,241,1),
+        child: const Icon(Icons.add),
+      
+      ),
+      appBar: AppBar(
+        title: const Text("Recipe Organizer"),
+        titleTextStyle: TextStyle(color: Colors.white, fontSize: 24.0),
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {}, 
+            icon: const Icon(Icons.search),
+            color: Colors.white,)
+        ],
+        ),
     );
   }
 }
