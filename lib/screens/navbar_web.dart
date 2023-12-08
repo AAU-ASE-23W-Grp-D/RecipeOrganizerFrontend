@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:adaptive_navbar/adaptive_navbar.dart';
 import 'login_page.dart';
 
