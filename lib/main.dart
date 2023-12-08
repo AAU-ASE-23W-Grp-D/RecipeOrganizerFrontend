@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 //import 'package:recipe_organizer_frontend/app.dart';
+import 'package:recipe_organizer_frontend/screens/navbar_web.dart';
 import 'package:recipe_organizer_frontend/screens/navbar_android.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +21,8 @@ class MyApp extends StatelessWidget {
           elevation: 0, // Remove shadow
         ),
       ),
-      home: const MyHomePage(),
+      //home: kIsWeb ? MyHomePageWeb() : MyHomePageApp(),
+      home: MyHomePageApp(),
     );
   }
 }
