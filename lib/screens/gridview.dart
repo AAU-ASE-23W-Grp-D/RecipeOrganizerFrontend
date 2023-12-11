@@ -73,10 +73,10 @@ Widget build(BuildContext context) {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount:2,
         crossAxisSpacing: 12.0,
         mainAxisSpacing: 12.0,
-        mainAxisExtent: 310,
+        mainAxisExtent: 270,
       ),
       itemCount: gridMap.length,
       itemBuilder: (_, index) {
@@ -139,16 +139,7 @@ Widget build(BuildContext context) {
                                 ),
                           ),
                           Icon(Icons.star, color: Colors.grey,),
-                        ],
-                      ),
-                    ),
-                    
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
+                          IconButton(
                           onPressed: () {},
                           color: Colors.pink,
                           icon: const Icon(
@@ -162,7 +153,9 @@ Widget build(BuildContext context) {
                             CupertinoIcons.search,
                           ),
                         ),
-                      ],
+                        ],
+                        
+                      ),
                     ),
                   ],
                 ),
