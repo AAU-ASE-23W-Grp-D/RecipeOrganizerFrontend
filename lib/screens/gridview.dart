@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 
 
 class GridB extends StatefulWidget {
@@ -66,6 +67,8 @@ class _GridBState extends State<GridB> {
     },
 
   ];
+  
+  bool isFavorite = false;
 
 @override
 Widget build(BuildContext context) {
@@ -140,14 +143,27 @@ Widget build(BuildContext context) {
                           ),
                           Icon(Icons.star, color: Colors.grey,),
                           IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                            });
+                          },
                           color: Colors.pink,
-                          icon: const Icon(
-                            CupertinoIcons.heart,
-                          ),
+                          icon: isFavorite ? const Icon(CupertinoIcons.heart_fill) : const Icon(CupertinoIcons.heart)
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Detailspage(
+        image:"https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+        name: "Cheeseburger", 
+        username: "Moser",
+        userimage: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
+                                ),
+                              );
+                          },
                           color: Colors.white,
                           icon: const Icon(
                             CupertinoIcons.search,
