@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:flutter/foundation.dart';
 
 
 class GridB extends StatefulWidget {
@@ -76,7 +78,7 @@ Widget build(BuildContext context) {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount:2,
+        crossAxisCount: kIsWeb ? 6 : 2,
         crossAxisSpacing: 12.0,
         mainAxisSpacing: 12.0,
         mainAxisExtent: 270,
@@ -92,8 +94,8 @@ Widget build(BuildContext context) {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.black,
-              Color.fromRGBO(121,220,241,1),
+              secondary,
+              primary,
             ],
           ),
           ),

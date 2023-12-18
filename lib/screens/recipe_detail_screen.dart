@@ -16,40 +16,6 @@ class _DetailspageState extends State<Detailspage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: SizedBox(
-        height: 50,
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.only(left:8.0,right: 8),
-          child: Row(
-            children:  [
-              Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width*0.2,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: secondary
-                ),
-                child: const Center(
-                  child: Text("Play",style: TextStyle(color: Colors.white),),
-                ),
-              ),
-              const SizedBox(width: 30,),
-               Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width*0.65,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: primary
-                ),
-                child: const Center(
-                  child: Text("Start Cooking",style: TextStyle(fontWeight:FontWeight.bold,),
-                ),
-              )),
-            ],
-          ),
-        ),
-      ),
         body: Stack(
             children: [
         SizedBox(

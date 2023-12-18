@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:adaptive_navbar/adaptive_navbar.dart';
+import 'package:recipe_organizer_frontend/screens/responsive_navbar.dart';
 import 'login_page.dart';
+import 'search_bar.dart';
+import 'gridview.dart';
+import '../colors.dart';
 
 class MyHomePageWeb extends StatefulWidget{
   const MyHomePageWeb({Key? key}): super(key: key);
@@ -17,7 +21,8 @@ class _MyHomePageWebState extends State<MyHomePageWeb> {
     final sw = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AdaptiveNavBar(
+      appBar: 
+      AdaptiveNavBar(
         screenWidth: sw,
         title: const Text("Recipe Organizer"),
         navBarItems: [
@@ -52,11 +57,27 @@ class _MyHomePageWebState extends State<MyHomePageWeb> {
           ),
         ],
       ),
-      body: const Center(
-        child: Text(
-          'No Recipes available',
-        ),
-      ),
+
+      body: SafeArea(
+         child: SingleChildScrollView(
+           child: Column(
+             children: [
+                   Container(
+                    constraints: BoxConstraints(maxHeight: 90.0),
+                     child: Padding(
+                       padding: EdgeInsets.all(8.0),
+                       child: SearchBarApp(),
+                     ),
+                   ),
+                   //SizedBox(height: 1000,),
+                   Padding(
+                     padding: EdgeInsets.all(8.0),
+                     child: GridB(),
+                   ),
+             ],
+           ),
+         ),
+       ),
     );
   }
 }
