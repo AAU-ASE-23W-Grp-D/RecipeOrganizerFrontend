@@ -2,14 +2,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
+import 'package:recipe_organizer_frontend/models/user.dart';
 import 'package:recipe_organizer_frontend/utils/token_storage.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_screen.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
 //TODO: CHANGE IP TO YOUR IP
 const String baseUrl = 'http://localhost:8080/api';
 
 Future<void> login(String username, String password, BuildContext context) async {
-  final TokenStorage storage = TokenStorage();
+  final UserStorage userStorage = UserStorage();
   final response = await http.post(
     Uri.parse('$baseUrl/auth/signin'),
     headers: <String, String>{
@@ -25,19 +27,11 @@ Future<void> login(String username, String password, BuildContext context) async
     // Login successful, handle accordingly (navigate to the next screen, etc.)
     print('Login successful');
 
-    Map<String, dynamic> body = json.decode(response.body);
-    int userId = body['id'];
-    String username = body['username'];
-    List<String> roles = List<String>.from(body['roles']);
-    String token = body['token'];
+    final responseJson = jsonDecode(response.body) as Map<String, dynamic>;
+    final user = User.fromJson(responseJson);
 
-    print('User ID: $userId');
-    print('Username: $username');
-    print('Roles: $roles');
-    print('Token: $token');
-
-    // Store JWT token
-    await storage.saveToken(token);
+    // Store user info and JWT token
+    await userStorage.saveUser(user);
 
     _navigateToNextScreen(context);
   } else {
