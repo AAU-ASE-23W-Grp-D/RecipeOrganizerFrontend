@@ -40,6 +40,10 @@ Future<void> login(String username, String password, BuildContext context) async
   }
 }
 
+Future<void> register(String username, String email, String password, BuildContext context) async {
+  // write registration
+}
+
 Future<List<Recipe>> fetchRecipes() async {
   final TokenStorage storage = TokenStorage();
   String jwtToken = await storage.getToken();
