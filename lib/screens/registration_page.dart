@@ -74,10 +74,10 @@ class HomeState extends State<Registration> {
                   key: const Key('registerButton'),
                   onPressed: () {
                     register(
-                      usernameController.text,
-                      emailController.text,
-                      passwordController.text,
-                      context,
+                        usernameController.text,
+                        emailController.text,
+                        passwordController.text,
+                        context
                     );
                   },
                   child: const Text('Register'),

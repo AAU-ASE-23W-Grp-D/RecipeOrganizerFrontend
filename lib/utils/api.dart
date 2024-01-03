@@ -7,6 +7,8 @@ import 'package:recipe_organizer_frontend/utils/token_storage.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_screen.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
+import '../screens/login_page.dart';
+
 //TODO: CHANGE IP TO YOUR IP
 const String baseUrl = 'http://localhost:8080/api';
 
@@ -23,6 +25,7 @@ Future<void> login(String username, String password, BuildContext context) async
     }),
   );
 
+  print(response.body);
   if (response.statusCode == 200) {
     // Login successful, handle accordingly (navigate to the next screen, etc.)
     print('Login successful');
@@ -41,7 +44,30 @@ Future<void> login(String username, String password, BuildContext context) async
 }
 
 Future<void> register(String username, String email, String password, BuildContext context) async {
-  // write registration
+  final UserStorage userStorage = UserStorage();
+  final response = await http.post(
+    Uri.parse('$baseUrl/auth/signup'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': username,
+      'email': email,
+      'password': password,
+    }),
+  );
+
+  print(response.body);
+  if (response.statusCode == 200) {
+    // Login successful, handle accordingly (navigate to the next screen, etc.)
+    print('Registration successful');
+
+    _navigateToLoginScreen(context);
+    showAlertDialog(context, "Sign up successful", "You successfully signed up!");
+  } else {
+    // Login failed, handle accordingly (show error message, etc.)
+    print('Registration failed');
+  }
 }
 
 Future<List<Recipe>> fetchRecipes() async {
@@ -65,4 +91,25 @@ Future<List<Recipe>> fetchRecipes() async {
 
 void _navigateToNextScreen(BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RecipeScreen()));
+}
+
+void _navigateToLoginScreen(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage(title: 'Recipe Organizer',)));
+}
+
+void showAlertDialog(BuildContext context, String title, String message) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      // dialog is only shown for 4 seconds
+      Future.delayed(Duration(seconds: 4), () {
+        Navigator.of(context).pop(); // Close the dialog
+      });
+      // returns the AlertDialog
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+      );
+    },
+  );
 }
