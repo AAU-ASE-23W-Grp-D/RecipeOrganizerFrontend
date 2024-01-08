@@ -2,55 +2,41 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
 
-class Detailspage extends StatefulWidget {
-  final String image;
-  final String name;
-  final String username;
-  final String userimage;
-  const Detailspage({Key? key, required this.image, required this.name, required this.username, required this.userimage}) : super(key: key);
+class RecipeDetailScreenWeb extends StatefulWidget {
+  final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  final String name = "Cheeseburger";
+  final String username = "Moser";
+  final String userimage = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const RecipeDetailScreenWeb({Key? key}) : super(key: key);
 
   @override
-  State<Detailspage> createState() => _DetailspageState();
+  State<RecipeDetailScreenWeb> createState() => _DetailspageState();
 }
-class _DetailspageState extends State<Detailspage> {
+class _DetailspageState extends State<RecipeDetailScreenWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-            children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-         
-        ),
-            Positioned(
-              top:0,
-              child: Stack(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height*0.6,
-                    decoration:   BoxDecoration(
-                       image: DecorationImage(image: NetworkImage(widget.image),fit: BoxFit.cover)
-                       ),
-                    
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Stack(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height*0.5,
+      appBar: AppBar(
+        title: Text(widget.name),
+      ),
+        body: Padding(
+        padding: EdgeInsets.symmetric(vertical: 30.0,horizontal: MediaQuery.sizeOf(context).width*0.1),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Row(
+              children:[
+                Container(
+                  width: MediaQuery.sizeOf(context).width*0.8,
                     decoration: const BoxDecoration(
                          color: Colors.white,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40),
                         )),
+
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -58,42 +44,27 @@ class _DetailspageState extends State<Detailspage> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 30,),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children:  [
-                                 Text(
-                                  widget.name,
-                                  style: const TextStyle(
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Container(
-                                    height: 25,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      color: primary,
-                                      borderRadius: BorderRadius.circular(6)
-                    
-                                    ),
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: const [
-                                          Icon(Icons.star,size: 15,color: Colors.black,),
-                                          Text("4.5")
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ],
-                            ),
-                            const Text("Salad",style: TextStyle(color: inActiveColor,),),
-                            const SizedBox(height: 25,),
+                           
+                            Container(
+                    constraints: BoxConstraints(maxHeight: 90.0),
+                     child: Text(
+                      widget.name,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        
+                      ),
+                      
+                      ),
+                     /*Padding(
+                       padding: EdgeInsets.all(8.0),
+                       child: SearchBarApp(),
+                     ),*/
+                   ),
                             Container(
                               height:60,
-                              width: MediaQuery.of(context).size.width,
+                              
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                  border: Border.all(color:labelColor,width: 0.1 )
@@ -120,12 +91,12 @@ class _DetailspageState extends State<Detailspage> {
                                         ),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:8.0),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top:8.0),
                                       child: Column(
                                         children: [
                                           Row(
-                                            children: const [
+                                            children: [
                                               Icon(Icons.star,color: primary,size: 15,),
                                               Icon(Icons.star,color: primary,size: 15,),
                                               Icon(Icons.star,color: primary,size: 15,)
@@ -135,103 +106,151 @@ class _DetailspageState extends State<Detailspage> {
                                               
                                             ],
                                           ),
-                                           const Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
+                                          Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
                                         ],
                                       ),
                                     )
                                   ],
                                 ),
                               ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top:20.0),
-                              child: Text("Ingredients",style: TextStyle(fontSize: 16),),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top:20.0),
-                              child: DottedBorder(
-                                borderType: BorderType.Rect,
-                                strokeWidth: 0.8,
-                                dashPattern: const [1,],
-                                color: inActiveColor,
-                                child: SizedBox(
-                                height: 80,
-                                width: MediaQuery.of(context).size.width,
-                                child:Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Icon(Icons.trip_origin, color: primary, size: 20,),
-                                              SizedBox(width: 4,),
-                                              Text("Egg:",style: TextStyle(color: inActiveColor),),
-                                              Text("2")
-                                            ],
-                                          ),
-                                          Row(
-                                            children: const [
-                                              Icon(Icons.trip_origin, color: primary, size: 20,),
-                                              SizedBox(width: 4,),
-                                              Text("Milk:",style: TextStyle(color: inActiveColor),),
-                                              Text("15ml")
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: const [
-                                              Icon(Icons.trip_origin, color: primary, size: 20,),
-                                              SizedBox(width: 4,),
-                                              Text("Sugar:",style: TextStyle(color: inActiveColor),),
-                                              Text("10mg")
-                                            ],
-                                          ),
-                                          Row(
-                                            children: const [
-                                              Icon(Icons.trip_origin, color: primary, size: 20,),
-                                              SizedBox(width: 4,),
-                                              Text("cheese:",style: TextStyle(color: inActiveColor),),
-                                              Text("5g")
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ) ),
-                            ),
-                           const Padding(
-                              padding: EdgeInsets.only(top:20.0),
-                              child: Text("Description",style: TextStyle(fontSize: 16))),
-                              const Text("Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, nihil nobis! Fuga, ipsa cupiditate.",style: TextStyle(color: inActiveColor),),
-                            const SizedBox(height: 40,)
+                            )
                           ],
                         ),
                       ),
+
+
                     ),
                   ),
-                ],
-              ),
+              ] 
             ),
-            Positioned(
-              top: 14,
-              left: 5,
-              child: IconButton(onPressed: (){
-                Navigator.pop(context);
-              }, icon: const Icon(Icons.arrow_back)))
-            ],
-          ));
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: [
+                
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children: [
+                      Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text("Ingredients",style: TextStyle(fontSize: 16),),
+                                ),
+                      Padding(
+                                  padding: EdgeInsets.only(top:20.0),
+                                  child: DottedBorder(
+                                    borderType: BorderType.Rect,
+                                    strokeWidth: 0.8,
+                                    dashPattern: const [1,],
+                                    color: inActiveColor,
+                                    child: SizedBox(
+                                    height: 80,
+                                    width: MediaQuery.of(context).size.width,
+                                    child:const Column(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.trip_origin, color: primary, size: 20,),
+                                                  SizedBox(width: 4,),
+                                                  Text("Egg:",style: TextStyle(color: inActiveColor),),
+                                                  Text("2")
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.trip_origin, color: primary, size: 20,),
+                                                  SizedBox(width: 4,),
+                                                  Text("Milk:",style: TextStyle(color: inActiveColor),),
+                                                  Text("15ml")
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Icon(Icons.trip_origin, color: primary, size: 20,),
+                                                  SizedBox(width: 4,),
+                                                  Text("Sugar:",style: TextStyle(color: inActiveColor),),
+                                                  Text("10mg")
+                                                ],
+                                              ),
+                                              Row(
+                                                children:  [
+                                                  Icon(Icons.trip_origin, color: primary, size: 20,),
+                                                  SizedBox(width: 4,),
+                                                  Text("cheese:",style: TextStyle(color: inActiveColor),),
+                                                  Text("5g")
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ) ),
+                                ),
+                    ]
+                     
+            
+            
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    children:[
+                    const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text("Description",style: TextStyle(fontSize: 16))),
+                                  const Text("Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, nihil nobis! Fuga, ipsa cupiditate.",style: TextStyle(color: inActiveColor),),
+                                const SizedBox(height: 40,)]
+            
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: Image.network(
+                            widget.image,
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ],
+                                
+                    ),
+                  ),
+                ),
+            
+            
+            
+              ]
+              ),
+          ],
+        )
+        )
+
+                  
+    );
   }
 }
 

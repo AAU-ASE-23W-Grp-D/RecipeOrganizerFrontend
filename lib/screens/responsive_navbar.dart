@@ -59,10 +59,20 @@ class ResponsiveNavBarPage extends StatelessWidget {
              children: [
                    Container(
                     constraints: BoxConstraints(maxHeight: 90.0),
-                     child: Padding(
+                     child: Text(
+                      "Recent:",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        
+                      ),
+                      
+                      ),
+                     /*Padding(
                        padding: EdgeInsets.all(8.0),
                        child: SearchBarApp(),
-                     ),
+                     ),*/
                    ),
                    //SizedBox(height: 1000,),
                    Padding(
@@ -89,35 +99,56 @@ class ResponsiveNavBarPage extends StatelessWidget {
               .toList(),
         ),
       );
+}
 
-  Widget _navBarItems(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: _menuItems
-            .map(
-              (item) => InkWell(
-                onTap: () {
-                  if(item == "Login"){
-                    Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(title: 'Recipe Organizer: Login Page')
-                    ),
-              );
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 24.0, horizontal: 16),
-                  child: Text(
-                    item,
-                    style: const TextStyle(fontSize: 18),
-                  ),
+Widget _navBarItems(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      // Your search bar widget
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
+        child: SizedBox(
+          width: 200, // Adjust the width as needed
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search...',
+            ),
+            onChanged: (searchQuery) {
+              // Handle search query changes
+            },
+          ),
+        ),
+      ),
+
+      // Spacer to separate the search bar from menu items
+      SizedBox(width: 16),
+
+      // Your menu items
+      ..._menuItems.map(
+        (item) => InkWell(
+          onTap: () {
+            if (item == "Login") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(title: 'Recipe Organizer: Login Page'),
                 ),
-              ),
-            )
-            .toList(),
-      );
+              );
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
+            child: Text(
+              item,
+              style: const TextStyle(fontSize: 18),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 final List<String> _menuItems = <String>[
@@ -126,6 +157,7 @@ final List<String> _menuItems = <String>[
   'Shopping List',
   'Login',
 ];
+
 
 enum Menu { itemOne, itemTwo, itemThree }
 

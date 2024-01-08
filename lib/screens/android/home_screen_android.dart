@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_organizer_frontend/screens/navbar_android.dart';
-import 'login_page.dart';
-import 'search_bar.dart';
-import 'gridview.dart';
-import '../colors.dart';
+import 'package:recipe_organizer_frontend/screens/android/navbar_android.dart';
+import '../login_page.dart';
+import '../search_bar.dart';
+import '../gridview.dart';
+import '../../colors.dart';
 
 class MyHomePageApp extends StatefulWidget{
   const MyHomePageApp({Key? key}): super(key: key);

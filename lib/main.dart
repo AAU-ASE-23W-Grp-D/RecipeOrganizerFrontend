@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 //import 'package:recipe_organizer_frontend/app.dart';
-import 'package:recipe_organizer_frontend/screens/home_screen_android.dart';
+import 'package:recipe_organizer_frontend/screens/android/home_screen_android.dart';
 import 'package:recipe_organizer_frontend/screens/navbar_web.dart';
-import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/screens/android/recipe_detail_screen_android.dart';
 import 'package:recipe_organizer_frontend/screens/responsive_navbar.dart';
 
 void main() {
