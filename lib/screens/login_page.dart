@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/android/navbar_android.dart';
 import '../utils/api.dart';
+import 'registration_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -76,6 +77,20 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     },
                     child: const Text('Submit'),
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                child: Center(
+                  child: TextButton(
+                    key: const Key('registrationButton'),
+                    onPressed: () {
+                      Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => Registration()));
+                    },
+                    child: const Text('Sign up!'),
                   ),
                 ),
               ),

@@ -15,5 +15,8 @@ void main() {
 
     // Verify that our app has a submit button.
     expect(find.byKey(const Key('loginButton')), findsOneWidget);
+
+    // Verify that our app has a register button.
+    expect(find.byKey(const Key('registrationButton')), findsOneWidget);
   });
 }
