@@ -21,7 +21,7 @@ class HomeState extends State<Registration> {
               padding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
-                key: const Key('usernameField'),
+                key: const Key('usernameFieldRegistration'),
                 controller: usernameController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Username"),
@@ -37,7 +37,7 @@ class HomeState extends State<Registration> {
               padding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
-                key: const Key('emailField'),
+                key: const Key('emailFieldRegistration'),
                 controller: emailController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Email"),
@@ -53,7 +53,7 @@ class HomeState extends State<Registration> {
               padding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
-                key: const Key('passwordField'),
+                key: const Key('passwordFieldRegistration'),
                 controller: passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
