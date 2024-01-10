@@ -5,7 +5,7 @@ import 'package:recipe_organizer_frontend/screens/registration_page.dart';
 void main() {
   testWidgets('Check input fields and register button', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(Registration());
+    await tester.pumpWidget(const Registration());
 
     // Verify that our app has a username field.
     expect(find.byKey(const Key('usernameFieldRegistration')), findsOneWidget);
