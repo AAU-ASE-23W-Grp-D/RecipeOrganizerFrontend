@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import '../utils/api.dart';
 
 class Registration extends StatefulWidget {
-  HomeState createState() => HomeState();
+  const Registration({super.key});
+
+  @override
+  State<Registration> createState() => _RegistrationPageState();
 }
 
-class HomeState extends State<Registration> {
+class _RegistrationPageState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -21,7 +24,7 @@ class HomeState extends State<Registration> {
               padding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
-                key: const Key('usernameField'),
+                key: const Key('usernameFieldRegistration'),
                 controller: usernameController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Username"),
@@ -37,7 +40,7 @@ class HomeState extends State<Registration> {
               padding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
-                key: const Key('emailField'),
+                key: const Key('emailFieldRegistration'),
                 controller: emailController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Email"),
@@ -53,7 +56,7 @@ class HomeState extends State<Registration> {
               padding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextFormField(
-                key: const Key('passwordField'),
+                key: const Key('passwordFieldRegistration'),
                 controller: passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
