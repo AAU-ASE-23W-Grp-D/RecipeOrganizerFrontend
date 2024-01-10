@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import '../utils/api.dart';
 
 class Registration extends StatefulWidget {
-  HomeState createState() => HomeState();
+  @override
+  State<Registration> createState() => _RegistrationPageState();
 }
 
-class HomeState extends State<Registration> {
+class _RegistrationPageState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
