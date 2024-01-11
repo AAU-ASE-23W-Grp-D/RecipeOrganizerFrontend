@@ -17,59 +17,50 @@ class GridB extends StatefulWidget {
 class _GridBState extends State<GridB> {
   final List<Map<String, dynamic>> gridMap =[
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Spaghetti Bolognese",
+      "rating": "4.8",
+      "images": "https://source.unsplash.com/400x300/?spaghetti",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
-    },{
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Sushi Platter",
+      "rating": "4.9",
+      "images": "https://source.unsplash.com/400x300/?sushi",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Caesar Salad",
+      "rating": "4.5",
+      "images": "https://source.unsplash.com/400x300/?caesar-salad",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Pizza Margherita",
+      "rating": "4.7",
+      "images": "https://source.unsplash.com/400x300/?pizza",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Chocolate Cake",
+      "rating": "4.6",
+      "images": "https://source.unsplash.com/400x300/?chocolate-cake",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Chicken Curry",
+      "rating": "4.5",
+      "images": "https://source.unsplash.com/400x300/?chicken-curry",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Vegetarian Stir-Fry",
+      "rating": "4.8",
+      "images": "https://source.unsplash.com/400x300/?vegetarian-stir-fry",
     },
     {
-      "name": "Cheeseburger",
-      "rating" : "4.5",
-      "images" : "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      
+      "name": "Fruit Smoothie",
+      "rating": "4.9",
+      "images": "https://source.unsplash.com/400x300/?fruit-smoothie",
     },
-
+    {
+      "name": "Grilled Salmon",
+      "rating": "4.7",
+      "images": "https://source.unsplash.com/400x300/?grilled-salmon",
+    },
   ];
   
   bool isFavorite = false;

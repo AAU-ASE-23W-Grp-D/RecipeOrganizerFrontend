@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_page.dart';
+import 'package:recipe_organizer_frontend/screens/profile_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
+import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
+
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
@@ -169,7 +172,38 @@ class _ProfileIcon extends StatelessWidget {
     return PopupMenuButton<Menu>(
         icon: const Icon(Icons.person),
         offset: const Offset(0, 40),
-        onSelected: (Menu item) {},
+        onSelected: (Menu item) {
+          if (item == Menu.itemOne) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserProfilePage(
+        userProfile: UserProfile(
+          name: 'John Doe',
+          profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          likedRecipes: 50,
+          createdRecipes: 10,
+        ),
+                      ),
+                      ),
+                    );
+                  }
+          else if (item == Menu.itemTwo) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LikedRecipesPage(
+                  profile: Profile(
+                    name: 'John Doe',
+                    profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    likedRecipes: 50
+                  ),
+                ),
+              ),
+            );
+          }
+
+        },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
               const PopupMenuItem<Menu>(
                 value: Menu.itemOne,
