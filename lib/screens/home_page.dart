@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_page.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
 
 class ResponsiveNavBarPage extends StatelessWidget {
@@ -137,6 +138,14 @@ Widget _navBarItems(BuildContext context) {
                 ),
               );
             }
+            if (item == "Shopping List") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShoppingListScreen(),
+                ),
+              );
+            }
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
@@ -169,7 +178,9 @@ class _ProfileIcon extends StatelessWidget {
     return PopupMenuButton<Menu>(
         icon: const Icon(Icons.person),
         offset: const Offset(0, 40),
-        onSelected: (Menu item) {},
+        onSelected: (Menu item) {
+          
+        },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
               const PopupMenuItem<Menu>(
                 value: Menu.itemOne,
