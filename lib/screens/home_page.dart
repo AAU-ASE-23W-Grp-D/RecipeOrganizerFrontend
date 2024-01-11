@@ -2,10 +2,12 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/screens/footer.dart';
 import 'package:recipe_organizer_frontend/screens/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_page.dart';
 import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
+bool logged_in = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
@@ -16,47 +18,18 @@ class ResponsiveNavBarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final bool isLargeScreen = width > 800;
-    bool logged_in = true;
+    
 
     return Theme(
       data: ThemeData.light(),
       child: Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          backgroundColor: primary,
-          elevation: 0,
-          titleSpacing: 0,
-          leading: isLargeScreen
-              ? null
-              : IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                ),
-          title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Recipe Organizer",
-                  style: TextStyle(
-                      color: secondary, fontWeight: FontWeight.bold),
-                ),
-                if (isLargeScreen) Expanded(child: _navBarItems(context))
-              ],
-            ),
-          ),
-          actions:  [
-            Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: logged_in ? CircleAvatar(child: _ProfileIcon()):null,
-            )
-          ],
-        ),
+        appBar: appBar(isLargeScreen, context),
         drawer: isLargeScreen ? null : _drawer(),
         body: SafeArea(
          child: SingleChildScrollView(
            child: Column(
+
              children: [
                    Container(
                     constraints: BoxConstraints(maxHeight: 90.0),
@@ -77,15 +50,50 @@ class ResponsiveNavBarPage extends StatelessWidget {
                    ),
                    //SizedBox(height: 1000,),
                    Padding(
-                     padding: EdgeInsets.all(8.0),
+                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.05),
                      child: GridB(),
                    ),
              ],
            ),
          ),
        ),
+       bottomNavigationBar: Footer(),
         ),
     );
+  }
+
+  AppBar appBar(bool isLargeScreen, BuildContext context) {
+    return AppBar(
+        backgroundColor: primary,
+        elevation: 0,
+        titleSpacing: 0,
+        leading: isLargeScreen
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () => _scaffoldKey.currentState?.openDrawer(),
+              ),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Recipe Organizer",
+                style: TextStyle(
+                    color: secondary, fontWeight: FontWeight.bold),
+              ),
+              if (isLargeScreen) Expanded(child: _navBarItems(context))
+            ],
+          ),
+        ),
+        actions:  [
+          Padding(
+            padding: EdgeInsets.only(right: 16.0),
+            child: logged_in ? CircleAvatar(child: _ProfileIcon()):null,
+          )
+        ],
+      );
   }
 
   Widget _drawer() => Drawer(
@@ -103,6 +111,9 @@ class ResponsiveNavBarPage extends StatelessWidget {
 }
 
 Widget _navBarItems(BuildContext context) {
+  // Filter out the "Login" menu item if loggedIn is true
+  List<String> filteredMenuItems = logged_in ? _menuItems.where((item) => item != "Login").toList() : _menuItems;
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,7 +138,7 @@ Widget _navBarItems(BuildContext context) {
       SizedBox(width: 16),
 
       // Your menu items
-      ..._menuItems.map(
+      ...filteredMenuItems.map(
         (item) => InkWell(
           onTap: () {
             if (item == "Login") {
@@ -160,7 +171,7 @@ Widget _navBarItems(BuildContext context) {
   );
 }
 
-final List<String> _menuItems = <String>[
+List<String> _menuItems = <String>[
   'Home',
   'Meal Plan',
   'Shopping List',

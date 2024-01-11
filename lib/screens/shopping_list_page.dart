@@ -10,7 +10,7 @@ class IngredientListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1, vertical: 8),
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.blue), // Use your preferred color
         borderRadius: BorderRadius.circular(8),
