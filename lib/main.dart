@@ -5,7 +5,7 @@ import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/android/home_screen_android.dart';
 import 'package:recipe_organizer_frontend/screens/navbar_web.dart';
 import 'package:recipe_organizer_frontend/screens/android/recipe_detail_screen_android.dart';
-import 'package:recipe_organizer_frontend/screens/responsive_navbar.dart';
+import 'package:recipe_organizer_frontend/screens/home_page.dart';
 
 void main() {
   runApp(const MyApp());
