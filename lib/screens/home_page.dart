@@ -15,7 +15,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final bool isLargeScreen = width > 800;
-    bool logged_in = false;
+    bool logged_in = true;
 
     return Theme(
       data: ThemeData.light(),

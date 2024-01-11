@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:adaptive_navbar/adaptive_navbar.dart';
-import 'package:recipe_organizer_frontend/screens/responsive_navbar.dart';
+import 'package:recipe_organizer_frontend/screens/home_page.dart';
 import 'login_page.dart';
 import 'search_bar.dart';
 import 'gridview.dart';
