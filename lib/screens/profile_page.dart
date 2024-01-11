@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/screens/gridview.dart';
+import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
+import 'package:recipe_organizer_frontend/screens/login_page.dart';
 
 class UserProfile {
   final String name;
@@ -15,63 +18,81 @@ class UserProfile {
 }
 
 class UserProfilePage extends StatelessWidget {
-  UserProfile userProfile;
+  final UserProfile userProfile;
 
 
-  UserProfilePage({required this.userProfile});
+  const UserProfilePage({super.key, required this.userProfile});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: const Text('My Profile'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // User Profile Picture
-            CircleAvatar(
-              radius: 80,
-              backgroundImage: NetworkImage(userProfile.profileImage),
+      body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(userProfile.profileImage),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                    userProfile.name,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
+                        profile: Profile(
+                          name: userProfile.name,
+                          profileImage: userProfile.profileImage,
+                          likedRecipes: userProfile.likedRecipes,
+                        )
+                      )
+                      )
+                      );
+                    },
+                    child: Text(
+                      'Liked Recipes: ${userProfile.likedRecipes}',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                    'Created Recipes: ${userProfile.createdRecipes}',
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
+                const Divider(
+                  thickness: 2,
+                ),
+                const Padding(
+                    padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'My Recipes',
+                    style: TextStyle(fontSize: 18),
+                  )
+                ),
+                /*
+                * Placeholder for recipes:
+                */
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: GridB(), //Insert own gridview here
+                )
+              ],
             ),
-
-            SizedBox(height: 16),
-
-            // Liked Recipes Count
-            Text(
-              'Liked Recipes',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              userProfile.likedRecipes.toString(),
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-
-            SizedBox(height: 16),
-
-            // Created Recipes Count
-            Text(
-              'Created Recipes',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              userProfile.createdRecipes.toString(),
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
