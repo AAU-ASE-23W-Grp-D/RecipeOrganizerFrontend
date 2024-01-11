@@ -8,6 +8,7 @@ import 'package:recipe_organizer_frontend/screens/profile_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
 
+
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
 
