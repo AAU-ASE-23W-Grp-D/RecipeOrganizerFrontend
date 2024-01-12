@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
-import 'package:recipe_organizer_frontend/screens/login_page.dart';
+import 'package:recipe_organizer_frontend/screens/add_recipe_page.dart';
 
 class UserProfile {
   final String name;
@@ -90,9 +90,51 @@ class UserProfilePage extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: GridB(), //Insert own gridview here
-                )
+                ),
               ],
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              String recipeName = ''; // Initialize an empty string
+
+              return AlertDialog(
+                title: const Text("Add Recipe"),
+                content: SizedBox(
+                  height: 150,
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: const InputDecoration(labelText: 'Recipe Name'),
+                        onChanged: (value) {
+                          recipeName = value; // Update recipeName when the text changes
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddRecipePage(recipeName: recipeName),
+                            ),
+                          );
+                        },
+                        child: const Text("Add"),
+                      ),
+                    ],
+                  ),
+                )
+
+              );
+            },
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
+
 }
