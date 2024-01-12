@@ -29,49 +29,58 @@ class UserProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Profile'),
       ),
-      body: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+      body: ListView(
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(userProfile.profileImage),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    userProfile.name,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
-                        profile: Profile(
-                          name: userProfile.name,
-                          profileImage: userProfile.profileImage,
-                          likedRecipes: userProfile.likedRecipes,
-                        )
-                      )
-                      )
-                      );
-                    },
-                    child: Text(
-                      'Liked Recipes: ${userProfile.likedRecipes}',
-                      style: const TextStyle(fontSize: 12),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(userProfile.profileImage),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    'Created Recipes: ${userProfile.createdRecipes}',
-                    style: const TextStyle(fontSize: 12),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Text(
+                      userProfile.name,
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
+                            profile: Profile(
+                              name: userProfile.name,
+                              profileImage: userProfile.profileImage,
+                              likedRecipes: userProfile.likedRecipes,
+                            )
+                        )
+                        )
+                        );
+                      },
+                      child: Text(
+                        'Liked Recipes: ${userProfile.likedRecipes}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Text(
+                      'Created Recipes: ${userProfile.createdRecipes}',
+                      style: const TextStyle(fontSize: 12),
+                    ),
                   ),
                 ),
                 const Divider(
