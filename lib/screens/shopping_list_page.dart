@@ -88,6 +88,24 @@ class ShoppingListScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
+            SizedBox(height: 16),
+
+            TextButton(
+              onPressed: () {},
+              style: ButtonStyle(
+              overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.focused))
+                    return Colors.red;
+                  return null; // Defer to the widget's default.
+                }
+    ),
+  ),
+               child: Text('Delete All'),
+               ),
+
+            
             SizedBox(height: 16),
 
             // List of Ingredients

@@ -9,6 +9,35 @@ import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
 bool logged_in = true;
 
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    ResponsiveNavBarPage(),
+    LoginPage(title: "LoginPage",),
+    ShoppingListScreen(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        children: _pages,
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+    );
+  }
+}
+
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
 
@@ -26,6 +55,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
         key: _scaffoldKey,
         appBar: appBar(isLargeScreen, context),
         drawer: isLargeScreen ? null : _drawer(),
+        bottomNavigationBar: Footer(),
         body: SafeArea(
          child: SingleChildScrollView(
            child: Column(
@@ -50,14 +80,13 @@ class ResponsiveNavBarPage extends StatelessWidget {
                    ),
                    //SizedBox(height: 1000,),
                    Padding(
-                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.05),
+                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.1),
                      child: GridB(),
                    ),
              ],
            ),
          ),
        ),
-       bottomNavigationBar: Footer(),
         ),
     );
   }
