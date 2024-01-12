@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AddRecipePage extends StatefulWidget {
   final String recipeName;
@@ -13,6 +16,7 @@ class AddRecipePageState extends State<AddRecipePage> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _ingredientController = TextEditingController();
   List<String> ingredients = [];
+  XFile? image;
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +86,22 @@ class AddRecipePageState extends State<AddRecipePage> {
         ),
         const SizedBox(height: 10),
         ElevatedButton(
-          onPressed: () {},
-          child: null,
+          onPressed: () async {
+            final imagePicker = ImagePicker();
+            final pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+
+            if(pickedImage != null) {
+              setState(() {
+                image = pickedImage;
+              });
+            }
+          },
+          child: const Text("Pick Image"),
         ),
+        const SizedBox(height: 10),
+        if(image != null)
+          kIsWeb
+            ? Image.network(image!.path, height: 100) : Image.file(File(image!.path), height: 100),
       ],
     );
   }
