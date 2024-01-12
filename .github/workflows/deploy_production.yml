@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [Build and Run Tests]
     types: [completed]
-    branches: [main]
+    branches: [ci_cd]
 
 jobs:
   on-success:
