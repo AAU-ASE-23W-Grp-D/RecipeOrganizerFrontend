@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "recipeorganizer-ase"
+  },
+  "targets": {
+    "recipeorganizer-ase": {
+      "hosting": {
+        "develop": [
+          "recipeorganizer-ase-develop"
+        ],
+        "main": [
+          "recipeorganizer-ase-main"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
