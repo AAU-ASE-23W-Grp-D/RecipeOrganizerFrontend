@@ -3,11 +3,11 @@ name: Build, Run Tests and Deploy
 on:
   push:
     branches:
-      - 'ci_cd'
+      - 'main'
       - 'develop'
   pull_request:
     branches:
-      - 'ci_cd'
+      - 'main'
       - 'develop'
 
 jobs:
