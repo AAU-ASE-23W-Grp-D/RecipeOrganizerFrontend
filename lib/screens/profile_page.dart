@@ -29,70 +29,72 @@ class UserProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Profile'),
       ),
-      body: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: NetworkImage(userProfile.profileImage),
+      body: SingleChildScrollView(
+        child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(userProfile.profileImage),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    userProfile.name,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
-                        profile: Profile(
-                          name: userProfile.name,
-                          profileImage: userProfile.profileImage,
-                          likedRecipes: userProfile.likedRecipes,
-                        )
-                      )
-                      )
-                      );
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
                     child: Text(
-                      'Liked Recipes: ${userProfile.likedRecipes}',
+                      userProfile.name,
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
+                          profile: Profile(
+                            name: userProfile.name,
+                            profileImage: userProfile.profileImage,
+                            likedRecipes: userProfile.likedRecipes,
+                          )
+                        )
+                        )
+                        );
+                      },
+                      child: Text(
+                        'Liked Recipes: ${userProfile.likedRecipes}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Text(
+                      'Created Recipes: ${userProfile.createdRecipes}',
                       style: const TextStyle(fontSize: 12),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Text(
-                    'Created Recipes: ${userProfile.createdRecipes}',
-                    style: const TextStyle(fontSize: 12),
+                  const Divider(
+                    thickness: 2,
                   ),
-                ),
-                const Divider(
-                  thickness: 2,
-                ),
-                const Padding(
+                  const Padding(
+                      padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'My Recipes',
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ),
+                  /*
+                  * Placeholder for recipes:
+                  */
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'My Recipes',
-                    style: TextStyle(fontSize: 18),
-                  )
-                ),
-                /*
-                * Placeholder for recipes:
-                */
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: GridB(), //Insert own gridview here
-                ),
-              ],
-            ),
+                    child: GridB(), //Insert own gridview here
+                  ),
+                ],
+              ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(

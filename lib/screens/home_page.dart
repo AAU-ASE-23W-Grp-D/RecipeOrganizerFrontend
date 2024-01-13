@@ -2,12 +2,15 @@ import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/screens/footer.dart';
 import 'package:recipe_organizer_frontend/screens/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_page.dart';
 import 'package:recipe_organizer_frontend/screens/profile_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
 
+bool logged_in = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
@@ -18,12 +21,12 @@ class ResponsiveNavBarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final bool isLargeScreen = width > 800;
-    bool logged_in = true;
 
     return Theme(
       data: ThemeData.light(),
       child: Scaffold(
         key: _scaffoldKey,
+        bottomNavigationBar: Footer(),
         appBar: AppBar(
           backgroundColor: primary,
           elevation: 0,
@@ -79,7 +82,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
                    ),
                    //SizedBox(height: 1000,),
                    Padding(
-                     padding: EdgeInsets.all(8.0),
+                     padding: EdgeInsets.symmetric(horizontal:MediaQuery.sizeOf(context).width*0.05, vertical: 8.0),
                      child: GridB(),
                    ),
              ],
@@ -105,6 +108,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
 }
 
 Widget _navBarItems(BuildContext context) {
+  List<String> filteredMenuItems = logged_in ? _menuItems.where((item) => item != "Login").toList() : _menuItems;
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,7 +133,7 @@ Widget _navBarItems(BuildContext context) {
       SizedBox(width: 16),
 
       // Your menu items
-      ..._menuItems.map(
+      ...filteredMenuItems.map(
         (item) => InkWell(
           onTap: () {
             if (item == "Login") {
@@ -137,6 +141,14 @@ Widget _navBarItems(BuildContext context) {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const LoginPage(title: 'Recipe Organizer: Login Page'),
+                ),
+              );
+            }
+            if (item == "Shopping List") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShoppingListScreen(),
                 ),
               );
             }
