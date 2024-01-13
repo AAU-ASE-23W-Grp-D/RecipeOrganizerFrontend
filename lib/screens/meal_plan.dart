@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 
@@ -79,6 +80,11 @@ class MealPlanningScreen extends StatelessWidget {
               for (String recipe in recipes)
                 ListTile(
                   title: Text(recipe),
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      
+                    },),
                   // You can add onTap logic to navigate to the recipe details screen
                   onTap: () {
                     // Navigate to the screen where users can view the details of the selected recipe
@@ -90,6 +96,7 @@ class MealPlanningScreen extends StatelessWidget {
                   ),
                 );
                   },
+                
                 ),
             ],
           ),
