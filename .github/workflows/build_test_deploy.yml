@@ -1,0 +1,44 @@
+name: Build, Run Tests and Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop'
+
+jobs:
+  build_test_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Disable analytics
+        run: |
+            flutter config --no-analytics
+            dart --disable-analytics
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build for the web
+        run: flutter build web
+
+      - name: Deploy to Firebase
+        if: success() && ${{ github.event_name == 'push' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting:${{ github.ref_name }}
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
