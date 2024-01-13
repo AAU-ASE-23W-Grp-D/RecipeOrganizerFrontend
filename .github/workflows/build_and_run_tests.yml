@@ -1,4 +1,4 @@
-name: Build and Run Tests
+name: Build, Run Tests and Deploy
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - 'develop'
 
 jobs:
-  build:
+  build_test_deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,6 +36,7 @@ jobs:
         run: flutter build web
 
       - name: Deploy to Firebase
+        if: success() && ${{ github.event_name == 'push' }}
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting:${{ github.ref_name }}
