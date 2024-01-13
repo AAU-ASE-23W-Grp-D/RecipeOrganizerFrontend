@@ -33,10 +33,11 @@ jobs:
         run: flutter test
 
       - name: Build for the web
+        if: ${{ success() && github.event_name == 'push' }}
         run: flutter build web
 
       - name: Deploy to Firebase
-        if: success() && ${{ github.event_name == 'push' }}
+        if: ${{ success() && github.event_name == 'push' }}
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting:${{ github.ref_name }}
