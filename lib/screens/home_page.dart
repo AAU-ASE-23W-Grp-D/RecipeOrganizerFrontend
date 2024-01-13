@@ -5,6 +5,7 @@ import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/footer.dart';
 import 'package:recipe_organizer_frontend/screens/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_page.dart';
+import 'package:recipe_organizer_frontend/screens/meal_plan.dart';
 import 'package:recipe_organizer_frontend/screens/profile_page.dart';
 import 'package:recipe_organizer_frontend/screens/search_bar.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
@@ -149,6 +150,14 @@ Widget _navBarItems(BuildContext context) {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ShoppingListScreen(),
+                ),
+              );
+            }
+            if (item == "Meal Plan") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MealPlanningScreen(),
                 ),
               );
             }
