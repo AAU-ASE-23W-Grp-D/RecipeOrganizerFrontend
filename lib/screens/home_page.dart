@@ -16,16 +16,24 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final List<Widget> _pages = [
     ResponsiveNavBarPage(),
-    LoginPage(title: "LoginPage",),
+    LoginPage(title: "LoginPage"),
     ShoppingListScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final bool isLargeScreen = width > 800;
+
+    
     return Scaffold(
+      appBar: appBar(isLargeScreen, context),
+      drawer: isLargeScreen ? null : _drawer(),
+      bottomNavigationBar: Footer(),
       body: PageView(
         children: _pages,
         onPageChanged: (index) {
@@ -35,63 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
-  }
-}
-
-class ResponsiveNavBarPage extends StatelessWidget {
-  ResponsiveNavBarPage({Key? key}) : super(key: key);
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final bool isLargeScreen = width > 800;
     
-
-    return Theme(
-      data: ThemeData.light(),
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: appBar(isLargeScreen, context),
-        drawer: isLargeScreen ? null : _drawer(),
-        bottomNavigationBar: Footer(),
-        body: SafeArea(
-         child: SingleChildScrollView(
-           child: Column(
-
-             children: [
-                   Container(
-                    constraints: BoxConstraints(maxHeight: 90.0),
-                     child: Text(
-                      "Recent:",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        
-                      ),
-                      
-                      ),
-                     /*Padding(
-                       padding: EdgeInsets.all(8.0),
-                       child: SearchBarApp(),
-                     ),*/
-                   ),
-                   //SizedBox(height: 1000,),
-                   Padding(
-                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.1),
-                     child: GridB(),
-                   ),
-             ],
-           ),
-         ),
-       ),
-        ),
-    );
   }
-
-  AppBar appBar(bool isLargeScreen, BuildContext context) {
+    AppBar appBar(bool isLargeScreen, BuildContext context) {
     return AppBar(
         backgroundColor: primary,
         elevation: 0,
@@ -137,6 +91,57 @@ class ResponsiveNavBarPage extends StatelessWidget {
               .toList(),
         ),
       );
+}
+
+class ResponsiveNavBarPage extends StatelessWidget {
+  ResponsiveNavBarPage({
+    Key? key
+  }) : super(key: key);
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final bool isLargeScreen = width > 800;
+  
+    return Theme(
+      data: ThemeData.light(),
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: SafeArea(
+         child: SingleChildScrollView(
+           child: Column(
+             children: [
+                   Container(
+                    constraints: BoxConstraints(maxHeight: 90.0),
+                     child: Text(
+                      "Recent:",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        
+                      ),
+                      
+                      ),
+                     /*Padding(
+                       padding: EdgeInsets.all(8.0),
+                       child: SearchBarApp(),
+                     ),*/
+                   ),
+                   //SizedBox(height: 1000,),
+                   Padding(
+                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.1),
+                     child: GridB(),
+                   ),
+             ],
+           ),
+         ),
+       ),
+        ),
+    );
+  }
 }
 
 Widget _navBarItems(BuildContext context) {
@@ -199,6 +204,7 @@ Widget _navBarItems(BuildContext context) {
     ],
   );
 }
+
 
 List<String> _menuItems = <String>[
   'Home',
