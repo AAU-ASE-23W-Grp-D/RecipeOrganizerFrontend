@@ -3,27 +3,35 @@ import 'package:recipe_organizer_frontend/colors.dart';
 
 class IngredientListItem extends StatelessWidget {
   final List<String> ingredients;
+  final VoidCallback onDelete;
+  final VoidCallback onBuy;
 
-  IngredientListItem({required this.ingredients});
+  IngredientListItem({
+    required this.ingredients,
+    required this.onDelete,
+    required this.onBuy,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8),
-      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.2, vertical: 8),
+      margin: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width * 0.2,
+        vertical: 8,
+      ),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue), // Use your preferred color
+        border: Border.all(color: primary),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Ingredient information
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ingredients[0], // Ingredient name
+                ingredients[0],
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -31,28 +39,23 @@ class IngredientListItem extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                ingredients[1], // Ingredient quantity or any other information
+                ingredients[1],
                 style: TextStyle(
                   fontSize: 16,
                 ),
               ),
             ],
           ),
-          Spacer(), // Add Spacer to occupy available space
-          // Icons for "Bought" and "Deleted"
+          Spacer(),
           Column(
             children: [
               IconButton(
-                icon: Icon(Icons.shopping_cart), // Icon for "Bought"
-                onPressed: () {
-                  // Add your logic for handling "Bought" action
-                },
+                icon: Icon(Icons.shopping_cart),
+                onPressed: onBuy,
               ),
               IconButton(
-                icon: Icon(Icons.delete), // Icon for "Deleted"
-                onPressed: () {
-                  // Add your logic for handling "Deleted" action
-                },
+                icon: Icon(Icons.delete),
+                onPressed: onDelete,
               ),
             ],
           ),
@@ -62,14 +65,30 @@ class IngredientListItem extends StatelessWidget {
   }
 }
 
+class ShoppingListScreen extends StatefulWidget {
+  @override
+  _ShoppingListScreenState createState() => _ShoppingListScreenState();
+}
 
-class ShoppingListScreen extends StatelessWidget {
-  final List<List<String>> ingredientsList = [
+class _ShoppingListScreenState extends State<ShoppingListScreen> {
+  List<List<String>> ingredientsList = [
     ['Ingredient 1', 'Quantity 1'],
     ['Ingredient 2', 'Quantity 2'],
     ['Ingredient 3', 'Quantity 3'],
     // Add more ingredients as needed
   ];
+
+  void deleteItem(int index) {
+    setState(() {
+      ingredientsList.removeAt(index);
+    });
+  }
+
+  void deleteAllItems() {
+    setState(() {
+      ingredientsList.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,40 +107,29 @@ class ShoppingListScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             SizedBox(height: 16),
-
             TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-              overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.focused))
-                    return Colors.red;
-                  return null; // Defer to the widget's default.
-                }
-    ),
-  ),
-               child: Text('Delete All'),
-               ),
-
-            
+              onPressed: deleteAllItems,
+              child: Text('Delete All'),
+            ),
             SizedBox(height: 16),
-
-            // List of Ingredients
             Expanded(
               child: ListView.builder(
                 itemCount: ingredientsList.length,
                 itemBuilder: (context, index) {
-                  return IngredientListItem(ingredients: ingredientsList[index]);
+                  return IngredientListItem(
+                    ingredients: ingredientsList[index],
+                    onDelete: () => deleteItem(index),
+                    onBuy: () {
+                      // Add your logic for handling "Bought" action
+                    },
+                  );
                 },
               ),
             ),
           ],
         ),
-
-      )
+      ),
     );
   }
-  
 }
