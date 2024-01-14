@@ -17,6 +17,17 @@ class MealPlanningScreen extends StatelessWidget {
       'Recipe 7',
     ];
 
+    List<List<String>> recipesLists = [
+    ['Cheeseburger', 'Pizza'],
+    ['Fried Chicken'],
+    ['Ingredient 3', 'Quantity 3'],
+    ['Ingredient 3', 'Quantity 3'],
+    ['Ingredient 3', 'Quantity 3'],
+    ['Ingredient 3', 'Quantity 3'],
+    ['Ingredient 3', 'Quantity 3'],
+    // Add more ingredients as needed
+  ];
+
     List<String> days = [
       'Monday',
       'Tuesday',
@@ -37,7 +48,7 @@ class MealPlanningScreen extends StatelessWidget {
           children: [
             // Display recipes for each weekday
             for (int i = 0; i < days.length; i++)
-              _buildDayCard(day: days[i], recipes: recipes, context: context),
+              _buildDayCard(day: days[i], recipes: recipesLists, context: context),
         
             // Add a button to navigate to the recipe details or selection screen
             ElevatedButton(
@@ -59,24 +70,22 @@ class MealPlanningScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDayCard({required String day, required List<String> recipes, required context}) {
+Widget _buildDayCard({required String day, required List<List<String>> recipes, required context}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
     child: Container(
       padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
-        decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  16.0,
-                ),
-                gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  secondary,
-                  primary,
-                ],
-              ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.0),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            secondary,
+            primary,
+          ],
         ),
+      ),
       child: ExpansionTile(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +97,7 @@ class MealPlanningScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white
+                    color: Colors.white,
                   ),
                 ),
                 Spacer(),
@@ -107,32 +116,35 @@ class MealPlanningScreen extends StatelessWidget {
           ],
         ),
         children: [
-          // Display the list of recipes for the day
-          for (String recipe in recipes)
-            ListTile(
-              
-              title: Text(recipe, style: TextStyle(color: Colors.white),),
-              trailing: IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () {
-                  // Add your logic to delete the recipe
-                },
-              ),
-              onTap: () {
-                // Navigate to the screen where users can view the details of the selected recipe
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecipeDetailScreenWeb(),
-                  ),
-                );
-              },
-            ),
+          // Display the list of unique recipes for the day
+          ...recipes
+              .expand((recipes) => recipes)
+              .toSet() // Convert to set to get unique recipes
+              .map((recipe) => ListTile(
+                    title: Text(recipe, style: TextStyle(color: Colors.white)),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        // Add your logic to delete the recipe
+                      },
+                    ),
+                    onTap: () {
+                      // Navigate to the screen where users can view the details of the selected recipe
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RecipeDetailScreenWeb(),
+                        ),
+                      );
+                    },
+                  ))
+              .toList(),
         ],
       ),
     ),
   );
 }
+
 
 }
 
