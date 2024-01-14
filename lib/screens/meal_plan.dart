@@ -20,11 +20,11 @@ class MealPlanningScreen extends StatelessWidget {
     List<List<String>> recipesLists = [
     ['Cheeseburger', 'Pizza'],
     ['Fried Chicken'],
-    ['Ingredient 3', 'Quantity 3'],
-    ['Ingredient 3', 'Quantity 3'],
-    ['Ingredient 3', 'Quantity 3'],
-    ['Ingredient 3', 'Quantity 3'],
-    ['Ingredient 3', 'Quantity 3'],
+    ['Cheeseburger', 'Schnitzel'],
+    ['Cheeseburger', 'Schnitzel'],
+    ['Schnitzel', 'Sushi'],
+    ['Sushi', 'Sushi'],
+    ['Sushi', 'Sushi'],
     // Add more ingredients as needed
   ];
 
@@ -47,8 +47,9 @@ class MealPlanningScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Display recipes for each weekday
-            for (int i = 0; i < days.length; i++)
-              _buildDayCard(day: days[i], recipes: recipesLists, context: context),
+            for (int i = 0; i < recipesLists.length; i++) 
+              _buildDayCard(day: days[i], recipes: recipesLists[i], context: context),
+
         
             // Add a button to navigate to the recipe details or selection screen
             ElevatedButton(
@@ -70,7 +71,7 @@ class MealPlanningScreen extends StatelessWidget {
     );
   }
 
-Widget _buildDayCard({required String day, required List<List<String>> recipes, required context}) {
+Widget _buildDayCard({required String day, required List<String> recipes, required context}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
     child: Container(
@@ -116,34 +117,36 @@ Widget _buildDayCard({required String day, required List<List<String>> recipes, 
           ],
         ),
         children: [
-          // Display the list of unique recipes for the day
-          ...recipes
-              .expand((recipes) => recipes)
-              .toSet() // Convert to set to get unique recipes
-              .map((recipe) => ListTile(
-                    title: Text(recipe, style: TextStyle(color: Colors.white)),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        // Add your logic to delete the recipe
-                      },
-                    ),
-                    onTap: () {
-                      // Navigate to the screen where users can view the details of the selected recipe
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RecipeDetailScreenWeb(),
-                        ),
-                      );
-                    },
-                  ))
-              .toList(),
+          // Display the list of recipes for the day
+          for (String recipe in recipes)
+            ListTile(
+              title: Text(
+                recipe,
+                style: TextStyle(color: Colors.white),
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  // Add your logic to delete the recipe
+                },
+              ),
+              onTap: () {
+                // Navigate to the screen where users can view the details of the selected recipe
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RecipeDetailScreenWeb(),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     ),
   );
 }
+
+
 
 
 }
