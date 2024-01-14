@@ -68,13 +68,27 @@ class MealPlanningScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                day,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Text(
+                    day,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: null, 
+                    child: Text("Add Recipe"),
+                    
+                    ),
+                  SizedBox(width: 8.0),
+                  ElevatedButton(onPressed: null, child: Text("Delete All")),
+                ],
               ),
+              
               SizedBox(height: 8),
               // Display the list of recipes for the day
               for (String recipe in recipes)
