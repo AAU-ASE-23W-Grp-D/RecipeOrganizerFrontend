@@ -80,7 +80,7 @@ Widget build(BuildContext context) {
     
     return LayoutBuilder(
       builder: (context,constraints) {
-        int crossAxisCount = (MediaQuery.of(context).size.width ~/ 200).toInt();
+        int crossAxisCount = (MediaQuery.of(context).size.width ~/ 209).toInt();
         return GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -174,9 +174,20 @@ Widget build(BuildContext context) {
                               },
                               color: Colors.white,
                               icon: const Icon(
+                                
                                 CupertinoIcons.search,
                               ),
                             ),
+                            IconButton(
+                              onPressed: () {
+                                _showDialog(context, "${gridMap.elementAt(index)['name']}");
+                              },
+                              color: Colors.black,
+                              icon: const Icon(
+                                CupertinoIcons.add,
+                              ),
+                            ),
+                            
                             ],
                             
                           ),
@@ -190,6 +201,68 @@ Widget build(BuildContext context) {
           },
         );
       }
+    );
+
+    
+  }
+
+  Future<void> _showDialog(BuildContext context, String name) async {
+    String selectedDay = 'Monday'; // Initial value
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Day'),
+          content: Container(
+            height: 150,
+            child: Column(
+              children: [
+                Text("I plan to eat " + name + " on:"),
+                DropdownButton<String>(
+                  value: selectedDay,
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      selectedDay = newValue;
+                    }
+                  },
+                  items: <String>[
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle assignment logic here
+                    print('Assigned to $selectedDay');
+                    Navigator.pop(context); // Close the dialog
+                  },
+                  child: Text('Assign'),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
