@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 
 class MealPlanningScreen extends StatelessWidget {
@@ -59,65 +60,80 @@ class MealPlanningScreen extends StatelessWidget {
   }
 
   Widget _buildDayCard({required String day, required List<String> recipes, required context}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.05,vertical:16.0),
-      child: Card(
-        margin: EdgeInsets.all(8),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width*0.05,vertical:16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    day,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  
-                  ),
-                  Spacer(),
-                  ElevatedButton(
-                    onPressed: null, 
-                    child: Text("Add Recipe"),
-                    
-                    ),
-                  SizedBox(width: 8.0),
-                  ElevatedButton(onPressed: null, child: Text("Delete All")),
+  return Padding(
+    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
+        decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  16.0,
+                ),
+                gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  secondary,
+                  primary,
                 ],
               ),
+        ),
+      child: ExpansionTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  day,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                  ),
+                ),
+                Spacer(),
+                ElevatedButton(
+                  onPressed: null,
+                  child: Text("Add Recipe"),
+                ),
+                SizedBox(width: 8.0),
+                ElevatedButton(
+                  onPressed: null,
+                  child: Text("Delete All"),
+                ),
+              ],
+            ),
+            SizedBox(height: 8),
+          ],
+        ),
+        children: [
+          // Display the list of recipes for the day
+          for (String recipe in recipes)
+            ListTile(
               
-              SizedBox(height: 8),
-              // Display the list of recipes for the day
-              for (String recipe in recipes)
-                ListTile(
-                  title: Text(recipe),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      
-                    },),
-                  // You can add onTap logic to navigate to the recipe details screen
-                  onTap: () {
-                    // Navigate to the screen where users can view the details of the selected recipe
-                    // You need to implement the screen for recipe details
-                    Navigator.push(
+              title: Text(recipe, style: TextStyle(color: Colors.white),),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  // Add your logic to delete the recipe
+                },
+              ),
+              onTap: () {
+                // Navigate to the screen where users can view the details of the selected recipe
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => RecipeDetailScreenWeb(),
                   ),
                 );
-                  },
-                
-                ),
-            ],
-          ),
-        ),
+              },
+            ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class RecipeSelectionScreen extends StatelessWidget {
