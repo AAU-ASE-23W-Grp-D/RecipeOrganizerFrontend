@@ -33,7 +33,6 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     // Method to delete one item from a card
   void deleteRecipe({required String day, required String recipe}) {
     setState(() {
-      // Assuming you have a Map<String, List<String>> to store recipes for each day
       recipeMap[day]?.remove(recipe);
     });
   }
@@ -41,10 +40,71 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   // Method to delete all items from a card
   void deleteAllRecipes({required String day}) {
     setState(() {
-      // Assuming you have a Map<String, List<String>> to store recipes for each day
       recipeMap[day]?.clear();
     });
   }
+
+    List<String> allRecipes = ['Cheeseburger', 'Pizza', 'Fried Chicken', 'Schnitzel', 'Sushi'];
+
+  String? selectedRecipe;
+
+  void _showAddRecipeDialog(String day) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Add Recipe to $day'),
+          content: Column(
+            children: [
+              Text('Select a recipe:'),
+              DropdownButton<String>(
+                value: selectedRecipe,
+                items: allRecipes.map((String recipe) {
+                  return DropdownMenuItem<String>(
+                    value: recipe,
+                    child: Text(recipe),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedRecipe = newValue;
+                  });
+                },
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                // Add your logic to add the selected recipe to the day
+                if (selectedRecipe != null) {
+                  // Assuming you have a method to add a recipe to the day
+                  addRecipe(day: day, recipe: selectedRecipe!);
+                }
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Method to add a recipe to a day
+  void addRecipe({required String day, required String recipe}) {
+    setState(() {
+      // Assuming you have a Map<String, List<String>> to store recipes for each day
+      recipeMap[day]?.add(recipe);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +162,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            // Handle add recipe button press
+                            _showAddRecipeDialog(day);
                           },
                           child: Text("Add Recipe"),
                         ),
@@ -120,10 +180,9 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                       children: [
                         IconButton(
                           onPressed: () {
-                            // Handle add recipe button press
+                            _showAddRecipeDialog(day);
                           },
                           icon: Icon(Icons.add),
-                          color: Colors.green,
                         ),
                         SizedBox(width: 8.0),
                         IconButton(
@@ -131,7 +190,6 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                             deleteAllRecipes(day: day);
                           },
                           icon: Icon(Icons.delete),
-                          color: Colors.red,
                         ),
                       ],
                     ),
