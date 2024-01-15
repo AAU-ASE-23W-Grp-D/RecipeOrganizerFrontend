@@ -53,11 +53,13 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          key: Key("AddMealDialog"),
           title: Text('Add Recipe to $day'),
           content: Column(
             children: [
               Text('Select a recipe:'),
               DropdownButton<String>(
+                key: const Key("RecipeDropDown"),
                 value: selectedRecipe,
                 items: allRecipes.map((String recipe) {
                   return DropdownMenuItem<String>(
@@ -75,6 +77,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
           ),
           actions: [
             ElevatedButton(
+              key: const Key("AddButtonDialog"),
               onPressed: () {
                 // Add your logic to add the selected recipe to the day
                 if (selectedRecipe != null) {
@@ -86,6 +89,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
               child: Text('OK'),
             ),
             ElevatedButton(
+              key: const Key("CancelButtonDialog"),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -110,6 +114,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        key: Key("mealplanappbar"),
         title: Text('Meal Planning'),
       ),
       body: SingleChildScrollView(
@@ -157,17 +162,19 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                     ),
                   ),
                   Spacer(),
-                  if (screenWidth >= 600)
+                  if (screenWidth >= 700)
                     Row(
                       children: [
                         ElevatedButton(
+                          key: const Key("AddButtonRecipeCard"),
                           onPressed: () {
                             _showAddRecipeDialog(day);
                           },
-                          child: Text("Add Recipe"),
+                          child: Text("Add"),
                         ),
                         SizedBox(width: 8.0),
                         ElevatedButton(
+                          key: const Key("DeleteAllButtonRecipeCard"),
                           onPressed: () {
                             deleteAllRecipes(day: day);
                           },
@@ -175,7 +182,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                         ),
                       ],
                     ),
-                  if (screenWidth < 600)
+                  if (screenWidth < 700)
                     Row(
                       children: [
                         IconButton(
@@ -207,6 +214,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                   style: TextStyle(color: Colors.white),
                 ),
                 trailing: IconButton(
+                  key: Key("DeleteIconButtonList"),
                   icon: Icon(Icons.delete),
                   onPressed: () {
                     deleteRecipe(day: day, recipe: recipe);
