@@ -7,16 +7,6 @@ class MealPlanningScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Replace this list with actual recipe data
-    List<String> recipes = [
-      'Recipe 1',
-      'Recipe 2',
-      'Recipe 3',
-      'Recipe 4',
-      'Recipe 5',
-      'Recipe 6',
-      'Recipe 7',
-    ];
-
     List<List<String>> recipesLists = [
     ['Cheeseburger', 'Pizza'],
     ['Fried Chicken'],
@@ -72,6 +62,7 @@ class MealPlanningScreen extends StatelessWidget {
   }
 
 Widget _buildDayCard({required String day, required List<String> recipes, required context}) {
+  double screenwidth = MediaQuery.sizeOf(context).width;
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
     child: Container(
@@ -102,19 +93,41 @@ Widget _buildDayCard({required String day, required List<String> recipes, requir
                   ),
                 ),
                 Spacer(),
-                ElevatedButton(
-                  onPressed: null,
-                  child: Text("Add Recipe"),
-                ),
-                SizedBox(width: 8.0),
-                ElevatedButton(
-                  onPressed: null,
-                  child: Text("Delete All"),
-                ),
+                if(screenwidth >= 600)
+                  const Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: null,
+                        child: Text("Add Recipe"),
+                      ),
+                      SizedBox(width: 8.0),
+                  ElevatedButton(
+                    onPressed: null,
+                    child: Text("Delete All"),
+                  ),
+                    ],
+                  ),
+                  if(screenwidth < 600)
+                  const Row(
+                    children: [
+                      IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.add),
+                        color: Colors.green,
+                      ),
+                      SizedBox(width: 8.0),
+                  IconButton(
+                    onPressed: null,
+                    icon: Icon(Icons.delete),
+                    color: Colors.red,
+                  ),
+                    ],
+                  ),
               ],
             ),
             SizedBox(height: 8),
           ],
+
         ),
         children: [
           // Display the list of recipes for the day
