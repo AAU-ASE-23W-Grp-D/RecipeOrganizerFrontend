@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_organizer_frontend/screens/android/navbar_android.dart';
 import '../utils/api.dart';
-import 'registration_page.dart';
+import 'registration_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});

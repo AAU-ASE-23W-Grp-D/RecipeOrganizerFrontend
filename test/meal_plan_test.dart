@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_organizer_frontend/screens/meal_plan.dart';
+import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
 
 void main() {
   testWidgets('MealPlanningScreen widget test', (WidgetTester tester) async {
