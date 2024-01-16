@@ -44,7 +44,8 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     });
   }
 
-    List<String> allRecipes = ['Cheeseburger', 'Pizza', 'Fried Chicken', 'Schnitzel', 'Sushi'];
+  //all recipes from the db
+  List<String> allRecipes = ['Cheeseburger', 'Pizza', 'Fried Chicken', 'Schnitzel', 'Sushi'];
 
   String? selectedRecipe;
 
