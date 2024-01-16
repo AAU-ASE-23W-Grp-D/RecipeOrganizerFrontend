@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import '../login_page.dart';
+import '../login_screen.dart';
 import '../../colors.dart';
 
 class NavBarScreen extends StatelessWidget {

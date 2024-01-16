@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_organizer_frontend/screens/gridview.dart';
+import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 
 class Profile {
   final String name;

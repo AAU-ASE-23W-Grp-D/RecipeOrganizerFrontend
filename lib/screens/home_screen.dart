@@ -1,15 +1,12 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
-import 'package:recipe_organizer_frontend/screens/footer.dart';
-import 'package:recipe_organizer_frontend/screens/gridview.dart';
-import 'package:recipe_organizer_frontend/screens/login_page.dart';
-import 'package:recipe_organizer_frontend/screens/meal_plan.dart';
-import 'package:recipe_organizer_frontend/screens/profile_page.dart';
-import 'package:recipe_organizer_frontend/screens/search_bar.dart';
+import 'package:recipe_organizer_frontend/widgets/footer.dart';
+import 'package:recipe_organizer_frontend/widgets/gridview.dart';
+import 'package:recipe_organizer_frontend/screens/login_screen.dart';
+import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
+import 'package:recipe_organizer_frontend/screens/profile_screen.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
-import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 
 bool logged_in = true;
 
@@ -72,9 +69,9 @@ class ResponsiveNavBarPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        
+
                       ),
-                      
+
                       ),
                      /*Padding(
                        padding: EdgeInsets.all(8.0),

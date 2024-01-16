@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_organizer_frontend/screens/gridview.dart';
+import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
-import 'package:recipe_organizer_frontend/screens/add_recipe_page.dart';
+import 'package:recipe_organizer_frontend/screens/add_recipe_screen.dart';
 
 class UserProfile {
   final String name;
