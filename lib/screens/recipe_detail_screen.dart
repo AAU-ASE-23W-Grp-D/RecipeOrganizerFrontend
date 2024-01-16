@@ -59,7 +59,7 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                               ),
                             ),
                           ),
-                          creatorRecipe(widget: widget),
+                          CreatorRecipe(widget: widget),
                         ],
                       ),
                     ),
@@ -70,18 +70,18 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(flex: 2, child: ingredientsColumn()),
-                    Expanded(flex: 2, child: descriptionColumn()),
-                    Expanded(flex: 1, child: imageColumn(widget: widget)),
+                    Expanded(flex: 2, child: IngridientColumn()),
+                    Expanded(flex: 2, child: DescriptionColumn()),
+                    Expanded(flex: 1, child: ImageColumn(widget: widget)),
                   ],
                 ),
               if (screenWidth <= 600)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    imageColumn(widget: widget),
-                    ingredientsColumn(),
-                    descriptionColumn(),
+                    ImageColumn(widget: widget),
+                    IngridientColumn(),
+                    DescriptionColumn(),
                   ],
                 ),
             ],
@@ -94,8 +94,8 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
 
 
 
-class imageColumn extends StatelessWidget {
-  const imageColumn({
+class ImageColumn extends StatelessWidget {
+  const ImageColumn({
     super.key,
     required this.widget,
   });
@@ -105,6 +105,7 @@ class imageColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: Key("imageColumn"),
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
@@ -124,14 +125,15 @@ class imageColumn extends StatelessWidget {
   }
 }
 
-class descriptionColumn extends StatelessWidget {
-  const descriptionColumn({
+class DescriptionColumn extends StatelessWidget {
+  const DescriptionColumn({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key("descriptionColumn"),
       children:[
       Padding(
         padding: EdgeInsets.all(20.0),
@@ -145,14 +147,15 @@ class descriptionColumn extends StatelessWidget {
   }
 }
 
-class ingredientsColumn extends StatelessWidget {
-  const ingredientsColumn({
+class IngridientColumn extends StatelessWidget {
+  const IngridientColumn({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key("ingridientList"),
       children: [
         Padding(
                     padding: EdgeInsets.all(20.0),
@@ -172,9 +175,9 @@ class ingredientsColumn extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Ingridientitem(name: "Sugar", measurement: "10mg"),
+                                //Ingridientitem(name: "Sugar", measurement: "10mg"),
                                 Ingridientitem(name: "Egg", measurement: "2"),
-                                Ingridientitem(name: "Sugar", measurement: "10mg"),
+                                //Ingridientitem(name: "Sugar", measurement: "10mg"),
                                 Ingridientitem(name: "Egg", measurement: "2")
                               ],
                             ),
@@ -208,6 +211,7 @@ class Ingridientitem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      key: Key("Ingridientitem"),
       children: [
         Icon(Icons.trip_origin, color: primary, size: 20,),
         SizedBox(width: 4,),
@@ -221,8 +225,8 @@ class Ingridientitem extends StatelessWidget {
   }
 }
 
-class creatorRecipe extends StatelessWidget {
-  const creatorRecipe({
+class CreatorRecipe extends StatelessWidget {
+  const CreatorRecipe({
     super.key,
     required this.widget,
   });
@@ -232,8 +236,8 @@ class creatorRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key("RecipeCreator"),
       height:60,
-      
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
          border: Border.all(color:labelColor,width: 0.1 )
@@ -246,6 +250,7 @@ class creatorRecipe extends StatelessWidget {
             Row(
               children: [
                  CircleAvatar(
+                  key: const Key("profilePicture"),
                   radius: 20,
                   backgroundImage: NetworkImage(widget.userimage),
                 ),
@@ -261,6 +266,7 @@ class creatorRecipe extends StatelessWidget {
               ],
             ),
             const Padding(
+              key: Key("rating"),
               padding: EdgeInsets.only(top:8.0),
               child: Column(
                 children: [
