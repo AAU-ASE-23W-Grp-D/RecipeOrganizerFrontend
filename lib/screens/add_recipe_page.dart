@@ -26,8 +26,8 @@ class AddRecipePageState extends State<AddRecipePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,7 +120,7 @@ class AddRecipePageState extends State<AddRecipePage> {
       padding: const EdgeInsets.all(20),
       child: TextField(
         controller: _descriptionController,
-        maxLines: 5,
+        maxLines: 20,
         decoration: const InputDecoration(
           hintText: "Recipe Description",
           border: OutlineInputBorder(),
@@ -158,7 +158,7 @@ class AddRecipePageState extends State<AddRecipePage> {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 150, // Adjust the height as needed
+          height: 500, // Adjust the height as needed
           child: ListView(
             shrinkWrap: true,
             children: ingredients

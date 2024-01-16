@@ -29,35 +29,39 @@ class UserProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('My Profile'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
+      body: ListView(
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Center(
+                  child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       radius: 50,
                       backgroundImage: NetworkImage(userProfile.profileImage),
                     ),
                   ),
-                  Padding(
+                ),
+                Center(
+                  child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Text(
                       userProfile.name,
                       style: const TextStyle(fontSize: 24),
                     ),
                   ),
-                  Padding(
+                ),
+                Center(
+                  child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
-                          profile: Profile(
-                            name: userProfile.name,
-                            profileImage: userProfile.profileImage,
-                            likedRecipes: userProfile.likedRecipes,
-                          )
+                            profile: Profile(
+                              name: userProfile.name,
+                              profileImage: userProfile.profileImage,
+                              likedRecipes: userProfile.likedRecipes,
+                            )
                         )
                         )
                         );
@@ -68,33 +72,36 @@ class UserProfilePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
+                ),
+
+                Center(
+                  child: Padding(
                     padding: const EdgeInsets.all(2.0),
                     child: Text(
                       'Created Recipes: ${userProfile.createdRecipes}',
                       style: const TextStyle(fontSize: 12),
                     ),
                   ),
-                  const Divider(
-                    thickness: 2,
-                  ),
-                  const Padding(
-                      padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'My Recipes',
-                      style: TextStyle(fontSize: 18),
-                    )
-                  ),
-                  /*
-                  * Placeholder for recipes:
-                  */
-                  const Padding(
+                ),
+                const Divider(
+                  thickness: 2,
+                ),
+                const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: GridB(), //Insert own gridview here
-                  ),
-                ],
-              ),
-      ),
+                  child: Text(
+                    'My Recipes',
+                    style: TextStyle(fontSize: 18),
+                  )
+                ),
+                /*
+                * Placeholder for recipes:
+                */
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: GridB(), //Insert own gridview here
+                ),
+              ],
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
