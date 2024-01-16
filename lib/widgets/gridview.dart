@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
-import 'package:recipe_organizer_frontend/screens/android/recipe_detail_screen_android.dart';
 import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 
@@ -130,7 +129,7 @@ Widget build(BuildContext context) {
                       children: [
                         Text(
                           "${gridMap.elementAt(index)['name']}",
-                          style: Theme.of(context).textTheme.subtitle1!.merge(
+                          style: Theme.of(context).textTheme.titleMedium!.merge(
                                 const TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
@@ -145,7 +144,7 @@ Widget build(BuildContext context) {
                             children: [
                               Text(
                                 "${gridMap.elementAt(index)['rating']} ",
-                                style: Theme.of(context).textTheme.subtitle2!.merge(
+                                style: Theme.of(context).textTheme.titleSmall!.merge(
                                       TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: Colors.grey.shade500,
