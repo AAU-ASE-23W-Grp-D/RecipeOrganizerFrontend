@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
@@ -9,8 +10,9 @@ import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
 import '../screens/login_page.dart';
 
-//TODO: CHANGE IP TO YOUR IP
-const String baseUrl = 'http://localhost:8080/api';
+// Load the BaseUrl from the configuration file
+// On error, check if the assets/cfg/app_settings.json file exists
+final String baseUrl = GlobalConfiguration().getValue("BaseUrl");
 
 Future<void> login(String username, String password, BuildContext context) async {
   final UserStorage userStorage = UserStorage();
@@ -25,7 +27,6 @@ Future<void> login(String username, String password, BuildContext context) async
     }),
   );
 
-  print(response.body);
   if (response.statusCode == 200) {
     // Login successful, handle accordingly (navigate to the next screen, etc.)
     print('Login successful');
@@ -102,7 +103,7 @@ void showAlertDialog(BuildContext context, String title, String message) {
     context: context,
     builder: (context) {
       // dialog is only shown for 4 seconds
-      Future.delayed(Duration(seconds: 4), () {
+      Future.delayed(const Duration(seconds: 4), () {
         Navigator.of(context).pop(); // Close the dialog
       });
       // returns the AlertDialog

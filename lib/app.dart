@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'screens/login_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -6,6 +7,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Load configuration from assets at app start
+    GlobalConfiguration().loadFromAsset("app_settings");
+
     return MaterialApp(
       title: 'Recipe Organizer',
       theme: ThemeData(
