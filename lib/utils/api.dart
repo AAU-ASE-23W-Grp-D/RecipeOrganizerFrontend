@@ -8,7 +8,7 @@ import 'package:recipe_organizer_frontend/utils/token_storage.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_screen.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
-import '../screens/login_page.dart';
+import '../screens/login_screen.dart';
 
 // Load the BaseUrl from the configuration file
 // On error, check if the assets/cfg/app_settings.json file exists
@@ -45,7 +45,7 @@ Future<void> login(String username, String password, BuildContext context) async
 }
 
 Future<void> register(String username, String email, String password, BuildContext context) async {
-  final UserStorage userStorage = UserStorage();
+  // final UserStorage userStorage = UserStorage();
   final response = await http.post(
     Uri.parse('$baseUrl/auth/signup'),
     headers: <String, String>{
