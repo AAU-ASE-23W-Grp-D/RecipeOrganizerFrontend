@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_organizer_frontend/app.dart';
+import 'package:recipe_organizer_frontend/screens/login_screen.dart';
 
 void main() {
   testWidgets('Check input fields and submit button', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const MaterialApp(
+      home: LoginPage(title: "Login",),
+    ));
 
     // Verify that our app has a username field.
     expect(find.byKey(const Key('usernameField')), findsOneWidget);
