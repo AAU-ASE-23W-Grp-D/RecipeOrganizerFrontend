@@ -34,7 +34,9 @@ jobs:
 
       - name: Build for the web
         if: ${{ success() && github.event_name == 'push' }}
-        run: flutter build web
+        run: |
+            cp config/app_settings-${{ github.ref_name }}.json assets/cfg/app_settings.json
+            flutter build web
 
       - name: Deploy to Firebase
         if: ${{ success() && github.event_name == 'push' }}
