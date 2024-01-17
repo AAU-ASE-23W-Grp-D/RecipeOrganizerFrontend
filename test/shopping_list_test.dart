@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
 
 void main() {
+  group("Shopping List tests", () { 
   testWidgets('IngredientListItem should render correctly', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
     await tester.pumpWidget(
@@ -50,5 +51,6 @@ void main() {
 
     // Verify if the item is added
     expect(find.byType(IngredientListItem), findsNothing);
+  });
   });
 }
