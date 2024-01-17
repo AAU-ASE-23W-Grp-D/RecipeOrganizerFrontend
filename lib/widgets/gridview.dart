@@ -4,6 +4,8 @@ import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
 
 class GridB extends StatefulWidget {
@@ -18,6 +20,7 @@ class GridB extends StatefulWidget {
 class _GridBState extends State<GridB> {
 
   late Future<List<Recipe>> futureRecipes;
+  int totalCreatedRecipes = 0; // Track the total number of recipes of user
 
   @override
   void initState() {
@@ -48,6 +51,11 @@ class _GridBState extends State<GridB> {
           return Text('Error: ${snapshot.error}');
         } else {
           List<Recipe> recipes = snapshot.data as List<Recipe>;
+
+          if(widget.fetchFunction == fetchUserRecipes) { //if profile page is loaded calculate total created recipes
+            totalCreatedRecipes = recipes.length;
+            UserStorage().saveTotalCreatedRecipes(totalCreatedRecipes);
+          }
 
           return LayoutBuilder(
             builder: (context, constraints) {

@@ -196,9 +196,11 @@ class _ProfileIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? username;
+    int? totalCreatedRecipes;
 
     if(logged_in) {
       _userStorage.getUserName().then((value) => username = value);
+      _userStorage.getTotalCreatedRecipes().then((value) => totalCreatedRecipes = value);
     }
 
     return PopupMenuButton<Menu>(
@@ -214,7 +216,7 @@ class _ProfileIcon extends StatelessWidget {
           name: username ?? '',
           profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           likedRecipes: 50,
-          createdRecipes: 10,
+          createdRecipes: totalCreatedRecipes ?? 0,
         ),
                       ),
                       ),
