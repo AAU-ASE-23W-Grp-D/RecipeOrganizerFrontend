@@ -23,6 +23,7 @@ class UserProfilePage extends StatelessWidget {
 
   const UserProfilePage({super.key, required this.userProfile});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'dart:io';
+
+import 'package:recipe_organizer_frontend/utils/api.dart';
 
 class AddRecipePage extends StatefulWidget {
   final String recipeName;
@@ -17,6 +20,7 @@ class AddRecipePageState extends State<AddRecipePage> {
   final TextEditingController _ingredientController = TextEditingController();
   List<String> ingredients = [];
   XFile? image;
+  late Uint8List imageBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,15 @@ class AddRecipePageState extends State<AddRecipePage> {
             //Add a "Save Recipe" button here
             ElevatedButton(
               onPressed: () {
-
+                postRecipe(
+                    Recipe(
+                        name: widget.recipeName,
+                        ingredients: _ingredientController.text,
+                        description: _descriptionController.text,
+                        rating: 5,
+                        image: imageBytes),
+                context
+                );
               },
               child: const Text("Save Recipe"),
             ),
@@ -94,6 +106,7 @@ class AddRecipePageState extends State<AddRecipePage> {
               setState(() {
                 image = pickedImage;
               });
+              imageBytes = await pickedImage.readAsBytes();
             }
           },
           child: const Text("Pick Image"),

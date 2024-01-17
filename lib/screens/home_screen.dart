@@ -8,7 +8,7 @@ import 'package:recipe_organizer_frontend/screens/profile_screen.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
 import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 
-bool logged_in = false;
+bool logged_in = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
