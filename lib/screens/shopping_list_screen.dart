@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientListItem extends StatelessWidget {
   final List<String> ingredients;
@@ -11,6 +12,13 @@ class IngredientListItem extends StatelessWidget {
     required this.onDelete,
     required this.onBuy,
   });
+
+
+    static String ingredientsToString(List<List<String>> ingredientsList) {
+    // Implement the logic to convert the ingredientsList to a string
+    // For example, join the ingredients into a single string
+    return ingredientsList.map((ingredients) => ingredients.join(' ')).join(', ');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,22 +79,44 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  List<List<String>> ingredientsList = [
-    ['Ingredient 1', 'Quantity 1'],
-    ['Ingredient 2', 'Quantity 2'],
-    ['Ingredient 3', 'Quantity 3'],
-    // Add more ingredients as needed
-  ];
+  List<List<String>> ingredientsList = [];
+  final _prefsKey = 'shoppingList';
+
+  @override
+  void initState() {
+    super.initState();
+    // Load the shopping list from local storage when the widget is created
+    _loadShoppingList();
+  }
+
+  void _loadShoppingList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedShoppingList = prefs.getString(_prefsKey);
+
+    if (savedShoppingList != null && savedShoppingList.isNotEmpty) {
+      setState(() {
+        ingredientsList = savedShoppingList.split('; ').map((item) => item.split(', ')).toList();
+      });
+    }
+  }
+
+void _saveShoppingList() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString(_prefsKey, IngredientListItem.ingredientsToString(ingredientsList));
+}
+
 
   void deleteItem(int index) {
     setState(() {
       ingredientsList.removeAt(index);
+      _saveShoppingList(); // Save the updated shopping list
     });
   }
 
   void deleteAllItems() {
     setState(() {
       ingredientsList.clear();
+      _saveShoppingList(); // Save the updated shopping list
     });
   }
 
