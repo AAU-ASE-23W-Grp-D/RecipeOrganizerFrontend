@@ -9,6 +9,7 @@ import 'package:recipe_organizer_frontend/screens/home_screen.dart';
 import 'package:recipe_organizer_frontend/utils/token_storage.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_screen.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import '../screens/login_screen.dart';
 
@@ -40,7 +41,7 @@ Future<void> login(String username, String password, BuildContext context) async
     await userStorage.saveUser(user);
 
 
-    _navigateToNextScreen(context);
+    _navigateToHomeScreen(context);
 
   } else {
     // Login failed, handle accordingly (show error message, etc.)
@@ -77,10 +78,14 @@ Future<void> register(String username, String email, String password, BuildConte
 
 Future<void> postRecipe(Recipe recipe, BuildContext context) async {
   // final UserStorage userStorage = UserStorage();
+  final TokenStorage storage = TokenStorage();
+  String jwtToken = await storage.getToken();
+
   final response = await http.post(
     Uri.parse('$baseUrl/recipes'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      'JWT_TOKEN': jwtToken,
     },
     body: jsonEncode(<String, String>{
       'name': recipe.name,
@@ -91,12 +96,11 @@ Future<void> postRecipe(Recipe recipe, BuildContext context) async {
     }),
   );
 
-  print(response.body);
   if (response.statusCode == 200) {
     // Login successful, handle accordingly (navigate to the next screen, etc.)
     print('Recipe posted successfuly');
 
-    _navigateToLoginScreen(context);
+    _navigateToHomeScreen(context);
     showAlertDialog(context, "Recipe posted successfuly", "You successfully posted a recipe!");
   } else {
     // Login failed, handle accordingly (show error message, etc.)
@@ -126,6 +130,10 @@ Future<List<Recipe>> fetchRecipes() async {
 
 void _navigateToNextScreen(BuildContext context) {
   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RecipeScreen()));
+}
+
+void _navigateToHomeScreen(BuildContext context) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResponsiveNavBarPage()));
 }
 
 void _navigateToLoginScreen(BuildContext context) {

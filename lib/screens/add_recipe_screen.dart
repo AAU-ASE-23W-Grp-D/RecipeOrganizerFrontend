@@ -66,10 +66,11 @@ class AddRecipePageState extends State<AddRecipePage> {
             //Add a "Save Recipe" button here
             ElevatedButton(
               onPressed: () {
+                String ingredientsString = ingredients.join(",");
                 postRecipe(
                     Recipe(
                         name: widget.recipeName,
-                        ingredients: _ingredientController.text,
+                        ingredients: ingredientsString,
                         description: _descriptionController.text,
                         rating: 5,
                         image: imageBytes),
