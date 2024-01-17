@@ -40,7 +40,6 @@ Future<void> login(String username, String password, BuildContext context) async
     // Store user info and JWT token
     await userStorage.saveUser(user);
 
-
     _navigateToHomeScreen(context);
 
   } else {
@@ -155,7 +154,7 @@ Future<List<Recipe>> fetchLikedRecipes() async {
     Uri.parse('$baseUrl/auth/likedRecipes'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'JWT_TOKEN': jwtToken,
+      'Authorization': 'Bearer $jwtToken',
     },
   );
 

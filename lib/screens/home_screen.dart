@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:recipe_organizer_frontend/widgets/footer.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_screen.dart';
@@ -187,10 +188,19 @@ final List<String> _menuItems = <String>[
 enum Menu { itemOne, itemTwo, itemThree }
 
 class _ProfileIcon extends StatelessWidget {
-  const _ProfileIcon({Key? key}) : super(key: key);
+
+  final UserStorage _userStorage = UserStorage();
+
+  _ProfileIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String? username;
+
+    if(logged_in) {
+      _userStorage.getUserName().then((value) => username = value);
+    }
+
     return PopupMenuButton<Menu>(
         icon: const Icon(Icons.person),
         offset: const Offset(0, 40),
@@ -201,7 +211,7 @@ class _ProfileIcon extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => UserProfilePage(
         userProfile: UserProfile(
-          name: 'John Doe',
+          name: username ?? '',
           profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           likedRecipes: 50,
           createdRecipes: 10,

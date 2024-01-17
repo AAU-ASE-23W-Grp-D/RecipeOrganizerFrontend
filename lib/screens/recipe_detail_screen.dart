@@ -35,7 +35,7 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
