@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/android/navbar_android.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 import '../../widgets/search_bar.dart';
 import '../../widgets/gridview.dart';
 import '../../colors.dart';
@@ -34,7 +35,7 @@ class _MyHomePageAppState extends State<MyHomePageApp>{
                    //SizedBox(height: 1000,),
                    Padding(
                      padding: EdgeInsets.all(8.0),
-                     child: GridB(),
+                     child: GridB(fetchFunction: fetchRecipes,),
                    ),
              ],
            ),

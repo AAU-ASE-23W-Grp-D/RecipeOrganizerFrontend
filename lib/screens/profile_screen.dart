@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
 import 'package:recipe_organizer_frontend/screens/add_recipe_screen.dart';
@@ -99,7 +100,7 @@ class UserProfilePage extends StatelessWidget {
                 */
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: GridB(), //Insert own gridview here
+                  child: GridB(fetchFunction: fetchUserRecipes,), //Insert own gridview here
                 ),
               ],
             ),

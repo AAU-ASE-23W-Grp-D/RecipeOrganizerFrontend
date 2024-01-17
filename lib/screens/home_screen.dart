@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/models/recipe.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/widgets/footer.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_screen.dart';
@@ -14,6 +16,8 @@ class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final Future<List<Recipe>> futureRecipe = fetchRecipes();
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +85,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
                    //SizedBox(height: 1000,),
                    Padding(
                      padding: EdgeInsets.symmetric(horizontal:MediaQuery.sizeOf(context).width*0.05, vertical: 8.0),
-                     child: GridB(),
+                     child: const GridB(fetchFunction: fetchRecipes),
                    ),
              ],
            ),

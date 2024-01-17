@@ -82,10 +82,10 @@ Future<void> postRecipe(Recipe recipe, BuildContext context) async {
   String jwtToken = await storage.getToken();
 
   final response = await http.post(
-    Uri.parse('$baseUrl/recipes'),
+    Uri.parse('$baseUrl/auth/postRecipe'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      'JWT_TOKEN': jwtToken,
+      'Authorization': 'Bearer $jwtToken',
     },
     body: jsonEncode(<String, String>{
       'name': recipe.name,
@@ -105,6 +105,7 @@ Future<void> postRecipe(Recipe recipe, BuildContext context) async {
   } else {
     // Login failed, handle accordingly (show error message, etc.)
     print('Recipe posting failed');
+    print('StatusCode:${response.statusCode}');
   }
 }
 
@@ -114,6 +115,44 @@ Future<List<Recipe>> fetchRecipes() async {
   String jwtToken = await storage.getToken();
   final response = await http.get(
     Uri.parse('$baseUrl/recipes'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'JWT_TOKEN': jwtToken,
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final List body = json.decode(response.body);
+    return body.map((e) => Recipe.fromJson(e)).toList();
+  } else {
+    throw Exception('Failed to load recipes');
+  }
+}
+
+Future<List<Recipe>> fetchUserRecipes() async {
+  final TokenStorage storage = TokenStorage();
+  String jwtToken = await storage.getToken();
+  final response = await http.get(
+    Uri.parse('$baseUrl/auth/ownRecipes'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $jwtToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final List body = json.decode(response.body);
+    return body.map((e) => Recipe.fromJson(e)).toList();
+  } else {
+    throw Exception('Failed to load recipes');
+  }
+}
+
+Future<List<Recipe>> fetchLikedRecipes() async {
+  final TokenStorage storage = TokenStorage();
+  String jwtToken = await storage.getToken();
+  final response = await http.get(
+    Uri.parse('$baseUrl/auth/likedRecipes'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'JWT_TOKEN': jwtToken,
