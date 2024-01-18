@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientListItem extends StatelessWidget {
-  final List<String> ingredients;
+  final ShoppingListItem ingredient;
   final VoidCallback onDelete;
   final VoidCallback onBuy;
 
   IngredientListItem({
-    required this.ingredients,
+    required this.ingredient,
     required this.onDelete,
     required this.onBuy,
   });
-
-
-    static String ingredientsToString(List<List<String>> ingredientsList) {
-    // Implement the logic to convert the ingredientsList to a string
-    // For example, join the ingredients into a single string
-    return ingredientsList.map((ingredients) => ingredients.join(' ')).join(', ');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +29,12 @@ class IngredientListItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                ingredients[0],
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                ingredients[1],
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ],
+          Text(
+            ingredient.name,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Spacer(),
           Column(
@@ -79,45 +61,32 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  List<List<String>> ingredientsList = [];
-  final _prefsKey = 'shoppingList';
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+  List<ShoppingListItem> ingredientsList = [];
 
   @override
   void initState() {
     super.initState();
-    // Load the shopping list from local storage when the widget is created
-    _loadShoppingList();
+    _updateShoppingList();
   }
 
-  void _loadShoppingList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? savedShoppingList = prefs.getString(_prefsKey);
-
-    if (savedShoppingList != null && savedShoppingList.isNotEmpty) {
-      setState(() {
-        ingredientsList = savedShoppingList.split('; ').map((item) => item.split(', ')).toList();
-      });
-    }
-  }
-
-void _saveShoppingList() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(_prefsKey, IngredientListItem.ingredientsToString(ingredientsList));
-}
-
-
-  void deleteItem(int index) {
+  void _updateShoppingList() async {
+    List<ShoppingListItem> list = await _databaseHelper.getShoppingListItems();
     setState(() {
-      ingredientsList.removeAt(index);
-      _saveShoppingList(); // Save the updated shopping list
+      ingredientsList = list;
     });
   }
 
-  void deleteAllItems() {
-    setState(() {
-      ingredientsList.clear();
-      _saveShoppingList(); // Save the updated shopping list
-    });
+  void deleteItem(int index) async {
+    await _databaseHelper.open();
+    await _databaseHelper.deleteShoppingListItem(index);
+    _updateShoppingList();
+  }
+
+  void deleteAllItems() async {
+    await _databaseHelper.open();
+    await _databaseHelper.deleteAllShoppingListItems();
+    _updateShoppingList();
   }
 
   @override
@@ -148,7 +117,7 @@ void _saveShoppingList() async {
                 itemCount: ingredientsList.length,
                 itemBuilder: (context, index) {
                   return IngredientListItem(
-                    ingredients: ingredientsList[index],
+                    ingredient: ingredientsList[index],
                     onDelete: () => deleteItem(index),
                     onBuy: () {
                       // Add your logic for handling "Bought" action
