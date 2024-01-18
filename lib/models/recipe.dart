@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 class Recipe {
+  final int ID;
   final String name;
   final String ingredients;
   final String description;
@@ -9,6 +10,7 @@ class Recipe {
   final Uint8List image;
 
   const Recipe({
+    required this.ID,
     required this.name,
     required this.ingredients,
     required this.description,
@@ -19,6 +21,7 @@ class Recipe {
   factory Recipe.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
+        'id': int ID,
         'name': String name,
         'ingredients': String ingredients,
         'description': String description,
@@ -26,6 +29,7 @@ class Recipe {
         'image': String image,
       } =>
         Recipe(
+          ID: ID,
           name: name,
           ingredients: ingredients,
           description: description,

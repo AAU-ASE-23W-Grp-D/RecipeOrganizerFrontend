@@ -74,6 +74,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                     .join(',');
                 postRecipe(
                     Recipe(
+                        ID: 0,
                         name: widget.recipeName,
                         ingredients: formattedIngredients,
                         description: _descriptionController.text,

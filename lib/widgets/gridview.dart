@@ -29,6 +29,7 @@ class _GridBState extends State<GridB> {
   }
 
   bool isFavorite = false;
+  Set<int> favoriteRecipes = <int>{};
 
 
   int calculateCrossAxisCount(double screenWidth) {
@@ -147,10 +148,16 @@ class _GridBState extends State<GridB> {
                                   IconButton(
                                     onPressed: () {
                                       setState(() {
-                                        // Handle favorite logic here
+                                        if(favoriteRecipes.contains(recipe.ID)){
+                                          favoriteRecipes.remove(recipe.ID);
+                                          //Remove from favorites
+                                        } else {
+                                          favoriteRecipes.add(recipe.ID);
+                                          //Add to favorites
+                                        }
                                       });
                                     },
-                                    color: Colors.pink,
+                                    color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
                                     icon: const Icon(
                                         CupertinoIcons.heart_fill),
                                   ),
