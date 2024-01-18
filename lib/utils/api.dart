@@ -48,6 +48,28 @@ Future<void> login(String username, String password, BuildContext context) async
   }
 }
 
+Future<void> signout(BuildContext context) async {
+  final TokenStorage storage = TokenStorage();
+  String jwtToken = await storage.getToken();
+  final response = await http.post(
+    Uri.parse('$baseUrl/auth/signout'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $jwtToken',
+    },
+  );
+
+  print(response.statusCode);
+
+  if (response.statusCode == 200) {
+    print('Sign out successful');
+
+    _navigateToLoginScreen(context);
+  } else {
+    print('Sign out failed');
+  }
+}
+
 Future<void> register(String username, String email, String password, BuildContext context) async {
   // final UserStorage userStorage = UserStorage();
   final response = await http.post(

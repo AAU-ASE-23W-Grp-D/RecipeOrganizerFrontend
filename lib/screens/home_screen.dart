@@ -236,6 +236,9 @@ class _ProfileIcon extends StatelessWidget {
               ),
             );
           }
+          else if (item == Menu.itemThree) {
+            signout(context);
+          }
 
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
