@@ -222,12 +222,14 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                 ),
                 onTap: () {
                   // Navigate to the screen where users can view the details of the selected recipe
+                  /*
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RecipeDetailScreenWeb(),
+                      builder: (context) => RecipeDetailScreenWeb(recipe: ,),
                     ),
                   );
+                  */
                 },
               ),
           ],

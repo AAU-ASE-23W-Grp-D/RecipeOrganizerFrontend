@@ -160,7 +160,7 @@ class _GridBState extends State<GridB> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const RecipeDetailScreenWeb(),
+                                              RecipeDetailScreenWeb(recipe: recipe,),
                                         ),
                                       );
                                     },
