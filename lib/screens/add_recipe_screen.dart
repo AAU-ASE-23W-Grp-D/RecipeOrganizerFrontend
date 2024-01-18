@@ -66,11 +66,16 @@ class AddRecipePageState extends State<AddRecipePage> {
             //Add a "Save Recipe" button here
             ElevatedButton(
               onPressed: () {
-                String ingredientsString = ingredients.join(",");
+                String formattedIngredients = ingredients //100ml Milk -> 100ml*Milk,...
+                    .map((ingredient) {
+                  List<String> parts = ingredient.split(' ');
+                  return '${parts[0]}*${parts.sublist(1).join(' ')}';
+                })
+                    .join(',');
                 postRecipe(
                     Recipe(
                         name: widget.recipeName,
-                        ingredients: ingredientsString,
+                        ingredients: formattedIngredients,
                         description: _descriptionController.text,
                         rating: 5,
                         image: imageBytes),
@@ -161,10 +166,18 @@ class AddRecipePageState extends State<AddRecipePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  ingredients.add(_ingredientController.text);
-                  _ingredientController.clear();
-                });
+                if(_isValidIngredientFormat(_ingredientController.text)){
+                  setState(() {
+                    ingredients.add(_ingredientController.text);
+                    _ingredientController.clear();
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Invalid ingredient format. It should be like: \"100ml Milk\" or \"1 Egg\""),
+                    ),
+                  );
+                }
               },
               child: const Text("Add"),
             ),
@@ -205,4 +218,9 @@ class AddRecipePageState extends State<AddRecipePage> {
     );
   }
 
+  bool _isValidIngredientFormat(String ingredient) {
+    // Check if the format is like '100ml Ingredient'
+    RegExp regex = RegExp(r'^[\w\d]+\s[\w\d]+$');
+    return regex.hasMatch(ingredient);
+  }
 }
