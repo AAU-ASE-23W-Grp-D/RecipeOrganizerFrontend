@@ -26,11 +26,6 @@ class MealPlanningScreen extends StatefulWidget {
 class _MealPlanningScreenState extends State<MealPlanningScreen> {
   // Add your existing methods here
     // Method to delete one item from a card
-  void deleteRecipe({required String day, required String recipe}) {
-    setState(() {
-      recipeMap[day]?.remove(recipe);
-    });
-  }
 
     @override
   void initState() {
@@ -49,10 +44,16 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   }
 
   // Method to delete all items from a card
-  void deleteAllRecipes({required String day}) {
-    setState(() {
-      recipeMap?[day]?.clear();
-    });
+  void deleteAllRecipes(String day) async {
+    await _preferences.open();
+    await _preferences.deleteAllRecipes(day);
+    _updateMealPlan();
+  }
+
+  void deleteRecipes(String day, String recipe) async {
+    await _preferences.open();
+    await _preferences.deleteRecipe(day,recipe);
+    _updateMealPlan();
   }
 
     List<String> allRecipes = ['Cheeseburger', 'Pizza', 'Fried Chicken', 'Schnitzel', 'Sushi'];
@@ -192,7 +193,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                         ElevatedButton(
                           key: const Key("DeleteAllButtonRecipeCard"),
                           onPressed: () {
-                            deleteAllRecipes(day: day);
+                            deleteAllRecipes(day);
                           },
                           child: Text("Delete All"),
                         ),
@@ -210,7 +211,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                         SizedBox(width: 8.0),
                         IconButton(
                           onPressed: () {
-                            deleteAllRecipes(day: day);
+                            deleteAllRecipes(day);
                           },
                           icon: Icon(Icons.delete),
                         ),
@@ -233,7 +234,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                   key: Key("DeleteIconButtonList"),
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    deleteRecipe(day: day, recipe: recipe);
+                    deleteRecipes(day, recipe);
                   },
                 ),
                 onTap: () {
