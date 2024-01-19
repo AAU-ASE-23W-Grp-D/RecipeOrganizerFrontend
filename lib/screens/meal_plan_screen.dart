@@ -2,16 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-  Map<String, List<String>> recipeMap = {
-  'Monday': ['Cheeseburger', 'Pizza'],
-  'Tuesday': ['Fried Chicken'],
-  'Wednesday': ['Cheeseburger', 'Schnitzel'],
-  'Thursday': ['Cheeseburger', 'Schnitzel'],
-  'Friday': ['Schnitzel', 'Sushi'],
-  'Saturday': ['Sushi', 'Sushi'],
-  'Sunday': ['Sushi', 'Sushi'],
-};
+  Map<String, List<String>>? recipeMap = {};
+  SharedPreferencesMealPlanning _preferences = SharedPreferencesMealPlanning();
 
     List<String> days = [
       'Monday',
@@ -33,14 +28,30 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     // Method to delete one item from a card
   void deleteRecipe({required String day, required String recipe}) {
     setState(() {
-      recipeMap[day]?.remove(recipe);
+      recipeMap?[day]?.remove(recipe);
+    });
+  }
+
+    @override
+  void initState() {
+    super.initState();
+    //_insertExample();
+    
+  }
+
+  void _updateMealPlan() async {
+    await _preferences.open();
+    Map<String, List<String>>? recipeMapNew = await _preferences.getMealPlanning();
+    
+    setState(() {
+      recipeMap = recipeMapNew;
     });
   }
 
   // Method to delete all items from a card
   void deleteAllRecipes({required String day}) {
     setState(() {
-      recipeMap[day]?.clear();
+      recipeMap?[day]?.clear();
     });
   }
 
@@ -103,9 +114,10 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
 
   // Method to add a recipe to a day
   void addRecipe({required String day, required String recipe}) {
+    
     setState(() {
       // Assuming you have a Map<String, List<String>> to store recipes for each day
-      recipeMap[day]?.add(recipe);
+      recipeMap?[day]?.add(recipe);
     });
   }
 
@@ -123,7 +135,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
           children: [
             // Display recipes for each weekday
             for (String day in days)
-              _buildDayCard(day: day, recipes: recipeMap[day] ?? [], context: context),
+              _buildDayCard(day: day, recipes: recipeMap?[day] ?? [], context: context),
           ],
         ),
       ),
