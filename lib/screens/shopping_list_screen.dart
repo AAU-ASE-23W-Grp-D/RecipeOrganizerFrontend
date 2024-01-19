@@ -36,6 +36,13 @@ class IngredientListItem extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+          Text(
+            ingredient.quantity,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ),
+          ),
           Spacer(),
           Column(
             children: [
@@ -67,14 +74,22 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
   @override
   void initState() {
     super.initState();
+    //_insertExample();
     _updateShoppingList();
   }
 
   void _updateShoppingList() async {
+    await _databaseHelper.open();
     List<ShoppingListItem> list = await _databaseHelper.getShoppingListItems();
+    
     setState(() {
       ingredientsList = list;
     });
+  }
+
+  void _insertExample() async {
+        await _databaseHelper.open();
+    await _databaseHelper.insertShoppingListItem2("example","example");
   }
 
   void deleteItem(int index) async {

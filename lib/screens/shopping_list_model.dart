@@ -38,6 +38,12 @@ class DatabaseHelper {
     await _prefs!.setStringList('shopping_list', shoppingList);
   }
 
+  Future<void> insertShoppingListItem2(String name, String quantity) async {
+    final List<String> shoppingList = _prefs!.getStringList('shopping_list') ?? [];
+    shoppingList.add('${name}: ${quantity}');
+    await _prefs!.setStringList('shopping_list', shoppingList);
+  }
+
     Future<void> deleteShoppingListItem(int index) async {
     final List<String> shoppingList = _prefs!.getStringList('shopping_list') ?? [];
     if (index >= 0 && index < shoppingList.length) {
