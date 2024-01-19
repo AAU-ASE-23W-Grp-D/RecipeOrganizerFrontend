@@ -4,6 +4,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
+import 'package:recipe_organizer_frontend/screens/shopping_list_model.dart';
+
+DatabaseHelper _databaseHelper = DatabaseHelper();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
   final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -17,6 +20,18 @@ class RecipeDetailScreenWeb extends StatefulWidget {
   State<RecipeDetailScreenWeb> createState() => _DetailspageState();
 }
 class _DetailspageState extends State<RecipeDetailScreenWeb> {
+  
+
+    void _updateShoppingList() async {
+    await _databaseHelper.open();
+  }
+
+@override
+  void initState() {
+    super.initState();
+    _updateShoppingList();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -205,6 +220,11 @@ class Ingridientitem extends StatelessWidget {
     this.measurement = ""
   });
 
+  void _insertShoppingList(String name, String quantity) async {
+    await _databaseHelper.open();
+    await _databaseHelper.insertShoppingListItem2(name,quantity);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -215,7 +235,9 @@ class Ingridientitem extends StatelessWidget {
         Text(": "),
         Text(this.measurement),
         Spacer(),
-        IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.add))
+        IconButton(onPressed: () {
+          _insertShoppingList(name, measurement);
+        }, icon: Icon(CupertinoIcons.add))
       ],
     );
   }
