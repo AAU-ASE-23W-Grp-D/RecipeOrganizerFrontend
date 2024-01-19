@@ -61,7 +61,6 @@ class SharedPreferencesShoppingList {
   }
 }
 
-
 class SharedPreferencesMealPlanning {
   SharedPreferences? _prefs;
 
@@ -70,7 +69,7 @@ class SharedPreferencesMealPlanning {
   }
 
   Future<void> insertRecipe(String day, String recipe) async {
-    final Map<String, List<String>> mealPlanning = getMealPlanning() ?? {};
+    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
     final List<String> recipes = mealPlanning[day] ?? [];
     recipes.add(recipe);
     mealPlanning[day] = recipes;
@@ -78,7 +77,7 @@ class SharedPreferencesMealPlanning {
   }
 
   Future<void> deleteRecipe(String day, String recipe) async {
-    final Map<String, List<String>> mealPlanning = getMealPlanning() ?? {};
+    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
     final List<String> recipes = mealPlanning[day] ?? [];
     recipes.remove(recipe);
     mealPlanning[day] = recipes;
@@ -86,47 +85,40 @@ class SharedPreferencesMealPlanning {
   }
 
   Future<void> deleteAllRecipes(String day) async {
-    final Map<String, List<String>> mealPlanning = getMealPlanning() ?? {};
+    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
     mealPlanning.remove(day);
     await _prefs!.setString('meal_planning', _encodeMealPlanning(mealPlanning));
   }
 
-  List<String>? getRecipes(String day) {
-    final Map<String, List<String>> mealPlanning = getMealPlanning() ?? {};
-    return mealPlanning[day];
+  Future<List<String>> getRecipes(String day) async {
+    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
+    return mealPlanning[day] ?? [];
   }
 
-  Map<String, List<String>>? getMealPlanning() {
-    final String? mealPlanningString = _prefs!.getString('meal_planning');
-    if (mealPlanningString != null && mealPlanningString.isNotEmpty) {
-      return _decodeMealPlanning(mealPlanningString);
-    }
-    return null;
+  Future<Map<String, List<String>>> getMealPlanning() async {
+    final String mealPlanningString = _prefs!.getString('meal_planning') ?? '{}';
+    return _decodeMealPlanning(mealPlanningString);
   }
 
   String _encodeMealPlanning(Map<String, List<String>> mealPlanning) {
-    return mealPlanning.keys.fold<Map<String, dynamic>>(
-      {},
-      (Map<String, dynamic> json, String key) {
-        json[key] = mealPlanning[key];
-        return json;
-      },
-    ).toString();
+    return json.encode(mealPlanning);
   }
 
-  Map<String, List<String>> _decodeMealPlanning(String mealPlanningString) {
-    final Map<String, dynamic> decodedMap = Map<String, dynamic>.from(
-      Map<String, dynamic>.from(
-        Map<String, dynamic>.from(
-          Map<String, dynamic>.from(
-            json.decode(mealPlanningString),
-          ),
-        ),
-      ),
-    );
-    return decodedMap.map(
-      (key, value) => MapEntry(key, List<String>.from(value)),
-    );
+Map<String, List<String>> _decodeMealPlanning(String mealPlanningString) {
+  try {
+    final Map<String, dynamic> decodedMap = json.decode(mealPlanningString);
+    final Map<String, List<String>> result = {};
+
+    decodedMap.forEach((key, value) {
+      if (value is List<dynamic>) {
+        result[key] = value.cast<String>();
+      }
+    });
+
+    return result;
+  } catch (e) {
+    print('Error decoding meal planning: $e');
+    return {};
   }
 }
-
+}

@@ -5,7 +5,7 @@ import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-  Map<String, List<String>>? recipeMap = {};
+  Map<String, List<String>> recipeMap = {};
   SharedPreferencesMealPlanning _preferences = SharedPreferencesMealPlanning();
 
     List<String> days = [
@@ -28,7 +28,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     // Method to delete one item from a card
   void deleteRecipe({required String day, required String recipe}) {
     setState(() {
-      recipeMap?[day]?.remove(recipe);
+      recipeMap[day]?.remove(recipe);
     });
   }
 
@@ -36,12 +36,12 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   void initState() {
     super.initState();
     //_insertExample();
-    
+    _updateMealPlan();
   }
 
   void _updateMealPlan() async {
     await _preferences.open();
-    Map<String, List<String>>? recipeMapNew = await _preferences.getMealPlanning();
+    Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
     
     setState(() {
       recipeMap = recipeMapNew;
@@ -113,11 +113,15 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   }
 
   // Method to add a recipe to a day
-  void addRecipe({required String day, required String recipe}) {
+  void addRecipe({required String day, required String recipe}) async {
+    await _preferences.open();
+    await _preferences.insertRecipe(day,recipe);
+     Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
+
     
-    setState(() {
+    setState((){
       // Assuming you have a Map<String, List<String>> to store recipes for each day
-      recipeMap?[day]?.add(recipe);
+      recipeMap = recipeMapNew;
     });
   }
 
