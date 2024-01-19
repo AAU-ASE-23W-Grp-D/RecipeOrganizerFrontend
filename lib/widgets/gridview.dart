@@ -4,6 +4,9 @@ import 'package:flutter/rendering.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+SharedPreferencesMealPlanning _pref_mp = SharedPreferencesMealPlanning();
 
 
 class GridB extends StatefulWidget {
@@ -208,6 +211,11 @@ Widget build(BuildContext context) {
   Future<void> _showDialog(BuildContext context, String name) async {
     String selectedDay = 'Monday'; // Initial value
 
+  void _insertMealPlan(String day, String recipe) async {
+    await _pref_mp.open();
+    await _pref_mp.insertRecipe(day,recipe);
+  }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -244,7 +252,7 @@ Widget build(BuildContext context) {
                 ElevatedButton(
                   onPressed: () {
                     // Handle assignment logic here
-                    print('Assigned to $selectedDay');
+                    _insertMealPlan(selectedDay, name);
                     Navigator.pop(context); // Close the dialog
                   },
                   child: Text('Assign'),
@@ -256,6 +264,7 @@ Widget build(BuildContext context) {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
+                
               },
               child: Text('Close'),
             ),
