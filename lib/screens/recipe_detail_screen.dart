@@ -4,9 +4,9 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
-import 'package:recipe_organizer_frontend/screens/shopping_list_model.dart';
+import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 
-DatabaseHelper _databaseHelper = DatabaseHelper();
+SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
   final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";

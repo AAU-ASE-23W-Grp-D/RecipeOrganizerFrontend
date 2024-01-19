@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
-import 'package:recipe_organizer_frontend/screens/shopping_list_model.dart';
+import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientListItem extends StatelessWidget {
-  final ShoppingListItem ingredient;
+  final ShoppingListItem ingredients;
   final VoidCallback onDelete;
   final VoidCallback onBuy;
 
   IngredientListItem({
-    required this.ingredient,
+    required this.ingredients,
     required this.onDelete,
     required this.onBuy,
   });
@@ -29,19 +29,24 @@ class IngredientListItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            ingredient.name,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            ingredient.quantity,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                ingredients.name,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                ingredients.quantity,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
           Spacer(),
           Column(
@@ -68,7 +73,7 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  DatabaseHelper _databaseHelper = DatabaseHelper();
+  SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList();
   List<ShoppingListItem> ingredientsList = [];
 
   @override
@@ -132,7 +137,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 itemCount: ingredientsList.length,
                 itemBuilder: (context, index) {
                   return IngredientListItem(
-                    ingredient: ingredientsList[index],
+                    ingredients: ingredientsList[index],
                     onDelete: () => deleteItem(index),
                     onBuy: () {
                       // Add your logic for handling "Bought" action

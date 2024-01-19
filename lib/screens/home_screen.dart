@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
-import 'package:recipe_organizer_frontend/screens/shopping_list_model.dart';
+import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 import 'package:recipe_organizer_frontend/widgets/footer.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/login_screen.dart';
@@ -13,7 +13,7 @@ bool logged_in = false;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
-  final DatabaseHelper _databaseHelper = DatabaseHelper();
+  final SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

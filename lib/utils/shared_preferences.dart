@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common/sqlite_api.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
-import 'package:sqflite_common/sqlite_api.dart';
-
 
 class ShoppingListItem {
   int? id;
@@ -22,10 +16,7 @@ class ShoppingListItem {
     };
   }
 }
-
-
-  
-class DatabaseHelper {
+class SharedPreferencesShoppingList {
   SharedPreferences? _prefs;
 
   Future<void> open() async {
@@ -68,12 +59,12 @@ class DatabaseHelper {
   }
 }
 
-class ShoppingListProvider extends ChangeNotifier {
-  List<ShoppingListItem> _shoppingList = [];
-  List<ShoppingListItem> get shoppingList => _shoppingList;
 
-  void addItemToShoppingList(ShoppingListItem item) {
-    _shoppingList.add(item);
-    notifyListeners();
+class SharedPreferencesMealPlan {
+  SharedPreferences? _prefs;
+
+  Future<void> open() async {
+    _prefs = await SharedPreferences.getInstance();
   }
+
 }
