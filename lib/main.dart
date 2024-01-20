@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/app.dart';
 import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferencesShoppingList().open;
+  //SharedPreferencesShoppingList(UserStorage().getId().toString()).open;
   runApp(const MyApp());
 }
 

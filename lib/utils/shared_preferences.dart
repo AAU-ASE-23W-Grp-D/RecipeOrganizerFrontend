@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/models/user.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShoppingListItem {
@@ -20,37 +22,46 @@ class ShoppingListItem {
 }
 class SharedPreferencesShoppingList {
   SharedPreferences? _prefs;
+  String? _userId;
+  final String _keyShoppingList = "shopping_list";
+
+  SharedPreferencesShoppingList(this._userId);
 
   Future<void> open() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
+    String _getUserKey(String key) {
+    // Append the user identifier to the key
+    return '$_userId:$key';
+  }
+
   Future<void> insertShoppingListItem(ShoppingListItem item) async {
-    final List<String> shoppingList = _prefs!.getStringList('shopping_list') ?? [];
+    final List<String> shoppingList = _prefs!.getStringList(_getUserKey(_keyShoppingList)) ?? [];
     shoppingList.add('${item.name}: ${item.quantity}');
-    await _prefs!.setStringList('shopping_list', shoppingList);
+    await _prefs!.setStringList(_getUserKey(_keyShoppingList), shoppingList);
   }
 
   Future<void> insertShoppingListItem2(String name, String quantity) async {
-    final List<String> shoppingList = _prefs!.getStringList('shopping_list') ?? [];
+    final List<String> shoppingList = _prefs!.getStringList(_getUserKey(_keyShoppingList)) ?? [];
     shoppingList.add('${name}: ${quantity}');
-    await _prefs!.setStringList('shopping_list', shoppingList);
+    await _prefs!.setStringList(_getUserKey(_keyShoppingList), shoppingList);
   }
 
     Future<void> deleteShoppingListItem(int index) async {
-    final List<String> shoppingList = _prefs!.getStringList('shopping_list') ?? [];
+    final List<String> shoppingList = _prefs!.getStringList(_getUserKey(_keyShoppingList)) ?? [];
     if (index >= 0 && index < shoppingList.length) {
       shoppingList.removeAt(index);
-      await _prefs!.setStringList('shopping_list', shoppingList);
+      await _prefs!.setStringList(_getUserKey(_keyShoppingList), shoppingList);
     }
   }
 
   Future<void> deleteAllShoppingListItems() async {
-    await _prefs!.remove('shopping_list');
+    await _prefs!.remove(_getUserKey(_keyShoppingList));
   }
 
   Future<List<ShoppingListItem>> getShoppingListItems() async {
-    final List<String> shoppingList = _prefs!.getStringList('shopping_list') ?? [];
+    final List<String> shoppingList = _prefs!.getStringList(_getUserKey(_keyShoppingList)) ?? [];
     return shoppingList.map((item) {
       final parts = item.split(': ');
       return ShoppingListItem(

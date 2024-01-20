@@ -16,7 +16,7 @@ bool logged_in = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
-  final SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList();
+  final SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList(UserStorage().getId().toString());
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 

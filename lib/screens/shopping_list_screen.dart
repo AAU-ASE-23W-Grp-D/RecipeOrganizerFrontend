@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientListItem extends StatelessWidget {
@@ -73,7 +74,7 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList();
+  SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList(UserStorage().getId().toString());
   List<ShoppingListItem> ingredientsList = [];
 
   @override
@@ -86,7 +87,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
   void _updateShoppingList() async {
     await _databaseHelper.open();
     List<ShoppingListItem> list = await _databaseHelper.getShoppingListItems();
-    
+    print(UserStorage().getId().toString());
     setState(() {
       ingredientsList = list;
     });
