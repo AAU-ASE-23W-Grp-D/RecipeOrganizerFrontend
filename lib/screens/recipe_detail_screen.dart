@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
+import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 
 SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList();
@@ -13,8 +14,10 @@ class RecipeDetailScreenWeb extends StatefulWidget {
   final String name = "Cheeseburger";
   final String username = "Moser";
   final String userimage = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const RecipeDetailScreenWeb({Key? key}) : super(key: key);
-  
+  final Recipe recipe;
+
+  const RecipeDetailScreenWeb({super.key, required this.recipe});
+
 
   @override
   State<RecipeDetailScreenWeb> createState() => _DetailspageState();
@@ -37,7 +40,7 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        title: Text("Recipe: ${widget.recipe.name}"),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: MediaQuery.of(context).size.width * 0.1),
@@ -50,7 +53,7 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -66,7 +69,7 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                           Container(
                             constraints: BoxConstraints(maxHeight: 90.0),
                             child: Text(
-                              widget.name,
+                              widget.recipe.name,
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 32,
@@ -85,8 +88,8 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(flex: 2, child: ingredientsColumn()),
-                    Expanded(flex: 2, child: descriptionColumn()),
+                    Expanded(flex: 2, child: ingredientsColumn(widget: widget)),
+                    Expanded(flex: 2, child: descriptionColumn(widget: widget,)),
                     Expanded(flex: 1, child: imageColumn(widget: widget)),
                   ],
                 ),
@@ -95,8 +98,8 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     imageColumn(widget: widget),
-                    ingredientsColumn(),
-                    descriptionColumn(),
+                    ingredientsColumn(widget: widget),
+                    descriptionColumn(widget: widget),
                   ],
                 ),
             ],
@@ -125,8 +128,8 @@ class imageColumn extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
-            child: Image.network(
-              widget.image,
+            child: Image.memory(
+              widget.recipe.image,
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -142,19 +145,22 @@ class imageColumn extends StatelessWidget {
 class descriptionColumn extends StatelessWidget {
   const descriptionColumn({
     super.key,
+    required this.widget,
   });
+
+  final RecipeDetailScreenWeb widget;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children:[
-      Padding(
+      const Padding(
         padding: EdgeInsets.all(20.0),
         child: Text("Description",style: TextStyle(fontSize: 16))),
-        Text("Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt, nihil nobis! Fuga, ipsa cupiditate.",
-        style: TextStyle(color: inActiveColor),
+        Text(widget.recipe.description,
+        style: const TextStyle(color: inActiveColor),
         ),
-        SizedBox(height: 40,)]
+        const SizedBox(height: 40,)]
               
     );
   }
@@ -163,10 +169,24 @@ class descriptionColumn extends StatelessWidget {
 class ingredientsColumn extends StatelessWidget {
   const ingredientsColumn({
     super.key,
+    required this.widget,
   });
+
+  final RecipeDetailScreenWeb widget;
+
+  List<Ingridientitem> parseIngredients(String formattedIngredients) {
+    List<String> ingredientsList = formattedIngredients.split(',');
+
+    return ingredientsList.map((ingredient) {
+      List<String> parts = ingredient.split('*');
+      return Ingridientitem(name: parts[1], measurement: parts[0]);
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<Ingridientitem> ingredientItems = parseIngredients(widget.recipe.ingredients);
+
     return Column(
       children: [
         Padding(
@@ -180,22 +200,17 @@ class ingredientsColumn extends StatelessWidget {
                       strokeWidth: 0.8,
                       dashPattern: const [1,],
                       color: inActiveColor,
-                      child: const Column(
+                      child: Column(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Ingridientitem(name: "Sugar", measurement: "10mg"),
-                                Ingridientitem(name: "Egg", measurement: "2"),
-                                Ingridientitem(name: "Sugar", measurement: "10mg"),
-                                Ingridientitem(name: "Egg", measurement: "2")
-                              ],
+                              children: ingredientItems,
                             ),
                           ),
                           
-                          Padding(
+                          const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: TextButton(
                               onPressed: null, 
@@ -282,19 +297,20 @@ class creatorRecipe extends StatelessWidget {
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(top:8.0),
+            Padding(
+              padding: const EdgeInsets.only(top:8.0),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.star,color: primary,size: 15,),
-                      Icon(Icons.star,color: primary,size: 15,),
-                      Icon(Icons.star,color: primary,size: 15,)
-                      ,
-                      Icon(Icons.star,color: primary,size: 15,),
-                      Icon(Icons.star,color: primary,size: 15,)
-                      
+                      for (int i = 1; i <= 5; i++)
+                        Icon(
+                          Icons.star,
+                          color: i <= widget.recipe.rating
+                              ? primary
+                              : Colors.grey.withOpacity(0.6),
+                          size: 15,
+                        ),
                     ],
                   ),
                   Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
