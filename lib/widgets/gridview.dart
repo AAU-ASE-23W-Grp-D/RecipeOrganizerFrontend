@@ -11,7 +11,7 @@ import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
 
-  const GridB({Key? key, required this.fetchFunction}) : super(key: key);
+  const GridB({super.key, required this.fetchFunction});
 
   @override
   State<GridB> createState() => _GridBState();

@@ -79,6 +79,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                         ingredients: formattedIngredients,
                         description: _descriptionController.text,
                         rating: 5,
+                        rating_amount: 1,
                         image: imageBytes),
                 context
                 );
@@ -221,7 +222,7 @@ class AddRecipePageState extends State<AddRecipePage> {
 
   bool _isValidIngredientFormat(String ingredient) {
     // Check if the format is like '100ml Ingredient'
-    RegExp regex = RegExp(r'^[\w\d]+\s[\w\d]+$');
+    RegExp regex = RegExp(r'^[\w\d.,]+\s[\w\d.,]+$');
     return regex.hasMatch(ingredient);
   }
 }

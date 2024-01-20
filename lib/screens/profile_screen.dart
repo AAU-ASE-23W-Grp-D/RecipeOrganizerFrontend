@@ -40,7 +40,7 @@ class UserProfilePage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(userProfile.profileImage),
+                      backgroundImage: AssetImage(userProfile.profileImage),
                     ),
                   ),
                 ),

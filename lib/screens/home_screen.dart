@@ -214,7 +214,7 @@ class _ProfileIcon extends StatelessWidget {
                         builder: (context) => UserProfilePage(
         userProfile: UserProfile(
           name: username ?? '',
-          profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          profileImage: 'assets/user_icon.png',
           likedRecipes: 50,
           createdRecipes: totalCreatedRecipes ?? 0,
         ),
@@ -229,7 +229,7 @@ class _ProfileIcon extends StatelessWidget {
                 builder: (context) => LikedRecipesPage(
                   profile: Profile(
                     name: 'John Doe',
-                    profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    profileImage: 'assets/user_icon.png',
                     likedRecipes: 50
                   ),
                 ),

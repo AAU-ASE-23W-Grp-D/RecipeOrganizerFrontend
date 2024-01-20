@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
 import 'package:recipe_organizer_frontend/models/recipe.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 
 class RecipeDetailScreenWeb extends StatefulWidget {
   final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -282,16 +283,21 @@ class creatorRecipe extends StatelessWidget {
                   Row(
                     children: [
                       for (int i = 1; i <= 5; i++)
-                        Icon(
-                          Icons.star,
-                          color: i <= widget.recipe.rating
-                              ? primary
-                              : Colors.grey.withOpacity(0.6),
-                          size: 15,
-                        ),
+                        GestureDetector(
+                          onTap: () {
+                            updateRating(widget.recipe.ID, i);
+                          },
+                          child: Icon(
+                            Icons.star,
+                            color: i <= widget.recipe.rating
+                                ? primary
+                                : Colors.grey.withOpacity(0.6),
+                            size: 15,
+                          ),
+                        )
                     ],
                   ),
-                  Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
+                  Text("Ratings: ${widget.recipe.rating_amount}",style: const TextStyle(fontSize: 12,color: textColor),)
                 ],
               ),
             )

@@ -7,6 +7,7 @@ class Recipe {
   final String ingredients;
   final String description;
   final int rating;
+  final int rating_amount;
   final Uint8List image;
 
   const Recipe({
@@ -15,6 +16,7 @@ class Recipe {
     required this.ingredients,
     required this.description,
     required this.rating,
+    required this.rating_amount,
     required this.image,
   });
 
@@ -26,6 +28,7 @@ class Recipe {
         'ingredients': String ingredients,
         'description': String description,
         'rating': int rating,
+        'rating_amount': int rating_amount,
         'image': String image,
       } =>
         Recipe(
@@ -34,6 +37,7 @@ class Recipe {
           ingredients: ingredients,
           description: description,
           rating: rating,
+          rating_amount: rating_amount,
           image: base64.decode(image),
         ),
       _ => throw const FormatException('Failed to load recipe.'),
