@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'dart:io';
+
+import 'package:recipe_organizer_frontend/utils/api.dart';
 
 class AddRecipePage extends StatefulWidget {
   final String recipeName;
@@ -17,6 +20,7 @@ class AddRecipePageState extends State<AddRecipePage> {
   final TextEditingController _ingredientController = TextEditingController();
   List<String> ingredients = [];
   XFile? image;
+  late Uint8List imageBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +30,8 @@ class AddRecipePageState extends State<AddRecipePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
+          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +66,21 @@ class AddRecipePageState extends State<AddRecipePage> {
             //Add a "Save Recipe" button here
             ElevatedButton(
               onPressed: () {
-
+                String formattedIngredients = ingredients //100ml Milk -> 100ml*Milk,...
+                    .map((ingredient) {
+                  List<String> parts = ingredient.split(' ');
+                  return '${parts[0]}*${parts.sublist(1).join(' ')}';
+                })
+                    .join(',');
+                postRecipe(
+                    Recipe(
+                        name: widget.recipeName,
+                        ingredients: formattedIngredients,
+                        description: _descriptionController.text,
+                        rating: 5,
+                        image: imageBytes),
+                context
+                );
               },
               child: const Text("Save Recipe"),
             ),
@@ -94,6 +112,7 @@ class AddRecipePageState extends State<AddRecipePage> {
               setState(() {
                 image = pickedImage;
               });
+              imageBytes = await pickedImage.readAsBytes();
             }
           },
           child: const Text("Pick Image"),
@@ -120,7 +139,7 @@ class AddRecipePageState extends State<AddRecipePage> {
       padding: const EdgeInsets.all(20),
       child: TextField(
         controller: _descriptionController,
-        maxLines: 5,
+        maxLines: 20,
         decoration: const InputDecoration(
           hintText: "Recipe Description",
           border: OutlineInputBorder(),
@@ -147,10 +166,18 @@ class AddRecipePageState extends State<AddRecipePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                setState(() {
-                  ingredients.add(_ingredientController.text);
-                  _ingredientController.clear();
-                });
+                if(_isValidIngredientFormat(_ingredientController.text)){
+                  setState(() {
+                    ingredients.add(_ingredientController.text);
+                    _ingredientController.clear();
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Invalid ingredient format. It should be like: \"100ml Milk\" or \"1 Egg\""),
+                    ),
+                  );
+                }
               },
               child: const Text("Add"),
             ),
@@ -158,7 +185,7 @@ class AddRecipePageState extends State<AddRecipePage> {
         ),
         const SizedBox(height: 10),
         SizedBox(
-          height: 150, // Adjust the height as needed
+          height: 500, // Adjust the height as needed
           child: ListView(
             shrinkWrap: true,
             children: ingredients
@@ -191,4 +218,9 @@ class AddRecipePageState extends State<AddRecipePage> {
     );
   }
 
+  bool _isValidIngredientFormat(String ingredient) {
+    // Check if the format is like '100ml Ingredient'
+    RegExp regex = RegExp(r'^[\w\d]+\s[\w\d]+$');
+    return regex.hasMatch(ingredient);
+  }
 }

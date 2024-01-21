@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:adaptive_navbar/adaptive_navbar.dart';
-import 'package:recipe_organizer_frontend/screens/home_page.dart';
-import 'login_page.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
+import '../screens/login_screen.dart';
 import 'search_bar.dart';
 import 'gridview.dart';
-import '../colors.dart';
 
 class MyHomePageWeb extends StatefulWidget{
   const MyHomePageWeb({Key? key}): super(key: key);
@@ -70,9 +69,9 @@ class _MyHomePageWebState extends State<MyHomePageWeb> {
                      ),
                    ),
                    //SizedBox(height: 1000,),
-                   Padding(
+                   const Padding(
                      padding: EdgeInsets.all(8.0),
-                     child: GridB(),
+                     child: GridB(fetchFunction: fetchRecipes,),
                    ),
              ],
            ),

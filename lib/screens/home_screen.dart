@@ -1,22 +1,26 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
-import 'package:recipe_organizer_frontend/screens/footer.dart';
-import 'package:recipe_organizer_frontend/screens/gridview.dart';
-import 'package:recipe_organizer_frontend/screens/login_page.dart';
-import 'package:recipe_organizer_frontend/screens/meal_plan.dart';
-import 'package:recipe_organizer_frontend/screens/profile_page.dart';
-import 'package:recipe_organizer_frontend/screens/search_bar.dart';
+import 'package:recipe_organizer_frontend/models/recipe.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
+import 'package:recipe_organizer_frontend/widgets/footer.dart';
+import 'package:recipe_organizer_frontend/widgets/gridview.dart';
+import 'package:recipe_organizer_frontend/screens/login_screen.dart';
+import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
+import 'package:recipe_organizer_frontend/screens/profile_screen.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
-import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 
 bool logged_in = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
+  final SecureStorageShoppingList _databaseHelper = SecureStorageShoppingList();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final Future<List<Recipe>> futureRecipe = fetchRecipes();
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +76,9 @@ class ResponsiveNavBarPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
-                        
+
                       ),
-                      
+
                       ),
                      /*Padding(
                        padding: EdgeInsets.all(8.0),
@@ -84,7 +88,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
                    //SizedBox(height: 1000,),
                    Padding(
                      padding: EdgeInsets.symmetric(horizontal:MediaQuery.sizeOf(context).width*0.05, vertical: 8.0),
-                     child: GridB(),
+                     child: const GridB(fetchFunction: fetchRecipes),
                    ),
              ],
            ),
@@ -186,10 +190,21 @@ final List<String> _menuItems = <String>[
 enum Menu { itemOne, itemTwo, itemThree }
 
 class _ProfileIcon extends StatelessWidget {
-  const _ProfileIcon({Key? key}) : super(key: key);
+
+  final UserStorage _userStorage = UserStorage();
+
+  _ProfileIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String? username;
+    int? totalCreatedRecipes;
+
+    if(logged_in) {
+      _userStorage.getUserName().then((value) => username = value);
+      _userStorage.getTotalCreatedRecipes().then((value) => totalCreatedRecipes = value);
+    }
+
     return PopupMenuButton<Menu>(
         icon: const Icon(Icons.person),
         offset: const Offset(0, 40),
@@ -200,10 +215,10 @@ class _ProfileIcon extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => UserProfilePage(
         userProfile: UserProfile(
-          name: 'John Doe',
+          name: username ?? '',
           profileImage: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
           likedRecipes: 50,
-          createdRecipes: 10,
+          createdRecipes: totalCreatedRecipes ?? 0,
         ),
                       ),
                       ),
@@ -222,6 +237,9 @@ class _ProfileIcon extends StatelessWidget {
                 ),
               ),
             );
+          }
+          else if (item == Menu.itemThree) {
+            signout(context);
           }
 
         },

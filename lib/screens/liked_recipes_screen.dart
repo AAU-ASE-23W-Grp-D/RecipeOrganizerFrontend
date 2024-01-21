@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_organizer_frontend/screens/gridview.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 
 class Profile {
   final String name;
@@ -25,53 +26,54 @@ class LikedRecipesPage extends StatelessWidget {
         title: const Text('My Liked Recipes'),
       ),
 
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-        
-          children: [
-            Padding(
+      body: ListView(
+        children: [
+          Center(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(profile.profileImage),
               ),
             ),
-            Padding(
+          ),
+          Center(
+            child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: Text(
                 profile.name,
                 style: const TextStyle(fontSize: 24),
               ),
             ),
-        
-            Padding(
+          ),
+
+          Center(
+            child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: Text(
-                  'Liked Recipes: ${profile.likedRecipes}',
-                  style: const TextStyle(fontSize: 12),
-                ),
-            ),
-        
-            const Divider(
-              thickness: 2,
-            ),
-        
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Liked Recipes',
-                style: TextStyle(fontSize: 18),
+                'Liked Recipes: ${profile.likedRecipes}',
+                style: const TextStyle(fontSize: 12),
               ),
             ),
-        
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: GridB(),
-            )
-          ]
-        ),
+          ),
+
+          const Divider(
+            thickness: 2,
+          ),
+
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Liked Recipes',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: GridB(fetchFunction: fetchRecipes,),
+          )
+        ]
       )
     );
   }
