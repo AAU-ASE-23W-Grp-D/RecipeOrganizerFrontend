@@ -189,20 +189,34 @@ final List<String> _menuItems = <String>[
 
 enum Menu { itemOne, itemTwo, itemThree }
 
-class _ProfileIcon extends StatelessWidget {
+class _ProfileIcon extends StatefulWidget {
+  const _ProfileIcon({Key? key}) : super(key: key);
 
+  @override
+  _ProfileIconState createState() => _ProfileIconState();
+}
+
+class _ProfileIconState extends State<_ProfileIcon> {
   final UserStorage _userStorage = UserStorage();
+  int ownRecipes = 0;
 
-  _ProfileIcon({super.key});
+  @override
+  void initState() {
+    super.initState();
+    fetchUserRecipes().then((recipes) {
+      setState(() {
+        ownRecipes = recipes.length;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     String? username;
-    int? totalCreatedRecipes;
 
     if(logged_in) {
       _userStorage.getUserName().then((value) => username = value);
-      _userStorage.getTotalCreatedRecipes().then((value) => totalCreatedRecipes = value);
+      _userStorage.saveTotalCreatedRecipes(ownRecipes);
     }
 
     return PopupMenuButton<Menu>(
@@ -218,7 +232,7 @@ class _ProfileIcon extends StatelessWidget {
           name: username ?? '',
           profileImage: 'assets/user_icon.png',
           likedRecipes: 50,
-          createdRecipes: totalCreatedRecipes ?? 0,
+          createdRecipes:  ownRecipes,
         ),
                       ),
                       ),
