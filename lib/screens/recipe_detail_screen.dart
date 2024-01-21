@@ -7,6 +7,7 @@ import "package:recipe_organizer_frontend/colors.dart";
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 
 SecureStorageShoppingList _SlStorage = SecureStorageShoppingList();
 
@@ -24,7 +25,7 @@ class RecipeDetailScreenWeb extends StatefulWidget {
   State<RecipeDetailScreenWeb> createState() => _DetailspageState();
 }
 class _DetailspageState extends State<RecipeDetailScreenWeb> {
-  
+
 
 @override
   void initState() {
@@ -314,7 +315,7 @@ class CreatorRecipe extends StatelessWidget {
                         ),
                     ],
                   ),
-                  Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
+                  Text("Ratings: ${widget.recipe.rating_amount}",style: const TextStyle(fontSize: 12,color: textColor),)
                 ],
               ),
             )

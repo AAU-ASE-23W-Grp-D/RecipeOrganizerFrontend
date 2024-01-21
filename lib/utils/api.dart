@@ -131,9 +131,12 @@ Future<void> postRecipe(Recipe recipe, BuildContext context) async {
 }
 
 
+
+
 Future<List<Recipe>> fetchRecipes() async {
   final TokenStorage storage = TokenStorage();
   String jwtToken = await storage.getToken();
+
   final response = await http.get(
     Uri.parse('$baseUrl/recipes'),
     headers: <String, String>{
@@ -185,6 +188,29 @@ Future<List<Recipe>> fetchLikedRecipes() async {
     return body.map((e) => Recipe.fromJson(e)).toList();
   } else {
     throw Exception('Failed to load recipes');
+  }
+}
+
+Future<void> updateRating(int RecipeId, int newRating) async {
+  final TokenStorage storage = TokenStorage();
+  String jwtToken = await storage.getToken();
+
+  final response = await http.put(
+    Uri.parse('$baseUrl/auth/$RecipeId/updateRating'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization': 'Bearer $jwtToken',
+    },
+    body: jsonEncode(<String, int>{
+      'rating': newRating,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    print('Rating updated successfuly');
+  } else {
+    print('Rating update failed');
+    print('StatusCode:${response.statusCode}');
   }
 }
 

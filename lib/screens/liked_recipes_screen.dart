@@ -33,7 +33,7 @@ class LikedRecipesPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: NetworkImage(profile.profileImage),
+                backgroundImage: AssetImage(profile.profileImage),
               ),
             ),
           ),
@@ -71,7 +71,7 @@ class LikedRecipesPage extends StatelessWidget {
 
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: GridB(fetchFunction: fetchRecipes,),
+            child: GridB(fetchFunction: fetchLikedRecipes,),
           )
         ]
       )
