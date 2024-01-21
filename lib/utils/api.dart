@@ -13,10 +13,9 @@ import '../screens/login_screen.dart';
 
 // Load the BaseUrl from the configuration file
 // On error, check if the assets/cfg/app_settings.json file exists
+final String baseUrl = GlobalConfiguration().getValue("BaseUrl");
 
 class Api {
-  String baseUrl = GlobalConfiguration().getValue("BaseUrl");
-
   Future<void> login(String username, String password, BuildContext context) async {
     final UserStorage userStorage = UserStorage();
     final response = await http.post(
