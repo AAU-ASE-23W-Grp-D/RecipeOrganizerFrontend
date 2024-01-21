@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,6 +34,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     super.initState();
     //_insertExample();
     _updateMealPlan();
+    _loadRecipes();
   }
 
   void _updateMealPlan() async {
@@ -53,62 +56,77 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     _updateMealPlan();
   }
 
-    List<String> allRecipes = ['Cheeseburger', 'Pizza', 'Fried Chicken', 'Schnitzel', 'Sushi'];
+  Future<List<String>> fetchRecipeNames() async {
+  List<Recipe> recipes = await fetchRecipes(); // Assuming fetchRecipes() returns List<Recipe>
+  List<String> recipeNames = recipes.map((recipe) => recipe.name).toList();
+  return recipeNames;
+}
 
-  String? selectedRecipe;
+List<String> allRecipes = [];
 
-  void _showAddRecipeDialog(String day) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          key: Key("AddMealDialog"),
-          title: Text('Add Recipe to $day'),
-          content: Column(
-            children: [
-              Text('Select a recipe:'),
-              DropdownButton<String>(
-                key: const Key("RecipeDropDown"),
-                value: selectedRecipe,
-                items: allRecipes.map((String recipe) {
-                  return DropdownMenuItem<String>(
-                    value: recipe,
-                    child: Text(recipe),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedRecipe = newValue;
-                  });
-                },
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              key: const Key("AddButtonDialog"),
-              onPressed: () {
-                // Add your logic to add the selected recipe to the day
-                if (selectedRecipe != null) {
-                  // Assuming you have a method to add a recipe to the day
-                  addRecipe(day: day, recipe: selectedRecipe!);
-                }
-                Navigator.pop(context);
+String? selectedRecipe;
+
+
+Future<void> _loadRecipes() async {
+  List<String> recipeNames = await fetchRecipeNames();
+  setState(() {
+    allRecipes = recipeNames;
+  });
+}
+
+void _showAddRecipeDialog(String day) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        key: Key("AddMealDialog"),
+        title: Text('Add Recipe to $day'),
+        content: Column(
+          children: [
+            Text('Select a recipe:'),
+            DropdownButton<String>(
+              key: const Key("RecipeDropDown"),
+              value: selectedRecipe,
+              items: allRecipes.map((String recipe) {
+                return DropdownMenuItem<String>(
+                  value: recipe,
+                  child: Text(recipe),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedRecipe = newValue;
+                });
               },
-              child: Text('OK'),
-            ),
-            ElevatedButton(
-              key: const Key("CancelButtonDialog"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          ElevatedButton(
+            key: const Key("AddButtonDialog"),
+            onPressed: () {
+              // Add your logic to add the selected recipe to the day
+              if (selectedRecipe != null) {
+                // Assuming you have a method to add a recipe to the day
+                addRecipe(day: day, recipe: selectedRecipe!);
+              }
+              Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
+          ElevatedButton(
+            key: const Key("CancelButtonDialog"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   // Method to add a recipe to a day
   void addRecipe({required String day, required String recipe}) async {
@@ -136,7 +154,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
           children: [
             // Display recipes for each weekday
             for (String day in days)
-              _buildDayCard(day: day, recipes: recipeMap?[day] ?? [], context: context),
+              _buildDayCard(day: day, recipes: recipeMap[day] ?? [], context: context),
           ],
         ),
       ),
