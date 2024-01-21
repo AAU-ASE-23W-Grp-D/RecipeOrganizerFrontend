@@ -35,7 +35,7 @@ class _MyHomePageAppState extends State<MyHomePageApp>{
                    //SizedBox(height: 1000,),
                    Padding(
                      padding: EdgeInsets.all(8.0),
-                     child: GridB(fetchFunction: fetchRecipes,),
+                     child: GridB(fetchFunction: Api().fetchRecipes,),
                    ),
              ],
            ),

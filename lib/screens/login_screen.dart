@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     key: const Key('loginButton'),
                     onPressed: () {
-                      login(
+                      Api().login(
                         usernameController.text,
                         passwordController.text,
                         context,

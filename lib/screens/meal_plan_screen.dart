@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
-import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
   Map<String, List<String>> recipeMap = {};
   SecureStorageMealPlanning _preferences = SecureStorageMealPlanning();
@@ -57,7 +54,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   }
 
   Future<List<String>> fetchRecipeNames() async {
-  List<Recipe> recipes = await fetchRecipes(); // Assuming fetchRecipes() returns List<Recipe>
+  List<Recipe> recipes = await Api().fetchRecipes(); // Assuming fetchRecipes() returns List<Recipe>
   List<String> recipeNames = recipes.map((recipe) => recipe.name).toList();
   return recipeNames;
 }

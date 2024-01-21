@@ -17,7 +17,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
   @override
   void initState() {
     super.initState();
-    futureRecipes = fetchRecipes();
+    futureRecipes = Api().fetchRecipes();
   }
 
   @override

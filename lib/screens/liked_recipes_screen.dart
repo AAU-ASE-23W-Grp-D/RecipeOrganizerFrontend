@@ -69,9 +69,9 @@ class LikedRecipesPage extends StatelessWidget {
             ),
           ),
 
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: GridB(fetchFunction: fetchLikedRecipes,),
+           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridB(fetchFunction: Api().fetchLikedRecipes,),
           )
         ]
       )
