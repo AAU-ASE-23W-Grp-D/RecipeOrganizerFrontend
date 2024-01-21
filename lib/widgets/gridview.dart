@@ -5,10 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-SharedPreferencesMealPlanning _pref_mp = SharedPreferencesMealPlanning();
+SecureStorageMealPlanning _pref_mp = SecureStorageMealPlanning();
 
 
 class GridB extends StatefulWidget {
@@ -203,7 +204,6 @@ class _GridBState extends State<GridB> {
     String selectedDay = 'Monday'; // Initial value
 
   void _insertMealPlan(String day, String recipe) async {
-    await _pref_mp.open();
     await _pref_mp.insertRecipe(day,recipe);
   }
 

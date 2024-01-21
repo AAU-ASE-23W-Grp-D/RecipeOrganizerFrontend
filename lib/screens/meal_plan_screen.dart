@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
   Map<String, List<String>> recipeMap = {};
-  SharedPreferencesMealPlanning _preferences = SharedPreferencesMealPlanning();
+  SecureStorageMealPlanning _preferences = SecureStorageMealPlanning();
 
     List<String> days = [
       'Monday',
@@ -35,7 +36,6 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
   }
 
   void _updateMealPlan() async {
-    await _preferences.open();
     Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
     
     setState(() {
@@ -45,13 +45,11 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
 
   // Method to delete all items from a card
   void deleteAllRecipes(String day) async {
-    await _preferences.open();
     await _preferences.deleteAllRecipes(day);
     _updateMealPlan();
   }
 
   void deleteRecipes(String day, String recipe) async {
-    await _preferences.open();
     await _preferences.deleteRecipe(day,recipe);
     _updateMealPlan();
   }
@@ -115,7 +113,6 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
 
   // Method to add a recipe to a day
   void addRecipe({required String day, required String recipe}) async {
-    await _preferences.open();
     await _preferences.insertRecipe(day,recipe);
      Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
 

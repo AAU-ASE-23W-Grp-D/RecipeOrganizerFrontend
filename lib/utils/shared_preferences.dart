@@ -72,7 +72,7 @@ class SharedPreferencesShoppingList {
   }
 }
 
-class SharedPreferencesMealPlanning {
+/*class SharedPreferencesMealPlanning {
   SharedPreferences? _prefs;
 
   Future<void> open() async {
@@ -132,4 +132,4 @@ Map<String, List<String>> _decodeMealPlanning(String mealPlanningString) {
     return {};
   }
 }
-}
+}*/
