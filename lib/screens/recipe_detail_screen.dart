@@ -5,10 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
 import 'package:recipe_organizer_frontend/models/recipe.dart';
-import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
+import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
-SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList(UserStorage().getId().toString());
+SecureStorageShoppingList _SlStorage = SecureStorageShoppingList();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
   final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -26,14 +26,9 @@ class RecipeDetailScreenWeb extends StatefulWidget {
 class _DetailspageState extends State<RecipeDetailScreenWeb> {
   
 
-    void _updateShoppingList() async {
-    await _databaseHelper.open();
-  }
-
 @override
   void initState() {
     super.initState();
-    _updateShoppingList();
   }
 
   @override
@@ -237,8 +232,7 @@ class Ingridientitem extends StatelessWidget {
   });
 
   void _insertShoppingList(String name, String quantity) async {
-    await _databaseHelper.open();
-    await _databaseHelper.insertShoppingListItem2(name,quantity);
+    await _SlStorage.insertShoppingListItem2(name,quantity);
   }
 
   @override

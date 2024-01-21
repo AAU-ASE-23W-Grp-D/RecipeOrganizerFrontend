@@ -7,7 +7,6 @@ import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
-import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 SecureStorageMealPlanning _pref_mp = SecureStorageMealPlanning();
 

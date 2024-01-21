@@ -4,6 +4,7 @@ import 'package:recipe_organizer_frontend/utils/secure_storage.dart';
 
 class SecureStorageMealPlanning {
   final SecureStorage _secureStorage = SecureStorage();
+  final String _keyMealPlan = 'meal_planning';
 
   Future<void> insertRecipe(String day, String recipe) async {
     final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
@@ -11,7 +12,7 @@ class SecureStorageMealPlanning {
     recipes.add(recipe);
     mealPlanning[day] = recipes;
     await _secureStorage.write(
-      key: 'meal_planning',
+      key: _keyMealPlan,
       value: _encodeMealPlanning(mealPlanning),
     );
   }
@@ -22,7 +23,7 @@ class SecureStorageMealPlanning {
     recipes.remove(recipe);
     mealPlanning[day] = recipes;
     await _secureStorage.write(
-      key: 'meal_planning',
+      key: _keyMealPlan,
       value: _encodeMealPlanning(mealPlanning),
     );
   }
@@ -31,7 +32,7 @@ class SecureStorageMealPlanning {
     final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
     mealPlanning.remove(day);
     await _secureStorage.write(
-      key: 'meal_planning',
+      key: _keyMealPlan,
       value: _encodeMealPlanning(mealPlanning),
     );
   }
@@ -42,7 +43,7 @@ class SecureStorageMealPlanning {
   }
 
   Future<Map<String, List<String>>> getMealPlanning() async {
-    final String? mealPlanningString = await _secureStorage.read(key: 'meal_planning');
+    final String? mealPlanningString = await _secureStorage.read(key: _keyMealPlan);
     return _decodeMealPlanning(mealPlanningString ?? '{}');
   }
 

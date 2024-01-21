@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
-import 'package:recipe_organizer_frontend/utils/shared_preferences.dart';
+import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,7 +74,7 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  SharedPreferencesShoppingList _databaseHelper = SharedPreferencesShoppingList(UserStorage().getId().toString());
+  final SecureStorageShoppingList _slStorage = SecureStorageShoppingList();
   List<ShoppingListItem> ingredientsList = [];
 
   @override
@@ -85,8 +85,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
   }
 
   void _updateShoppingList() async {
-    await _databaseHelper.open();
-    List<ShoppingListItem> list = await _databaseHelper.getShoppingListItems();
+    List<ShoppingListItem> list = await _slStorage.getShoppingListItems();
     print(UserStorage().getId().toString());
     setState(() {
       ingredientsList = list;
@@ -94,19 +93,16 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
   }
 
   void _insertExample() async {
-        await _databaseHelper.open();
-    await _databaseHelper.insertShoppingListItem2("example","example");
+    await _slStorage.insertShoppingListItem2("example","example");
   }
 
   void deleteItem(int index) async {
-    await _databaseHelper.open();
-    await _databaseHelper.deleteShoppingListItem(index);
+    await _slStorage.deleteShoppingListItem(index);
     _updateShoppingList();
   }
 
   void deleteAllItems() async {
-    await _databaseHelper.open();
-    await _databaseHelper.deleteAllShoppingListItems();
+    await _slStorage.deleteAllShoppingListItems();
     _updateShoppingList();
   }
 
