@@ -5,7 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
 import 'package:recipe_organizer_frontend/models/recipe.dart';
+import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
+
+SecureStorageShoppingList _SlStorage = SecureStorageShoppingList();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
   final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -21,6 +25,13 @@ class RecipeDetailScreenWeb extends StatefulWidget {
   State<RecipeDetailScreenWeb> createState() => _DetailspageState();
 }
 class _DetailspageState extends State<RecipeDetailScreenWeb> {
+
+
+@override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -221,6 +232,10 @@ class Ingridientitem extends StatelessWidget {
     this.measurement = ""
   });
 
+  void _insertShoppingList(String name, String quantity) async {
+    await _SlStorage.insertShoppingListItem2(name,quantity);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -231,7 +246,9 @@ class Ingridientitem extends StatelessWidget {
         Text(": "),
         Text(this.measurement),
         Spacer(),
-        IconButton(onPressed: () {}, icon: Icon(CupertinoIcons.add))
+        IconButton(onPressed: () {
+          _insertShoppingList(name, measurement);
+        }, icon: Icon(CupertinoIcons.add))
       ],
     );
   }
@@ -283,18 +300,13 @@ class creatorRecipe extends StatelessWidget {
                   Row(
                     children: [
                       for (int i = 1; i <= 5; i++)
-                        GestureDetector(
-                          onTap: () {
-                            updateRating(widget.recipe.ID, i);
-                          },
-                          child: Icon(
-                            Icons.star,
-                            color: i <= widget.recipe.rating
-                                ? primary
-                                : Colors.grey.withOpacity(0.6),
-                            size: 15,
-                          ),
-                        )
+                        Icon(
+                          Icons.star,
+                          color: i <= widget.recipe.rating
+                              ? primary
+                              : Colors.grey.withOpacity(0.6),
+                          size: 15,
+                        ),
                     ],
                   ),
                   Text("Ratings: ${widget.recipe.rating_amount}",style: const TextStyle(fontSize: 12,color: textColor),)
