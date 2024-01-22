@@ -1,0 +1,27 @@
+name: Integration Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.8.1'
+
+      - name: Run Chromedriver
+        run: |
+          sudo apt-get install -yqq unzip
+          wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+          unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+          chromedriver --url-base=/wd/hub &
+
+      - name: Run tests
+        run: |
+          flutter drive --driver=test_driver/app.dart --target=integration_test/app_test.dart -d web-server --no-headless
