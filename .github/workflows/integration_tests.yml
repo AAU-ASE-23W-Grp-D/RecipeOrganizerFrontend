@@ -18,13 +18,25 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
           architecture: x64
 
+      - name: Disable analytics
+        run: |
+          flutter config --no-analytics
+          dart --disable-analytics
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: 'stable'
+
       - name: Run Chromedriver
         run: |
+          CHROME_VERSION=$(google-chrome-stable --version | cut -d ' ' -f3 | cut -d '.' -f1)
+          CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
           sudo apt-get install -yqq unzip
-          wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+          wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
           unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
-          chromedriver --url-base=/wd/hub &
+          chromedriver --url-base=/wd/hub --port=4444 &
 
       - name: Run tests
         run: |
-          flutter drive --driver=test_driver/app.dart --target=integration_test/app_test.dart -d web-server --no-headless
+          flutter drive --driver=test_driver/app.dart --target=integration_test/app_test.dart -d web-server
