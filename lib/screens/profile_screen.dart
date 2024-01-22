@@ -101,6 +101,8 @@ class UserProfilePage extends StatelessWidget {
                 ),
               ],
             ),
+      // When pressed, it opens a dialog with a text field for the recipe name and an "Add" button.
+      // The "Add" button, when pressed, navigates to the `AddRecipePage` with the entered recipe name.
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showDialog(
