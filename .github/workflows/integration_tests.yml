@@ -1,7 +1,16 @@
 name: Integration Tests
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+      - 'frontend_testing'
+  pull_request:
+    branches:
+      - 'main'
 
+run-name: Integration Test by ${{ github.actor }}
 jobs:
   test:
     runs-on: ubuntu-latest
