@@ -52,6 +52,8 @@ dependencies:
   sqflite_common_ffi_web: ^0.4.2+3
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 
