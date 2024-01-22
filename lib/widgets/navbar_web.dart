@@ -71,7 +71,7 @@ class _MyHomePageWebState extends State<MyHomePageWeb> {
                    //SizedBox(height: 1000,),
                    const Padding(
                      padding: EdgeInsets.all(8.0),
-                     child: GridB(fetchFunction: fetchRecipes,),
+                     //child: GridB(fetchFunction: fetchRecipes,),
                    ),
              ],
            ),
