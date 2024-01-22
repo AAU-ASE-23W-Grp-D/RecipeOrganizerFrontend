@@ -26,7 +26,7 @@ jobs:
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 'stable'
+          chrome-version: '120.0.6099.109'
 
       - name: Run Chromedriver
         run: |
