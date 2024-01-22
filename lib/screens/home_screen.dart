@@ -57,7 +57,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
           actions:  [
             Padding(
               padding: EdgeInsets.only(right: 16.0),
-              child: loggedIn ? CircleAvatar(child: _ProfileIcon()):null,
+              child: loggedIn ? CircleAvatar(child: ProfileIcon()):null,
             )
           ],
         ),
@@ -116,26 +116,7 @@ Widget _navBarItems(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      // Your search bar widget
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
-        child: SizedBox(
-          width: 200, // Adjust the width as needed
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search...',
-            ),
-            onChanged: (searchQuery) {
-              // Handle search query changes
-            },
-          ),
-        ),
-      ),
-
-      // Spacer to separate the search bar from menu items
-      SizedBox(width: 16),
-
-      // Your menu items
+      // The menu items
       ...filteredMenuItems.map(
         (item) => InkWell(
           onTap: () {
@@ -187,14 +168,14 @@ final List<String> _menuItems = <String>[
 
 enum Menu { itemOne, itemTwo, itemThree }
 
-class _ProfileIcon extends StatefulWidget {
-  const _ProfileIcon({Key? key}) : super(key: key);
+class ProfileIcon extends StatefulWidget {
+  const ProfileIcon({Key? key}) : super(key: key);
 
   @override
   _ProfileIconState createState() => _ProfileIconState();
 }
 
-class _ProfileIconState extends State<_ProfileIcon> {
+class _ProfileIconState extends State<ProfileIcon> {
   final UserStorage _userStorage = UserStorage();
   int ownRecipes = 0;
 
