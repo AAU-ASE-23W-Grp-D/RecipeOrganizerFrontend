@@ -11,7 +11,7 @@ void main() {
     // Build our widget and trigger a frame.
     mockNetworkImagesFor(() => tester.pumpWidget(
       MaterialApp(
-        home: RecipeDetailScreenWeb(),
+        //home: RecipeDetailScreenWeb(recipe: null,),
       ),
     ));
 
@@ -33,7 +33,7 @@ void main() {
     (WidgetTester tester) async {
       mockNetworkImagesFor(() => tester.pumpWidget(
         MaterialApp(
-        home: RecipeDetailScreenWeb(),
+        //home: RecipeDetailScreenWeb(recipe: null,),
       ),
       ));
     },

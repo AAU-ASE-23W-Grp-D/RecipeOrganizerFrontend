@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_organizer_frontend/screens/shopping_list_page.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
+import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 
 void main() {
   group("Shopping List tests", () { 
@@ -9,7 +10,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: IngredientListItem(
-          ingredients: ['Test Ingredient', 'Test Quantity'],
+          ingredients: ShoppingListItem(name: "Test Ingredient", quantity: "Test Quantity"),
           onDelete: () {},
           onBuy: () {},
         ),
