@@ -63,7 +63,7 @@ class AddRecipePageState extends State<AddRecipePage> {
 
             //Add a "Save Recipe" button here
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if(ingredients.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -92,7 +92,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                     return '${parts[0]}*${parts.sublist(1).join(' ')}';
                   })
                       .join(',');
-                  Api().postRecipe(
+                  await Api().postRecipe(
                       Recipe(
                           ID: 0,
                           name: widget.recipeName,
@@ -111,6 +111,7 @@ class AddRecipePageState extends State<AddRecipePage> {
             // Add additional UI elements or logic here
           ],
         ),
+      ),
       ),
     );
   }
