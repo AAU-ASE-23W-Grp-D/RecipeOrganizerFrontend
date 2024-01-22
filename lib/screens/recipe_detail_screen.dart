@@ -246,9 +246,9 @@ class Ingridientitem extends StatelessWidget {
       children: [
         Icon(Icons.trip_origin, color: primary, size: 20,),
         SizedBox(width: 4,),
-        Text(this.name,style: TextStyle(color: inActiveColor),),
+        Text(key: Key("ing_name"), name,style: TextStyle(color: inActiveColor),),
         Text(": "),
-        Text(this.measurement),
+        Text(key: Key("ing_measurement"),this.measurement),
         Spacer(),
         IconButton(onPressed: () {
           _insertShoppingList(name, measurement);

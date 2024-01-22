@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +9,7 @@ import 'package:mockito/mockito.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 void main() {
   late Uint8List imageData;
   late Recipe recipe;
@@ -27,13 +29,76 @@ void main() {
         home: RecipeDetailScreenWeb(recipe: recipe),
       ),
     );
-
-    // Wait for the network images to load
-    
-      // Verify if the widget renders correctly.
-      expect(find.text('Description'), findsOneWidget);
-      expect(find.text('Ingredients'), findsOneWidget);
+      expect(find.byType(AppBar), findsOneWidget);
+      expect(find.text('Recipe: ${recipe.name}'), findsOneWidget);
+      expect(find.byType(IngridientColumn), findsOneWidget);
+      expect(find.byType(DescriptionColumn), findsOneWidget);
+      expect(find.byType(ImageColumn), findsOneWidget);
     
   });
 
+  
+  testWidgets('RecipeDetailScreenWeb ingredients should work', (WidgetTester tester) async {
+    // Build our widget and trigger a frame.
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: RecipeDetailScreenWeb(recipe: recipe),
+      ),
+    );
+
+    expect(find.byType(IngridientColumn), findsOneWidget);
+    expect(find.byType(Ingridientitem), findsAny);
+    expect(find.byIcon(CupertinoIcons.add), findsAny);
+    expect(find.byKey(Key("ing_name")), findsAny);
+    expect(find.byKey(Key("ing_measurement")), findsAny);
+    expect(find.byIcon(Icons.trip_origin), findsAny);
+  });
+
+  
+  testWidgets('RecipeDetailScreenWeb description should work', (WidgetTester tester) async {
+    // Build our widget and trigger a frame.
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: RecipeDetailScreenWeb(recipe: recipe),
+      ),
+    );
+    
+  });
+
+  
+  testWidgets('RecipeDetailScreenWeb Image should render', (WidgetTester tester) async {
+    // Build our widget and trigger a frame.
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: RecipeDetailScreenWeb(recipe: recipe),
+      ),
+    );
+    
+  });
+
+    testWidgets('RecipeDetailScreenWeb creator should render', (WidgetTester tester) async {
+    // Build our widget and trigger a frame.
+
+        await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: CreatorRecipe(
+            widget: RecipeDetailScreenWeb(recipe: recipe),
+          ),
+        ),
+      ),
+    );
+
+    // Verify that the CreatorRecipe widget is rendered.
+    expect(find.byKey(Key("RecipeCreator")), findsOneWidget);
+    expect(find.byKey(Key("profilePicture")), findsOneWidget);
+    expect(find.text('Ratings: ${recipe.rating_amount}'), findsOneWidget); // Replace '5' with the expected rating amount.
+
+    // Verify the number of stars based on the expected rating.
+    expect(find.byIcon(Icons.star), findsNWidgets(5));
+  });
+ 
 }
