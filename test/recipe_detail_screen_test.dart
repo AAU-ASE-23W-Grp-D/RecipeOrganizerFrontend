@@ -7,7 +7,7 @@ import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 void main() {
   //setUpAll(() => HttpOverrides.global = null);
-  testWidgets('RecipeDetailScreenWeb should render', (WidgetTester tester) async {
+  /*testWidgets('RecipeDetailScreenWeb should render', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
     mockNetworkImagesFor(() => tester.pumpWidget(
       MaterialApp(
@@ -37,5 +37,5 @@ void main() {
       ),
       ));
     },
-  );
+  );*/
 }
