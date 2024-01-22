@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
-import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 
 void main() {
-
-  setUpAll(() async {
-    SecureStorageMealPlanning ml = SecureStorageMealPlanning();
-    //await ml.insertRecipe("Monday", "recipe");
-  });
   
   group("Meal Plan Testing", () { 
   testWidgets('MealPlanningScreen Appbar test', (WidgetTester tester) async {
@@ -58,6 +52,10 @@ void main() {
     await tester.pumpWidget(MaterialApp(
       home: MealPlanningScreen(),
     ));
+
+    String day = "Monday";
+    String recipe = "Pommes";
+    recipeMap[day]?.add(recipe);
 
     expect(find.text('Monday'), findsOneWidget);
     await tester.tap(find.text('Monday'));
