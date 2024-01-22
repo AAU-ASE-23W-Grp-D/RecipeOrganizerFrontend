@@ -53,8 +53,8 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
     _updateMealPlan();
   }
 
-  Future<List<String>> fetchRecipeNames() async {
-  List<Recipe> recipes = await Api().fetchRecipes(); // Assuming fetchRecipes() returns List<Recipe>
+Future<List<String>> fetchRecipeNames() async {
+  List<Recipe> recipes = await Api().fetchRecipes(); 
   List<String> recipeNames = recipes.map((recipe) => recipe.name).toList();
   return recipeNames;
 }
@@ -129,10 +129,7 @@ void _showAddRecipeDialog(String day) {
   void addRecipe({required String day, required String recipe}) async {
     await _preferences.insertRecipe(day,recipe);
      Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
-
-    
     setState((){
-      // Assuming you have a Map<String, List<String>> to store recipes for each day
       recipeMap = recipeMapNew;
     });
   }
@@ -242,8 +239,8 @@ void _showAddRecipeDialog(String day) {
                   style: TextStyle(color: Colors.white),
                 ),
                 trailing: IconButton(
-                  key: Key("DeleteIconButtonList"),
-                  icon: Icon(Icons.delete),
+                  key: const Key("DeleteIconButtonList"),
+                  icon: const Icon(Icons.delete),
                   onPressed: () {
                     deleteRecipes(day, recipe);
                   },

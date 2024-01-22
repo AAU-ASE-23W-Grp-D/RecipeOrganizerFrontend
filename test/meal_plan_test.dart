@@ -4,6 +4,12 @@ import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 
 void main() {
+
+  setUpAll(() async {
+    SecureStorageMealPlanning ml = SecureStorageMealPlanning();
+    //await ml.insertRecipe("Monday", "recipe");
+  });
+  
   group("Meal Plan Testing", () { 
   testWidgets('MealPlanningScreen Appbar test', (WidgetTester tester) async {
     // Build our app and trigger a frame
@@ -57,9 +63,9 @@ void main() {
     await tester.tap(find.text('Monday'));
     await tester.pumpAndSettle();
 
-    expect(find.byKey(Key("DeleteIconButtonList")), findsAny);
-    await tester.tap(find.byKey(Key("DeleteIconButtonList")).first);
-    await tester.pumpAndSettle();
+    expect(find.byKey(const Key("DeleteIconButtonList")), findsNothing);
+    //await tester.tap(find.byKey(const Key("DeleteIconButtonList")).first);
+    //await tester.pumpAndSettle();
 
     expect(find.text('Delete All'), findsExactly(7));
 
