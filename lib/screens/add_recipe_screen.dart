@@ -66,23 +66,46 @@ class AddRecipePageState extends State<AddRecipePage> {
             //Add a "Save Recipe" button here
             ElevatedButton(
               onPressed: () {
-                String formattedIngredients = ingredients //100ml Milk -> 100ml*Milk,...
-                    .map((ingredient) {
-                  List<String> parts = ingredient.split(' ');
-                  return '${parts[0]}*${parts.sublist(1).join(' ')}';
-                })
-                    .join(',');
-                Api().postRecipe(
-                    Recipe(
-                        ID: 0,
-                        name: widget.recipeName,
-                        ingredients: formattedIngredients,
-                        description: _descriptionController.text,
-                        rating: 5,
-                        rating_amount: 1,
-                        image: imageBytes),
-                context
-                );
+                if(ingredients.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please add at least one ingredient"),
+                    ),
+                  );
+                  return;
+                } else if(_descriptionController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please add a description"),
+                    ),
+                  );
+                  return;
+                } else if(image == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please add an image"),
+                    ),
+                  );
+                  return;
+                } else {
+                  String formattedIngredients = ingredients //100ml Milk -> 100ml*Milk,...
+                      .map((ingredient) {
+                    List<String> parts = ingredient.split(' ');
+                    return '${parts[0]}*${parts.sublist(1).join(' ')}';
+                  })
+                      .join(',');
+                  Api().postRecipe(
+                      Recipe(
+                          ID: 0,
+                          name: widget.recipeName,
+                          ingredients: formattedIngredients,
+                          description: _descriptionController.text,
+                          rating: 5,
+                          rating_amount: 1,
+                          image: imageBytes),
+                      context
+                  );
+                }
               },
               child: const Text("Save Recipe"),
             ),
