@@ -61,16 +61,38 @@ class AddRecipePageState extends State<AddRecipePage> {
               ),
               _buildSeparatorLine(),
 
-              //Add a "Save Recipe" button here
-              ElevatedButton(
-                onPressed: () async {
+            //Add a "Save Recipe" button here
+            ElevatedButton(
+              onPressed: () {
+                if(ingredients.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please add at least one ingredient"),
+                    ),
+                  );
+                  return;
+                } else if(_descriptionController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please add a description"),
+                    ),
+                  );
+                  return;
+                } else if(image == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Please add an image"),
+                    ),
+                  );
+                  return;
+                } else {
                   String formattedIngredients = ingredients //100ml Milk -> 100ml*Milk,...
                       .map((ingredient) {
                     List<String> parts = ingredient.split(' ');
                     return '${parts[0]}*${parts.sublist(1).join(' ')}';
                   })
                       .join(',');
-                  await Api().postRecipe(
+                  Api().postRecipe(
                       Recipe(
                           ID: 0,
                           name: widget.recipeName,
@@ -81,13 +103,13 @@ class AddRecipePageState extends State<AddRecipePage> {
                           image: imageBytes),
                       context
                   );
-                },
-                child: const Text("Save Recipe"),
-              ),
+                }
+              },
+              child: const Text("Save Recipe"),
+            ),
 
-              // Add additional UI elements or logic here
-            ],
-          ),
+            // Add additional UI elements or logic here
+          ],
         ),
       ),
     );
