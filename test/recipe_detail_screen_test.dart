@@ -20,7 +20,8 @@ void main() {
 
     recipe = Recipe(ID: 1, name: 'Recipe 1', image: imageData, ingredients: '1*Ei, 1*Ei', description: 'Description 1', rating: 5, rating_amount: 1);
   });
-  //setUpAll(() => HttpOverrides.global = null);
+
+  group('RecipeDetailScreen Tests', () {
   testWidgets('RecipeDetailScreenWeb should render', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
 
@@ -61,23 +62,43 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: RecipeDetailScreenWeb(recipe: recipe),
+        home: Scaffold(
+          body: DescriptionColumn(
+            widget: RecipeDetailScreenWeb(recipe: recipe),
+          ),
+        ),
       ),
     );
-    
-  });
 
-  
+    // Verify that the DescriptionColumn widget is rendered.
+    expect(find.byKey(Key("descriptionColumn")), findsOneWidget);
+    expect(find.text('Description'), findsOneWidget);
+    expect(find.text(recipe.description), findsOneWidget);
+    expect(find.byType(SizedBox), findsOneWidget);
+    expect(tester.getSize(find.byType(SizedBox)).height, 40); // Adjust the expected height as needed.
+  });
+    
   testWidgets('RecipeDetailScreenWeb Image should render', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
 
     await tester.pumpWidget(
       MaterialApp(
-        home: RecipeDetailScreenWeb(recipe: recipe),
+        home: Scaffold(
+          body: ImageColumn(
+            widget: RecipeDetailScreenWeb(recipe: recipe),
+          ),
+        ),
       ),
     );
-    
+
+    // Verify that the ImageColumn widget is rendered.
+    expect(find.byKey(Key("imageColumn")), findsOneWidget);
+    expect(find.byType(Padding), findsOneWidget);
+    expect(find.byType(Column), findsOneWidget);
+    expect(find.byType(ClipRRect), findsOneWidget);
+    expect(find.byType(Image), findsOneWidget);
   });
+  
 
     testWidgets('RecipeDetailScreenWeb creator should render', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
@@ -101,4 +122,5 @@ void main() {
     expect(find.byIcon(Icons.star), findsNWidgets(5));
   });
  
+  });
 }
