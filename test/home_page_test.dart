@@ -28,21 +28,29 @@ void main() {
       expect(find.byType(GridB), findsAny);
     });
 
-    testWidgets('Tap on menu item navigates to the correct screen', (WidgetTester tester) async {
-      // Build our app and trigger a frame
-      await tester.pumpWidget(
-        MaterialApp(
-          home: ResponsiveNavBarPage(),
-        ),
-      );
+      testWidgets('ProfileIcon shows PopupMenu', (WidgetTester tester) async {
+    // Build our widget and trigger a frame
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: ProfileIcon(),
+      ),
+    ));
 
-      await tester.tap(find.byType(CircleAvatar));
+    // Verify that the initial state has the icon
+    expect(find.byIcon(Icons.person), findsOneWidget);
 
-      expect(find.text("Profile"), findsOneWidget);
-      expect(find.text("Sign Out"), findsOneWidget);
-      expect(find.text("Liked Recipes"), findsOneWidget);
+    // Tap the icon to open the PopupMenu
+    await tester.tap(find.byIcon(Icons.person));
+    await tester.pumpAndSettle();
 
-    });
+    // Verify that the PopupMenu is shown
+    expect(find.byType(PopupMenuButton<Menu>), findsOneWidget);
+
+    // Verify that the PopupMenuItems are present
+    expect(find.text('Profile'), findsOneWidget);
+    expect(find.text('Liked Recipes'), findsOneWidget);
+    expect(find.text('Sign Out'), findsOneWidget);
+  });
 
     // Add more tests as needed
   });

@@ -57,7 +57,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
           actions:  [
             Padding(
               padding: EdgeInsets.only(right: 16.0),
-              child: loggedIn ? CircleAvatar(child: _ProfileIcon()):null,
+              child: loggedIn ? CircleAvatar(child: ProfileIcon()):null,
             )
           ],
         ),
@@ -168,14 +168,14 @@ final List<String> _menuItems = <String>[
 
 enum Menu { itemOne, itemTwo, itemThree }
 
-class _ProfileIcon extends StatefulWidget {
-  const _ProfileIcon({Key? key}) : super(key: key);
+class ProfileIcon extends StatefulWidget {
+  const ProfileIcon({Key? key}) : super(key: key);
 
   @override
   _ProfileIconState createState() => _ProfileIconState();
 }
 
-class _ProfileIconState extends State<_ProfileIcon> {
+class _ProfileIconState extends State<ProfileIcon> {
   final UserStorage _userStorage = UserStorage();
   int ownRecipes = 0;
 
