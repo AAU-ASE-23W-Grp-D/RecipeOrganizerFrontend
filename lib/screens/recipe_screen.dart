@@ -58,9 +58,26 @@ class _RecipeScreenState extends State<RecipeScreen> {
           width: double.maxFinite,
           child: Row(
             children: [
-              Expanded(flex: 3, child: Text(recipe.name)),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(recipe.name),
+                    Text(recipe.ingredients),
+                    Text(recipe.description),
+                    Text(recipe.rating.toString()),
+                  ],
+                ),
+              ),
               const SizedBox(width: 10),
-              Expanded(flex: 3, child: Text(recipe.description)),
+              Expanded(
+                flex: 1,
+                child: Image.memory(
+                  recipe.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ],
           ),
         );

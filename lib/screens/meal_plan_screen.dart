@@ -1,17 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-  Map<String, List<String>> recipeMap = {
-  'Monday': ['Cheeseburger', 'Pizza'],
-  'Tuesday': ['Fried Chicken'],
-  'Wednesday': ['Cheeseburger', 'Schnitzel'],
-  'Thursday': ['Cheeseburger', 'Schnitzel'],
-  'Friday': ['Schnitzel', 'Sushi'],
-  'Saturday': ['Sushi', 'Sushi'],
-  'Sunday': ['Sushi', 'Sushi'],
-};
+  Map<String, List<String>> recipeMap = {};
+  SecureStorageMealPlanning _preferences = SecureStorageMealPlanning();
 
     List<String> days = [
       'Monday',
@@ -31,81 +28,115 @@ class MealPlanningScreen extends StatefulWidget {
 class _MealPlanningScreenState extends State<MealPlanningScreen> {
   // Add your existing methods here
     // Method to delete one item from a card
-  void deleteRecipe({required String day, required String recipe}) {
+
+    @override
+  void initState() {
+    super.initState();
+    //_insertExample();
+    _updateMealPlan();
+    _loadRecipes();
+  }
+
+  void _updateMealPlan() async {
+    Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
+    
     setState(() {
-      recipeMap[day]?.remove(recipe);
+      recipeMap = recipeMapNew;
     });
   }
 
   // Method to delete all items from a card
-  void deleteAllRecipes({required String day}) {
-    setState(() {
-      recipeMap[day]?.clear();
-    });
+  void deleteAllRecipes(String day) async {
+    await _preferences.deleteAllRecipes(day);
+    _updateMealPlan();
   }
 
-    List<String> allRecipes = ['Cheeseburger', 'Pizza', 'Fried Chicken', 'Schnitzel', 'Sushi'];
+  void deleteRecipes(String day, String recipe) async {
+    await _preferences.deleteRecipe(day,recipe);
+    _updateMealPlan();
+  }
 
-  String? selectedRecipe;
+  Future<List<String>> fetchRecipeNames() async {
+  List<Recipe> recipes = await fetchRecipes(); // Assuming fetchRecipes() returns List<Recipe>
+  List<String> recipeNames = recipes.map((recipe) => recipe.name).toList();
+  return recipeNames;
+}
 
-  void _showAddRecipeDialog(String day) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          key: Key("AddMealDialog"),
-          title: Text('Add Recipe to $day'),
-          content: Column(
-            children: [
-              Text('Select a recipe:'),
-              DropdownButton<String>(
-                key: const Key("RecipeDropDown"),
-                value: selectedRecipe,
-                items: allRecipes.map((String recipe) {
-                  return DropdownMenuItem<String>(
-                    value: recipe,
-                    child: Text(recipe),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedRecipe = newValue;
-                  });
-                },
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              key: const Key("AddButtonDialog"),
-              onPressed: () {
-                // Add your logic to add the selected recipe to the day
-                if (selectedRecipe != null) {
-                  // Assuming you have a method to add a recipe to the day
-                  addRecipe(day: day, recipe: selectedRecipe!);
-                }
-                Navigator.pop(context);
+List<String> allRecipes = [];
+
+String? selectedRecipe;
+
+
+Future<void> _loadRecipes() async {
+  List<String> recipeNames = await fetchRecipeNames();
+  setState(() {
+    allRecipes = recipeNames;
+  });
+}
+
+void _showAddRecipeDialog(String day) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        key: Key("AddMealDialog"),
+        title: Text('Add Recipe to $day'),
+        content: Column(
+          children: [
+            Text('Select a recipe:'),
+            DropdownButton<String>(
+              key: const Key("RecipeDropDown"),
+              value: selectedRecipe,
+              items: allRecipes.map((String recipe) {
+                return DropdownMenuItem<String>(
+                  value: recipe,
+                  child: Text(recipe),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedRecipe = newValue;
+                });
               },
-              child: Text('OK'),
-            ),
-            ElevatedButton(
-              key: const Key("CancelButtonDialog"),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          ElevatedButton(
+            key: const Key("AddButtonDialog"),
+            onPressed: () {
+              // Add your logic to add the selected recipe to the day
+              if (selectedRecipe != null) {
+                // Assuming you have a method to add a recipe to the day
+                addRecipe(day: day, recipe: selectedRecipe!);
+              }
+              Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
+          ElevatedButton(
+            key: const Key("CancelButtonDialog"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('Cancel'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   // Method to add a recipe to a day
-  void addRecipe({required String day, required String recipe}) {
-    setState(() {
+  void addRecipe({required String day, required String recipe}) async {
+    await _preferences.insertRecipe(day,recipe);
+     Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
+
+    
+    setState((){
       // Assuming you have a Map<String, List<String>> to store recipes for each day
-      recipeMap[day]?.add(recipe);
+      recipeMap = recipeMapNew;
     });
   }
 
@@ -176,7 +207,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                         ElevatedButton(
                           key: const Key("DeleteAllButtonRecipeCard"),
                           onPressed: () {
-                            deleteAllRecipes(day: day);
+                            deleteAllRecipes(day);
                           },
                           child: Text("Delete All"),
                         ),
@@ -194,7 +225,7 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                         SizedBox(width: 8.0),
                         IconButton(
                           onPressed: () {
-                            deleteAllRecipes(day: day);
+                            deleteAllRecipes(day);
                           },
                           icon: Icon(Icons.delete),
                         ),
@@ -217,17 +248,19 @@ class _MealPlanningScreenState extends State<MealPlanningScreen> {
                   key: Key("DeleteIconButtonList"),
                   icon: Icon(Icons.delete),
                   onPressed: () {
-                    deleteRecipe(day: day, recipe: recipe);
+                    deleteRecipes(day, recipe);
                   },
                 ),
                 onTap: () {
                   // Navigate to the screen where users can view the details of the selected recipe
+                  /*
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RecipeDetailScreenWeb(),
+                      builder: (context) => RecipeDetailScreenWeb(recipe: ,),
                     ),
                   );
+                  */
                 },
               ),
           ],

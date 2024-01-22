@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
 import 'package:recipe_organizer_frontend/screens/add_recipe_screen.dart';
@@ -23,6 +24,7 @@ class UserProfilePage extends StatelessWidget {
 
   const UserProfilePage({super.key, required this.userProfile});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class UserProfilePage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(userProfile.profileImage),
+                      backgroundImage: AssetImage(userProfile.profileImage),
                     ),
                   ),
                 ),
@@ -93,12 +95,9 @@ class UserProfilePage extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   )
                 ),
-                /*
-                * Placeholder for recipes:
-                */
                 const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: GridB(), //Insert own gridview here
+                  child: GridB(fetchFunction: fetchUserRecipes,), //Insert own gridview here
                 ),
               ],
             ),

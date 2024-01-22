@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 
 class Profile {
@@ -32,7 +33,7 @@ class LikedRecipesPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: NetworkImage(profile.profileImage),
+                backgroundImage: AssetImage(profile.profileImage),
               ),
             ),
           ),
@@ -70,7 +71,7 @@ class LikedRecipesPage extends StatelessWidget {
 
           const Padding(
             padding: EdgeInsets.all(8.0),
-            child: GridB(),
+            child: GridB(fetchFunction: fetchLikedRecipes,),
           )
         ]
       )

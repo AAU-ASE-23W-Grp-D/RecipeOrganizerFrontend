@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
+import 'package:recipe_organizer_frontend/utils/user_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientListItem extends StatelessWidget {
-  final List<String> ingredients;
+  final ShoppingListItem ingredients;
   final VoidCallback onDelete;
   final VoidCallback onBuy;
 
@@ -31,7 +34,7 @@ class IngredientListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                ingredients[0],
+                ingredients.name,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -39,7 +42,7 @@ class IngredientListItem extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                ingredients[1],
+                ingredients.quantity,
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -71,23 +74,36 @@ class ShoppingListScreen extends StatefulWidget {
 }
 
 class _ShoppingListScreenState extends State<ShoppingListScreen> {
-  List<List<String>> ingredientsList = [
-    ['Ingredient 1', 'Quantity 1'],
-    ['Ingredient 2', 'Quantity 2'],
-    ['Ingredient 3', 'Quantity 3'],
-    // Add more ingredients as needed
-  ];
+  final SecureStorageShoppingList _slStorage = SecureStorageShoppingList();
+  List<ShoppingListItem> ingredientsList = [];
 
-  void deleteItem(int index) {
+  @override
+  void initState() {
+    super.initState();
+    //_insertExample();
+    _updateShoppingList();
+  }
+
+  void _updateShoppingList() async {
+    List<ShoppingListItem> list = await _slStorage.getShoppingListItems();
+    print(UserStorage().getId().toString());
     setState(() {
-      ingredientsList.removeAt(index);
+      ingredientsList = list;
     });
   }
 
-  void deleteAllItems() {
-    setState(() {
-      ingredientsList.clear();
-    });
+  void _insertExample() async {
+    await _slStorage.insertShoppingListItem2("example","example");
+  }
+
+  void deleteItem(int index) async {
+    await _slStorage.deleteShoppingListItem(index);
+    _updateShoppingList();
+  }
+
+  void deleteAllItems() async {
+    await _slStorage.deleteAllShoppingListItems();
+    _updateShoppingList();
   }
 
   @override

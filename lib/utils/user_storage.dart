@@ -6,6 +6,9 @@ class UserStorage {
   static const String _userIdKey = 'user_id';
   static const String _userNameKey = 'user_name';
   static const String _userRolesKey = 'user_roles';
+
+  static const String _totalCreatedRecipesKey = 'total_created_recipes';
+
   final SecureStorage _storage = SecureStorage();
   final TokenStorage _tokenStorage = TokenStorage();
 
@@ -23,6 +26,14 @@ class UserStorage {
   Future<List<String>?> getRoles() async {
     String? roles = await _storage.read(key: _userRolesKey);
     return roles?.split(',');
+  }
+
+  Future<int?> getTotalCreatedRecipes() async {
+    return int.tryParse(await _storage.read(key: _totalCreatedRecipesKey) ?? '');
+  }
+
+  Future<void> saveTotalCreatedRecipes(int totalCreatedRecipes) async {
+    await _storage.write(key: _totalCreatedRecipesKey, value: totalCreatedRecipes.toString());
   }
 
   // Store the user info and JWT token securely
