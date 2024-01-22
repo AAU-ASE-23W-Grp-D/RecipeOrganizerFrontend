@@ -72,7 +72,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                   return '${parts[0]}*${parts.sublist(1).join(' ')}';
                 })
                     .join(',');
-                postRecipe(
+                Api().postRecipe(
                     Recipe(
                         ID: 0,
                         name: widget.recipeName,

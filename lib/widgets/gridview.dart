@@ -7,7 +7,7 @@ import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 SecureStorageMealPlanning _pref_mp = SecureStorageMealPlanning();
 
 
@@ -56,7 +56,7 @@ class _GridBState extends State<GridB> {
         } else {
           List<Recipe> recipes = snapshot.data as List<Recipe>;
 
-          if(widget.fetchFunction == fetchUserRecipes) { //if profile page is loaded calculate total created recipes
+          if(widget.fetchFunction == Api().fetchUserRecipes) { //if profile page is loaded calculate total created recipes
             totalCreatedRecipes = recipes.length;
             UserStorage().saveTotalCreatedRecipes(totalCreatedRecipes);
           }

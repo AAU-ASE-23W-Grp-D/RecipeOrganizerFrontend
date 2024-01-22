@@ -11,7 +11,7 @@ class Registration extends StatefulWidget {
 class _RegistrationPageState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+
     TextEditingController usernameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
@@ -76,7 +76,7 @@ class _RegistrationPageState extends State<Registration> {
                 child: ElevatedButton(
                   key: const Key('registerButton'),
                   onPressed: () {
-                    register(
+                    Api().register(
                         usernameController.text,
                         emailController.text,
                         passwordController.text,

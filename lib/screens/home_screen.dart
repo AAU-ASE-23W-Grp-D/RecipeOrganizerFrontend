@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
-import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:recipe_organizer_frontend/widgets/footer.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
@@ -12,15 +11,14 @@ import 'package:recipe_organizer_frontend/screens/profile_screen.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
 import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 
-bool logged_in = true;
+bool loggedIn = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
   ResponsiveNavBarPage({Key? key}) : super(key: key);
-  final SecureStorageShoppingList _databaseHelper = SecureStorageShoppingList();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final Future<List<Recipe>> futureRecipe = fetchRecipes();
+  final Future<List<Recipe>> futureRecipe = Api().fetchRecipes();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +57,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
           actions:  [
             Padding(
               padding: EdgeInsets.only(right: 16.0),
-              child: logged_in ? CircleAvatar(child: _ProfileIcon()):null,
+              child: loggedIn ? CircleAvatar(child: _ProfileIcon()):null,
             )
           ],
         ),
@@ -88,7 +86,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
                    //SizedBox(height: 1000,),
                    Padding(
                      padding: EdgeInsets.symmetric(horizontal:MediaQuery.sizeOf(context).width*0.05, vertical: 8.0),
-                     child: const GridB(fetchFunction: fetchRecipes),
+                     child: GridB(fetchFunction: Api().fetchRecipes),
                    ),
              ],
            ),
@@ -113,7 +111,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
 }
 
 Widget _navBarItems(BuildContext context) {
-  List<String> filteredMenuItems = logged_in ? _menuItems.where((item) => item != "Login").toList() : _menuItems;
+  List<String> filteredMenuItems = loggedIn ? _menuItems.where((item) => item != "Login").toList() : _menuItems;
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,7 +201,7 @@ class _ProfileIconState extends State<_ProfileIcon> {
   @override
   void initState() {
     super.initState();
-    fetchUserRecipes().then((recipes) {
+    Api().fetchUserRecipes().then((recipes) {
       setState(() {
         ownRecipes = recipes.length;
       });
@@ -214,7 +212,7 @@ class _ProfileIconState extends State<_ProfileIcon> {
   Widget build(BuildContext context) {
     String? username;
 
-    if(logged_in) {
+    if(loggedIn) {
       _userStorage.getUserName().then((value) => username = value);
       _userStorage.saveTotalCreatedRecipes(ownRecipes);
     }
@@ -253,7 +251,7 @@ class _ProfileIconState extends State<_ProfileIcon> {
             );
           }
           else if (item == Menu.itemThree) {
-            signout(context);
+            Api().signout(context);
           }
 
         },

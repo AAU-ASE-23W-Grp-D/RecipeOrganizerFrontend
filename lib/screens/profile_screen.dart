@@ -95,9 +95,9 @@ class UserProfilePage extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   )
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: GridB(fetchFunction: fetchUserRecipes,), //Insert own gridview here
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GridB(fetchFunction: Api().fetchUserRecipes,), //Insert own gridview here
                 ),
               ],
             ),
