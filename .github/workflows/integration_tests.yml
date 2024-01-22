@@ -10,10 +10,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Flutter
-        uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.8.1'
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+          architecture: x64
 
       - name: Run Chromedriver
         run: |
