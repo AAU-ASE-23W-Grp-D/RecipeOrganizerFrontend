@@ -116,26 +116,7 @@ Widget _navBarItems(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      // Your search bar widget
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
-        child: SizedBox(
-          width: 200, // Adjust the width as needed
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search...',
-            ),
-            onChanged: (searchQuery) {
-              // Handle search query changes
-            },
-          ),
-        ),
-      ),
-
-      // Spacer to separate the search bar from menu items
-      SizedBox(width: 16),
-
-      // Your menu items
+      // The menu items
       ...filteredMenuItems.map(
         (item) => InkWell(
           onTap: () {

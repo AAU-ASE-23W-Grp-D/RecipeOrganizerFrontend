@@ -36,14 +36,12 @@ void main() {
         ),
       );
 
-      // Tap on "Meal Plan" menu item
-      await tester.tap(find.text('Meal Plan'));
-      await tester.pumpAndSettle();
+      await tester.tap(find.byType(CircleAvatar));
 
-      // Verify that the MealPlanningScreen is rendered
-      expect(find.byType(MealPlanningScreen), findsOneWidget);
+      expect(find.text("Profile"), findsOneWidget);
+      expect(find.text("Sign Out"), findsOneWidget);
+      expect(find.text("Liked Recipes"), findsOneWidget);
 
-      // You can add similar tests for other menu items
     });
 
     // Add more tests as needed
