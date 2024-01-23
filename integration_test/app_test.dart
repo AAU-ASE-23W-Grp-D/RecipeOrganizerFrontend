@@ -18,10 +18,12 @@ void main() {
     app.main();
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextFormField).at(0), 'testUser2');
+    await Future.delayed(const Duration(seconds: 1));
     await tester.enterText(find.byType(TextFormField).at(1), '12345678');
+    await Future.delayed(const Duration(seconds: 1));
     await tester.tap(find.byKey(const Key('loginButton')));
     await tester.pumpAndSettle();
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
     expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
   }
 
