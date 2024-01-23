@@ -17,7 +17,7 @@ void main() {
   Future<void> login(WidgetTester tester) async {
     app.main();
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextFormField).at(0), 'testUser2');
+    await tester.enterText(find.byType(TextFormField).at(0), 'admin');
     await Future.delayed(const Duration(seconds: 1));
     await tester.enterText(find.byType(TextFormField).at(1), '12345678');
     await Future.delayed(const Duration(seconds: 1));
