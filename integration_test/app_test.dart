@@ -226,27 +226,33 @@ void main() {
         testWidgets('Test if the shopping list works', (WidgetTester tester) async {
           await login(tester);
 
+          //opens the recipe detail screen
           await tester.tap(find.byIcon(CupertinoIcons.search).first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
-
           expect(find.byType(RecipeDetailScreenWeb), findsOneWidget);
 
+          //adds an ingredient to the shopping list
           await tester.tap(find.byIcon(CupertinoIcons.add).first);
           await tester.pumpAndSettle();
           await Future.delayed(const Duration(seconds: 2));
 
+          //moves back to the main page
           await tester.tap(find.byTooltip("Back"));
           await tester.pumpAndSettle();
           await Future.delayed(const Duration(seconds: 2));
 
+          //moves to the shopping list screen
           await tester.tap(find.text("Shopping List").first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
           expect(find.byType(ShoppingListScreen), findsOneWidget);
 
+          //checks if there is an ingredientlistitem
           expect(find.byType(IngredientListItem), findsAtLeast(1));
           expect(find.byIcon(Icons.delete), findsAtLeast(1));
+
+          //deletes it and checks if it works
           await tester.tap(find.byIcon(Icons.delete));
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
