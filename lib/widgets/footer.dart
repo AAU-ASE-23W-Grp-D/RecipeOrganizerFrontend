@@ -6,30 +6,36 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.sizeOf(context).height*0.2,
+      height: MediaQuery.sizeOf(context).height*0.1,
       color: Colors.black, // Black background color
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Created by:",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),)
+            ],
+          ),
           // Column 1
           Column(
             children: [
               Text(
-                'Home',
+                'Sandro Moser',
                 style: TextStyle(
-                  color: Colors.white, // White text color
-                  fontWeight: FontWeight.bold,
+                  color: Colors.white, 
                 ),
               ),
               Text(
-                'Meal Plan',
+                'Mario Leopold',
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
               Text(
-                'Shopping List',
+                'Christian Schönberg',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -41,45 +47,14 @@ class Footer extends StatelessWidget {
           Column(
             children: [
               Text(
-                'Profile',
+                'Merlin Christopher Godot Volkmer',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                'Liked Recipes',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                'Sign Out',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-
-          // Column 3
-          Column(
-            children: [
-              Text(
-                'Recipes',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Create Recipe',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                'My Recipes',
+                'Stefan Philipp Schellander',
                 style: TextStyle(
                   color: Colors.white,
                 ),
