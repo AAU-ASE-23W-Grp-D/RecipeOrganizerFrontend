@@ -24,6 +24,7 @@ void main() {
     await tester.tap(find.byKey(const Key('loginButton')));
     await tester.pumpAndSettle();
     await Future.delayed(const Duration(seconds: 3));
+    debugDumpApp();
     expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
   }
 
@@ -47,18 +48,15 @@ void main() {
 
       //Open the popupmenu and navigate to profile
       await tester.tap(find.byIcon(Icons.person));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byWidgetPredicate((widget) => widget is PopupMenuItem<Menu> && widget.value == Menu.itemOne));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.byType(UserProfilePage), findsOneWidget);
 
       //navigate back to homescreen
       await tester.tap(find.byIcon(Icons.arrow_back));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
@@ -69,13 +67,11 @@ void main() {
 
       //navigate to recipe detail
       await tester.tap(find.byIcon(CupertinoIcons.search).first);
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       expect(find.byType(RecipeDetailScreenWeb), findsOneWidget);
 
       //navigate back to homescreen
       await tester.tap(find.byIcon(Icons.arrow_back));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
     });
@@ -87,18 +83,15 @@ void main() {
       //Delayed because the backend needs some time to load the recipes
       await Future.delayed(const Duration(seconds: 2));
       await tester.tap(find.byIcon(Icons.person));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byWidgetPredicate((widget) => widget is PopupMenuItem<Menu> && widget.value == Menu.itemTwo));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       expect(find.byType(LikedRecipesPage), findsOneWidget);
 
       //navigate back to homescreen
       await tester.tap(find.byIcon(Icons.arrow_back));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
     });
@@ -108,25 +101,20 @@ void main() {
 
       //navigate to profile page
       await tester.tap(find.byIcon(Icons.person));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       await tester.tap(find.byWidgetPredicate((widget) => widget is PopupMenuItem<Menu> && widget.value == Menu.itemOne));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       expect(find.byType(UserProfilePage), findsOneWidget);
 
       //Click FAB
       await tester.tap(find.byIcon(Icons.add));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       //Expect a popup to appear
       expect(find.byType(AlertDialog), findsOneWidget);
       await tester.enterText(find.byType(TextField).first, 'Test Recipe 101');
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       await tester.tap(find.text("Add"));
-      await Future.delayed(const Duration(seconds: 2));
 
       //Expect the recipe screen
       await tester.pumpAndSettle();
@@ -135,26 +123,19 @@ void main() {
       //Add recipe data
       //Add ingredients
       await tester.enterText(find.byKey(const Key("ingredientTextField")), '100ml Milk');
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key("addIngredientButton")));
-      await Future.delayed(const Duration(seconds: 2));
-      await tester.pumpAndSettle();
-
 
       //Add description
       await tester.enterText(find.byKey(const Key("descriptionTextField")), 'This is a testDescription');
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       //Add image
       await tester.tap(find.byKey(const Key("uploadImageButton")));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       //Save Recipe
       await tester.tap(find.text("Save Recipe"));
-      await Future.delayed(const Duration(seconds: 2));
       await tester.pumpAndSettle();
 
       //Expect success alert dialog (Delay for backend response time)
