@@ -144,20 +144,9 @@ void main() {
 //Ich hab die Integration Test auskommentiert weil sie auf Github noch nicht funktionieren
 //Lokal sollte es gehen wenn das Backend läuft.
     /*testWidgets('Test if the meal plan works', (WidgetTester tester) async {
-          app.main();
-          await tester.pumpAndSettle();
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(0), 'testUser2');
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(1), '12345678');
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.tap(find.byKey(const Key('loginButton')));
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.pumpAndSettle();
+          await login(tester);
 
-          await Future.delayed(const Duration(seconds: 2));
-          expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
-
+          //Open the alert dialog and add a meal to a day
           await tester.tap(find.byIcon(CupertinoIcons.add).first);
           await tester.pumpAndSettle();
           await Future.delayed(const Duration(seconds: 2));
@@ -167,15 +156,18 @@ void main() {
           await tester.pumpAndSettle();
           await Future.delayed(const Duration(seconds: 2));
 
+          //opens the meal plan screen
           await tester.tap(find.text("Meal Plan").first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
           expect(find.byType(MealPlanningScreen), findsOneWidget);
 
+          //checks monday if it can find it
           await tester.tap(find.text("Monday"));
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
 
+          //deletes it and checks if its gone
           expect(find.byIcon(Icons.delete), findsAtLeast(1));
           await tester.tap(find.byIcon(Icons.delete));
           await Future.delayed(const Duration(seconds: 2));
@@ -185,25 +177,15 @@ void main() {
     });
 
     testWidgets('Test if the meal plan add alertdialog works', (WidgetTester tester) async {
-          app.main();
-          await tester.pumpAndSettle();
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(0), 'testUser2');
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(1), '12345678');
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.tap(find.byKey(const Key('loginButton')));
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.pumpAndSettle();
+          await login(tester);
 
-          await Future.delayed(const Duration(seconds: 2));
-          expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
-
+          //navigates to the meal plan screen
           await tester.tap(find.text("Meal Plan").first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
           expect(find.byType(MealPlanningScreen), findsOneWidget);
 
+          //adds an item via the add button to the first day
           await tester.tap(find.text("Add").first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
@@ -217,16 +199,20 @@ void main() {
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
 
+          //presses ok to exit the alert dialog
           await tester.tap(find.text("OK").first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
 
+          //find the day where the added recipe should be
           await tester.tap(find.text("Monday"));
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
 
+          //finds the recipe
           expect(find.text("Brot"), findsOne);
 
+          //deletes all the recipes and checks if all are gone
           await tester.tap(find.text("Delete All").first);
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
@@ -238,19 +224,7 @@ void main() {
     });
 
         testWidgets('Test if the shopping list works', (WidgetTester tester) async {
-          app.main();
-          await tester.pumpAndSettle();
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(0), 'testUser2');
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(1), '12345678');
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.tap(find.byKey(const Key('loginButton')));
-          await Future.delayed(const Duration(seconds: 2));
-          await tester.pumpAndSettle();
-
-          await Future.delayed(const Duration(seconds: 2));
-          expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
+          await login(tester);
 
           await tester.tap(find.byIcon(CupertinoIcons.search).first);
           await Future.delayed(const Duration(seconds: 2));
