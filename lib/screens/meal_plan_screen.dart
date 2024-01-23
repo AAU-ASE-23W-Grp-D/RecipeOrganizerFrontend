@@ -4,18 +4,18 @@ import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 
-  Map<String, List<String>> recipeMap = {};
-  SecureStorageMealPlanning _preferences = SecureStorageMealPlanning();
+Map<String, List<String>> recipeMap = {};
+SecureStorageMealPlanning _preferences = SecureStorageMealPlanning();
 
-    List<String> days = [
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-      'Sunday',
-    ];
+List<String> days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
 
 class MealPlanningScreen extends StatefulWidget {
   const MealPlanningScreen({super.key});
@@ -25,20 +25,19 @@ class MealPlanningScreen extends StatefulWidget {
 }
 
 class MealPlanningScreenState extends State<MealPlanningScreen> {
-  // Add your existing methods here
-    // Method to delete one item from a card
 
-    @override
+//updates the meal plan from the secure storage and gets all recipes for the alert dropdown
+  @override
   void initState() {
     super.initState();
-    //_insertExample();
     _updateMealPlan();
     _loadRecipes();
   }
 
+//updates the meal plan
   void _updateMealPlan() async {
-    Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
-    
+    Map<String, List<String>> recipeMapNew =
+        await _preferences.getMealPlanning();
     setState(() {
       recipeMap = recipeMapNew;
     });
@@ -50,95 +49,97 @@ class MealPlanningScreenState extends State<MealPlanningScreen> {
     _updateMealPlan();
   }
 
+//deletes a recipe from a specific day
   void deleteRecipes(String day, String recipe) async {
-    await _preferences.deleteRecipe(day,recipe);
+    await _preferences.deleteRecipe(day, recipe);
     _updateMealPlan();
   }
 
-Future<List<String>> fetchRecipeNames() async {
-  List<Recipe> recipes = await Api().fetchRecipes(); 
-  List<String> recipeNames = recipes.map((recipe) => recipe.name).toList();
-  return recipeNames;
-}
+//gets the names from all the recipes from the local database
+  Future<List<String>> fetchRecipeNames() async {
+    List<Recipe> recipes = await Api().fetchRecipes();
+    List<String> recipeNames = recipes.map((recipe) => recipe.name).toList();
+    return recipeNames;
+  }
 
-List<String> allRecipes = [];
+  List<String> allRecipes = [];
 
-String? selectedRecipe;
+  String? selectedRecipe;
 
-
-Future<void> _loadRecipes() async {
-  List<String> recipeNames = await fetchRecipeNames();
-  setState(() {
-    allRecipes = recipeNames;
-  });
-}
-
-void _showAddRecipeDialog(String day) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        key: const Key("AddMealDialog"),
-        title: Text('Add Recipe to $day'),
-        content: SizedBox(
-          height: 150,
-          child: Column(
-            children: [
-              const Text('Select a recipe:'),
-              DropdownButton<String>(
-                key: const Key("RecipeDropDown"),
-                value: selectedRecipe,
-                items: allRecipes.map((String recipe) {
-                  return DropdownMenuItem<String>(
-                    value: recipe,
-                    child: Text(recipe),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedRecipe = newValue;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          ElevatedButton(
-            key: const Key("AddButtonDialog"),
-            onPressed: () {
-              // Add your logic to add the selected recipe to the day
-              if (selectedRecipe != null) {
-                // Assuming you have a method to add a recipe to the day
-                addRecipe(day: day, recipe: selectedRecipe!);
-              }
-              Navigator.pop(context);
-            },
-            child: const Text('OK'),
-          ),
-          ElevatedButton(
-            key: const Key("CancelButtonDialog"),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Cancel'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-  // Method to add a recipe to a day
-  void addRecipe({required String day, required String recipe}) async {
-    await _preferences.insertRecipe(day,recipe);
-     Map<String, List<String>> recipeMapNew = await _preferences.getMealPlanning();
-    setState((){
-      recipeMap = recipeMapNew;
+//loads the recipes in the alert dialog
+  Future<void> _loadRecipes() async {
+    List<String> recipeNames = await fetchRecipeNames();
+    setState(() {
+      allRecipes = recipeNames;
     });
   }
 
+//alert dialog that shows all recipes name to add to a specific day in the meal plan
+  void _showAddRecipeDialog(String day) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          key: const Key("AddMealDialog"),
+          title: Text('Add Recipe to $day'),
+          content: SizedBox(
+            height: 150,
+            child: Column(
+              children: [
+                const Text('Select a recipe:'),
+                DropdownButton<String>(
+                  key: const Key("RecipeDropDown"),
+                  value: selectedRecipe,
+                  items: allRecipes.map((String recipe) {
+                    return DropdownMenuItem<String>(
+                      value: recipe,
+                      child: Text(recipe),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedRecipe = newValue;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              key: const Key("AddButtonDialog"),
+              onPressed: () {
+                // Add your logic to add the selected recipe to the day
+                if (selectedRecipe != null) {
+                  // Assuming you have a method to add a recipe to the day
+                  addRecipe(day: day, recipe: selectedRecipe!);
+                }
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+            ElevatedButton(
+              key: const Key("CancelButtonDialog"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Method to add a recipe to a day
+  void addRecipe({required String day, required String recipe}) async {
+    await _preferences.insertRecipe(day, recipe);
+    Map<String, List<String>> recipeMapNew =
+        await _preferences.getMealPlanning();
+    setState(() {
+      recipeMap = recipeMapNew;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,19 +154,25 @@ void _showAddRecipeDialog(String day) {
           children: [
             // Display recipes for each weekday
             for (String day in days)
-              _buildDayCard(day: day, recipes: recipeMap[day] ?? [], context: context),
+              _buildDayCard(
+                  day: day, recipes: recipeMap[day] ?? [], context: context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDayCard({required String day, required List<String> recipes, required context}) {
+//Card for each day of the week for the recipes to add with buttons to add, delete and delete all recipes per day
+  Widget _buildDayCard(
+      {required String day, required List<String> recipes, required context}) {
     double screenWidth = MediaQuery.sizeOf(context).width;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05, vertical: 16.0),
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.05,
+            vertical: 16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
           gradient: const LinearGradient(
