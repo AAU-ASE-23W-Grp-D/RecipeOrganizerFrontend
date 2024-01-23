@@ -1,23 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:recipe_organizer_frontend/models/shopping_list_item.dart';
 import 'package:recipe_organizer_frontend/utils/secure_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
-
-class ShoppingListItem {
-  int? id;
-  String name;
-  String quantity;
-
-  ShoppingListItem({this.id, required this.name, required this.quantity});
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'quantity': quantity,
-    };
-  }
-}
 
 class SecureStorageShoppingList {
   final String _keyShoppingList = "shopping_list";

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
+import 'package:recipe_organizer_frontend/models/shopping_list_item.dart';
 import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 
 class IngredientListItem extends StatelessWidget {

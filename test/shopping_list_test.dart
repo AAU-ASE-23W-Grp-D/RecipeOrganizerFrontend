@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:recipe_organizer_frontend/models/shopping_list_item.dart';
 import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
-import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 
 void main() {
   group("Shopping List tests", () { 
