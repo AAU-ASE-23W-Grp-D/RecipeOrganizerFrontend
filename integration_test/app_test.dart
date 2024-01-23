@@ -23,7 +23,7 @@ void main() {
     await Future.delayed(const Duration(seconds: 1));
     await tester.tap(find.byKey(const Key('loginButton')));
     await tester.pumpAndSettle();
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 5));
     debugDumpApp();
     expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
   }
