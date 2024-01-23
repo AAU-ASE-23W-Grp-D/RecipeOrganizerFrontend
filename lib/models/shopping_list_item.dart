@@ -3,6 +3,7 @@ class ShoppingListItem {
   String name;
   String quantity;
 
+//Item for the shopping list to show in the screen
   ShoppingListItem({this.id, required this.name, required this.quantity});
 
   Map<String, dynamic> toMap() {

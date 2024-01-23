@@ -61,7 +61,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
             )
           ],
         ),
-        drawer: isLargeScreen ? null : _drawer(),
+        drawer: isLargeScreen ? null : _drawer(context),
         body: SafeArea(
          child: SingleChildScrollView(
            child: Column(
@@ -91,22 +91,24 @@ class ResponsiveNavBarPage extends StatelessWidget {
     );
   }
 
-  Widget _drawer() => Drawer(
-        child: ListView(
-          children: _menuItems
-              .map((item) => ListTile(
-                    onTap: () {
-                      _scaffoldKey.currentState?.openEndDrawer();
-                    },
-                    title: Text(item),
-                  ))
-              .toList(),
-        ),
-      );
 }
 
+Widget _drawer(BuildContext context) => Drawer(
+      child: ListView(
+        children: _menuItems
+            .map((item) => ListTile(
+                  onTap: () {
+                    _handleDrawerItemClick(context, item);
+                  },
+                  title: Text(item),
+                ))
+            .toList(),
+      ),
+    );
+
 Widget _navBarItems(BuildContext context) {
-  List<String> filteredMenuItems = loggedIn ? _menuItems.where((item) => item != "Login").toList() : _menuItems;
+  List<String> filteredMenuItems =
+      loggedIn ? _menuItems.where((item) => item != "Login").toList() : _menuItems;
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,30 +117,7 @@ Widget _navBarItems(BuildContext context) {
       ...filteredMenuItems.map(
         (item) => InkWell(
           onTap: () {
-            if (item == "Login") {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginPage(title: 'Recipe Organizer: Login Page'),
-                ),
-              );
-            }
-            if (item == "Shopping List") {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ShoppingListScreen(),
-                ),
-              );
-            }
-            if (item == "Meal Plan") {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MealPlanningScreen(),
-                ),
-              );
-            }
+            _handleNavbarItemClick(context, item);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
@@ -153,10 +132,33 @@ Widget _navBarItems(BuildContext context) {
   );
 }
 
+void _handleNavbarItemClick(BuildContext context, String item) {
+if (item == "Shopping List") {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ShoppingListScreen(),
+      ),
+    );
+  } else if (item == "Meal Plan") {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MealPlanningScreen(),
+      ),
+    );
+  }
+}
+
+void _handleDrawerItemClick(BuildContext context, String item) {
+  Navigator.pop(context); // Close the drawer after selecting an item
+  _handleNavbarItemClick(context, item); // Reuse the same logic as the navbar
+}
+
+
 final List<String> _menuItems = <String>[
   'Meal Plan',
   'Shopping List',
-  'Login',
 ];
 
 

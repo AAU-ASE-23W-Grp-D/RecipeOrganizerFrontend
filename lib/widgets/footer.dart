@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Footer extends StatelessWidget {
   const Footer({super.key});
 
+//Footer with the names of the team.
   @override
   Widget build(BuildContext context) {
     return Container(
