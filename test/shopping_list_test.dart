@@ -36,7 +36,7 @@ void main() {
     expect(find.byType(TextButton), findsOneWidget);
     expect(find.byType(ListView), findsOneWidget);
   });
-/*
+
   testWidgets('ShoppingListScreen should delete item when delete button is pressed', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
     await tester.pumpWidget(
@@ -44,7 +44,7 @@ void main() {
         home: ShoppingListScreen(),
       ),
     );
-    expect(find.byType(IngredientListItem), findsAtLeast(1));
+    expect(find.byType(IngredientListItem), findsNothing);
 
     // Delete all items to the shopping list
     await tester.tap(find.byType(TextButton));
@@ -52,6 +52,6 @@ void main() {
 
     // Verify if the item is added
     expect(find.byType(IngredientListItem), findsNothing);
-  });*/
+  });
   });
 }

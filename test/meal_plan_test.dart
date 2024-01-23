@@ -53,6 +53,10 @@ void main() {
       home: MealPlanningScreen(),
     ));
 
+    String day = "Monday";
+    String recipe = "Pommes";
+    recipeMap[day]?.add(recipe);
+
     expect(find.text('Monday'), findsOneWidget);
     await tester.tap(find.text('Monday'));
     await tester.pumpAndSettle();

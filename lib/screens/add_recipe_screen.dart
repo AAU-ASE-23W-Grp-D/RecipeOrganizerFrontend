@@ -30,25 +30,24 @@ class AddRecipePageState extends State<AddRecipePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: ListView(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    "Recipe Name: \n${widget.recipeName}",
-                    style: const TextStyle(fontSize: 18),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      "Recipe Name: \n${widget.recipeName}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ),
-                ),
-                _buildImageUploadField(),
-              ],
-            ),
-            const SizedBox(height: 20),
-            _buildSeparatorLine(),
-            Expanded(
-              child: Row(
+                  _buildImageUploadField(),
+                ],
+              ),
+              const SizedBox(height: 20),
+              _buildSeparatorLine(),
+              Row( // Removed the Expanded widget here
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,12 +59,11 @@ class AddRecipePageState extends State<AddRecipePage> {
                   ),
                 ],
               ),
-            ),
-            _buildSeparatorLine(),
+              _buildSeparatorLine(),
 
             //Add a "Save Recipe" button here
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if(ingredients.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -94,7 +92,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                     return '${parts[0]}*${parts.sublist(1).join(' ')}';
                   })
                       .join(',');
-                  Api().postRecipe(
+                  await Api().postRecipe(
                       Recipe(
                           ID: 0,
                           name: widget.recipeName,
@@ -113,6 +111,7 @@ class AddRecipePageState extends State<AddRecipePage> {
             // Add additional UI elements or logic here
           ],
         ),
+      ),
       ),
     );
   }

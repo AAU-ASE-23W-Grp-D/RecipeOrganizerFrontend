@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
@@ -39,6 +40,45 @@ void main() {
       expect(find.text('Recipe 3'), findsOneWidget);
     });
   });
+
+  group('GridB', () {
+    testWidgets('GridView shows error message when backend call fails', (WidgetTester tester) async {
+      mockApi = MockApi(fetchUserRecipes: () async {
+        throw Exception('Failed to fetch recipes');
+      });
+
+      await tester.pumpWidget(MaterialApp(
+        home: GridB(fetchFunction: mockApi.fetchUserRecipes),
+      ));
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Error: Exception: Failed to fetch recipes'), findsOneWidget);
+    });
+
+    group('UI Test', () {
+      testWidgets('Each element and icon is present', (WidgetTester tester) async {
+        await tester.pumpWidget(MaterialApp(
+          home: GridB(fetchFunction: mockApi.fetchUserRecipes),
+        ));
+
+        await tester.pumpAndSettle();
+
+        // Check for GridView
+        expect(find.byType(GridView), findsOneWidget);
+
+        // Check for IconButton
+        expect(find.byType(IconButton), findsWidgets);
+
+        // Check for Icons
+        expect(find.byIcon(CupertinoIcons.heart_fill), findsWidgets);
+        expect(find.byIcon(CupertinoIcons.search), findsWidgets);
+        expect(find.byIcon(CupertinoIcons.add), findsWidgets);
+      });
+    });
+  });
+
+
 
 
 }

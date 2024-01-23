@@ -80,25 +80,28 @@ void _showAddRecipeDialog(String day) {
       return AlertDialog(
         key: const Key("AddMealDialog"),
         title: Text('Add Recipe to $day'),
-        content: Column(
-          children: [
-            const Text('Select a recipe:'),
-            DropdownButton<String>(
-              key: const Key("RecipeDropDown"),
-              value: selectedRecipe,
-              items: allRecipes.map((String recipe) {
-                return DropdownMenuItem<String>(
-                  value: recipe,
-                  child: Text(recipe),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedRecipe = newValue;
-                });
-              },
-            ),
-          ],
+        content: SizedBox(
+          height: 150,
+          child: Column(
+            children: [
+              Text('Select a recipe:'),
+              DropdownButton<String>(
+                key: const Key("RecipeDropDown"),
+                value: selectedRecipe,
+                items: allRecipes.map((String recipe) {
+                  return DropdownMenuItem<String>(
+                    value: recipe,
+                    child: Text(recipe),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    selectedRecipe = newValue;
+                  });
+                },
+              ),
+            ],
+          ),
         ),
         actions: [
           ElevatedButton(
