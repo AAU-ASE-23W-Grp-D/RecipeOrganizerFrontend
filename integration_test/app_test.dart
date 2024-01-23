@@ -75,9 +75,9 @@ void main() {
           app.main();
           await tester.pumpAndSettle();
           await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(0), 'sandro');
+          await tester.enterText(find.byType(TextFormField).at(0), 'testUser2');
           await Future.delayed(const Duration(seconds: 2));
-          await tester.enterText(find.byType(TextFormField).at(1), 'sandro');
+          await tester.enterText(find.byType(TextFormField).at(1), '12345678');
           await Future.delayed(const Duration(seconds: 2));
           await tester.tap(find.byKey(const Key('loginButton')));
           await Future.delayed(const Duration(seconds: 2));
