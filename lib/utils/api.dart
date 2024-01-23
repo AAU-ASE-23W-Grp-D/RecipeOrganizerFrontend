@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print, non_constant_identifier_names
 import 'dart:convert';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
