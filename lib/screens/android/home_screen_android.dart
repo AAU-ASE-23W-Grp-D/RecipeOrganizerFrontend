@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/android/navbar_android.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
@@ -8,7 +6,7 @@ import '../../widgets/gridview.dart';
 import '../../colors.dart';
 
 class MyHomePageApp extends StatefulWidget{
-  const MyHomePageApp({Key? key}): super(key: key);
+  const MyHomePageApp({super.key});
 
   @override
   State<MyHomePageApp> createState() => _MyHomePageAppState();
@@ -26,15 +24,15 @@ class _MyHomePageAppState extends State<MyHomePageApp>{
            child: Column(
              children: [
                    Container(
-                    constraints: BoxConstraints(maxHeight: 90.0),
-                     child: Padding(
+                    constraints: const BoxConstraints(maxHeight: 90.0),
+                     child: const Padding(
                        padding: EdgeInsets.all(8.0),
                        child: SearchBarApp(),
                      ),
                    ),
                    //SizedBox(height: 1000,),
                    Padding(
-                     padding: EdgeInsets.all(8.0),
+                     padding: const EdgeInsets.all(8.0),
                      child: GridB(fetchFunction: Api().fetchRecipes,),
                    ),
              ],

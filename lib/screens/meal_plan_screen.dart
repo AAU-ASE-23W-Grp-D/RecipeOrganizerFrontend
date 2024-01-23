@@ -18,11 +18,13 @@ import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
     ];
 
 class MealPlanningScreen extends StatefulWidget {
+  const MealPlanningScreen({super.key});
+
   @override
-  _MealPlanningScreenState createState() => _MealPlanningScreenState();
+  MealPlanningScreenState createState() => MealPlanningScreenState();
 }
 
-class _MealPlanningScreenState extends State<MealPlanningScreen> {
+class MealPlanningScreenState extends State<MealPlanningScreen> {
   // Add your existing methods here
     // Method to delete one item from a card
 
@@ -76,11 +78,11 @@ void _showAddRecipeDialog(String day) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        key: Key("AddMealDialog"),
+        key: const Key("AddMealDialog"),
         title: Text('Add Recipe to $day'),
         content: Column(
           children: [
-            Text('Select a recipe:'),
+            const Text('Select a recipe:'),
             DropdownButton<String>(
               key: const Key("RecipeDropDown"),
               value: selectedRecipe,
@@ -109,14 +111,14 @@ void _showAddRecipeDialog(String day) {
               }
               Navigator.pop(context);
             },
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
           ElevatedButton(
             key: const Key("CancelButtonDialog"),
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
         ],
       );
@@ -139,8 +141,8 @@ void _showAddRecipeDialog(String day) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        key: Key("mealplanappbar"),
-        title: Text('Meal Planning'),
+        key: const Key("mealplanappbar"),
+        title: const Text('Meal Planning'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -180,13 +182,13 @@ void _showAddRecipeDialog(String day) {
                 children: [
                   Text(
                     day,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   if (screenWidth >= 700)
                     Row(
                       children: [
@@ -195,15 +197,15 @@ void _showAddRecipeDialog(String day) {
                           onPressed: () {
                             _showAddRecipeDialog(day);
                           },
-                          child: Text("Add"),
+                          child: const Text("Add"),
                         ),
-                        SizedBox(width: 8.0),
+                        const SizedBox(width: 8.0),
                         ElevatedButton(
                           key: const Key("DeleteAllButtonRecipeCard"),
                           onPressed: () {
                             deleteAllRecipes(day);
                           },
-                          child: Text("Delete All"),
+                          child: const Text("Delete All"),
                         ),
                       ],
                     ),
@@ -214,20 +216,20 @@ void _showAddRecipeDialog(String day) {
                           onPressed: () {
                             _showAddRecipeDialog(day);
                           },
-                          icon: Icon(Icons.add),
+                          icon: const Icon(Icons.add),
                         ),
-                        SizedBox(width: 8.0),
+                        const SizedBox(width: 8.0),
                         IconButton(
                           onPressed: () {
                             deleteAllRecipes(day);
                           },
-                          icon: Icon(Icons.delete),
+                          icon: const Icon(Icons.delete),
                         ),
                       ],
                     ),
                 ],
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
             ],
           ),
           children: [
@@ -236,7 +238,7 @@ void _showAddRecipeDialog(String day) {
               ListTile(
                 title: Text(
                   recipe,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 trailing: IconButton(
                   key: const Key("DeleteIconButtonList"),

@@ -14,7 +14,7 @@ import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 bool loggedIn = true;
 
 class ResponsiveNavBarPage extends StatelessWidget {
-  ResponsiveNavBarPage({Key? key}) : super(key: key);
+  ResponsiveNavBarPage({super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -29,7 +29,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
       data: ThemeData.light(),
       child: Scaffold(
         key: _scaffoldKey,
-        bottomNavigationBar: Footer(),
+        bottomNavigationBar: const Footer(),
         appBar: AppBar(
           backgroundColor: primary,
           elevation: 0,
@@ -56,8 +56,8 @@ class ResponsiveNavBarPage extends StatelessWidget {
           ),
           actions:  [
             Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: loggedIn ? CircleAvatar(child: _ProfileIcon()):null,
+              padding: const EdgeInsets.only(right: 16.0),
+              child: loggedIn ? const CircleAvatar(child: _ProfileIcon()):null,
             )
           ],
         ),
@@ -67,8 +67,8 @@ class ResponsiveNavBarPage extends StatelessWidget {
            child: Column(
              children: [
                    Container(
-                    constraints: BoxConstraints(maxHeight: 90.0),
-                     child: Text(
+                    constraints: const BoxConstraints(maxHeight: 90.0),
+                     child: const Text(
                       "Recent:",
                       textAlign: TextAlign.right,
                       style: TextStyle(
@@ -122,7 +122,7 @@ Widget _navBarItems(BuildContext context) {
         child: SizedBox(
           width: 200, // Adjust the width as needed
           child: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Search...',
             ),
             onChanged: (searchQuery) {
@@ -133,7 +133,7 @@ Widget _navBarItems(BuildContext context) {
       ),
 
       // Spacer to separate the search bar from menu items
-      SizedBox(width: 16),
+      const SizedBox(width: 16),
 
       // Your menu items
       ...filteredMenuItems.map(
@@ -151,7 +151,7 @@ Widget _navBarItems(BuildContext context) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ShoppingListScreen(),
+                  builder: (context) => const ShoppingListScreen(),
                 ),
               );
             }
@@ -159,7 +159,7 @@ Widget _navBarItems(BuildContext context) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MealPlanningScreen(),
+                  builder: (context) => const MealPlanningScreen(),
                 ),
               );
             }
@@ -188,7 +188,7 @@ final List<String> _menuItems = <String>[
 enum Menu { itemOne, itemTwo, itemThree }
 
 class _ProfileIcon extends StatefulWidget {
-  const _ProfileIcon({Key? key}) : super(key: key);
+  const _ProfileIcon();
 
   @override
   _ProfileIconState createState() => _ProfileIconState();

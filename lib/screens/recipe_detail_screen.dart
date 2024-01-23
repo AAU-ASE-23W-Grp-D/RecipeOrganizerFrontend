@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,10 +5,8 @@ import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
-import 'package:recipe_organizer_frontend/utils/user_storage.dart';
-import 'package:recipe_organizer_frontend/utils/api.dart';
 
-SecureStorageShoppingList _SlStorage = SecureStorageShoppingList();
+SecureStorageShoppingList _slStorage = SecureStorageShoppingList();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
   final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -64,11 +61,11 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            constraints: BoxConstraints(maxHeight: 90.0),
+                            constraints: const BoxConstraints(maxHeight: 90.0),
                             child: Text(
                               widget.recipe.name,
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -120,7 +117,7 @@ class ImageColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      key: Key("imageColumn"),
+      key: const Key("imageColumn"),
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
@@ -151,7 +148,7 @@ class DescriptionColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      key: Key("descriptionColumn"),
+      key: const Key("descriptionColumn"),
       children:[
       const Padding(
         padding: EdgeInsets.all(20.0),
@@ -186,42 +183,43 @@ class IngridientColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Ingridientitem> ingredientItems = parseIngredients(widget.recipe.ingredients);
 
-    return Column(
-      key: Key("ingridientList"),
-      children: [
-        Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Text("Ingredients",style: TextStyle(fontSize: 16),),
-                  ),
-        Padding(
-                    padding: EdgeInsets.only(right:8.0),
-                    child: DottedBorder(
-                      borderType: BorderType.Rect,
-                      strokeWidth: 0.8,
-                      dashPattern: const [1,],
-                      color: inActiveColor,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: ingredientItems,
-                            ),
-                          ),
-                          
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: TextButton(
-                              onPressed: null, 
-                              child: Text("Add to Shopping List"))
-                          ),
-                        ],
-                      ) ),
-                  ),
-      ]
-    );
-  }
+  return Column(
+    key: const Key("ingridientList"),
+    children: [
+      const Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Text("Ingredients", style: TextStyle(fontSize: 16)),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: DottedBorder(
+          borderType: BorderType.Rect,
+          strokeWidth: 0.8,
+          dashPattern: const [1],
+          color: inActiveColor,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: ingredientItems,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: TextButton(
+                  onPressed: null,
+                  child: Text("Add to Shopping List"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
 }
 
 class Ingridientitem extends StatelessWidget {
@@ -236,23 +234,23 @@ class Ingridientitem extends StatelessWidget {
   });
 
   void _insertShoppingList(String name, String quantity) async {
-    await _SlStorage.insertShoppingListItem2(name,quantity);
+    await _slStorage.insertShoppingListItem2(name,quantity);
   }
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      key: Key("Ingridientitem"),
+      key: const Key("Ingridientitem"),
       children: [
-        Icon(Icons.trip_origin, color: primary, size: 20,),
-        SizedBox(width: 4,),
-        Text(this.name,style: TextStyle(color: inActiveColor),),
-        Text(": "),
-        Text(this.measurement),
-        Spacer(),
+        const Icon(Icons.trip_origin, color: primary, size: 20,),
+        const SizedBox(width: 4,),
+        Text(name,style: const TextStyle(color: inActiveColor),),
+        const Text(": "),
+        Text(measurement),
+        const Spacer(),
         IconButton(onPressed: () {
           _insertShoppingList(name, measurement);
-        }, icon: Icon(CupertinoIcons.add))
+        }, icon: const Icon(CupertinoIcons.add))
       ],
     );
   }
@@ -269,7 +267,7 @@ class CreatorRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: Key("RecipeCreator"),
+      key: const Key("RecipeCreator"),
       height:60,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
@@ -299,7 +297,7 @@ class CreatorRecipe extends StatelessWidget {
               ],
             ),
             Padding(
-              key: Key("rating"),
+              key: const Key("rating"),
               padding: const EdgeInsets.only(top:8.0),
               child: Column(
                 children: [

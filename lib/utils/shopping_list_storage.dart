@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/utils/secure_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
@@ -79,7 +80,9 @@ class SecureStorageShoppingList {
       final List<dynamic> decodedList = json.decode(shoppingListString ?? '[]');
       return decodedList.cast<String>();
     } catch (e) {
-      print('Error decoding shopping list: $e');
+      if (kDebugMode) {
+        print('Error decoding shopping list: $e');
+      }
       return null;
     }
   }

@@ -7,7 +7,7 @@ class Detailspage extends StatefulWidget {
   final String name;
   final String username;
   final String userimage;
-  const Detailspage({Key? key, required this.image, required this.name, required this.username, required this.userimage}) : super(key: key);
+  const Detailspage({super.key, required this.image, required this.name, required this.username, required this.userimage});
 
   @override
   State<Detailspage> createState() => _DetailspageState();
@@ -80,10 +80,10 @@ class _DetailspageState extends State<Detailspage> {
                                       borderRadius: BorderRadius.circular(6)
                     
                                     ),
-                                    child: Center(
+                                    child: const Center(
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
-                                        children: const [
+                                        children: [
                                           Icon(Icons.star,size: 15,color: Colors.black,),
                                           Text("4.5")
                                         ],
@@ -122,12 +122,12 @@ class _DetailspageState extends State<Detailspage> {
                                         ),
                                       ],
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top:8.0),
+                                    const Padding(
+                                      padding: EdgeInsets.only(top:8.0),
                                       child: Column(
                                         children: [
                                           Row(
-                                            children: const [
+                                            children: [
                                               Icon(Icons.star,color: primary,size: 15,),
                                               Icon(Icons.star,color: primary,size: 15,),
                                               Icon(Icons.star,color: primary,size: 15,)
@@ -137,7 +137,7 @@ class _DetailspageState extends State<Detailspage> {
                                               
                                             ],
                                           ),
-                                           const Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
+                                           Text("169 upvoted",style: TextStyle(fontSize: 12,color: labelColor),)
                                         ],
                                       ),
                                     )
@@ -159,15 +159,15 @@ class _DetailspageState extends State<Detailspage> {
                                 child: SizedBox(
                                 height: 80,
                                 width: MediaQuery.of(context).size.width,
-                                child:Column(
+                                child:const Column(
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
-                                            children: const [
+                                            children: [
                                               Icon(Icons.trip_origin, color: primary, size: 20,),
                                               SizedBox(width: 4,),
                                               Text("Egg:",style: TextStyle(color: inActiveColor),),
@@ -175,7 +175,7 @@ class _DetailspageState extends State<Detailspage> {
                                             ],
                                           ),
                                           Row(
-                                            children: const [
+                                            children: [
                                               Icon(Icons.trip_origin, color: primary, size: 20,),
                                               SizedBox(width: 4,),
                                               Text("Milk:",style: TextStyle(color: inActiveColor),),
@@ -186,12 +186,12 @@ class _DetailspageState extends State<Detailspage> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(8.0),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
-                                            children: const [
+                                            children: [
                                               Icon(Icons.trip_origin, color: primary, size: 20,),
                                               SizedBox(width: 4,),
                                               Text("Sugar:",style: TextStyle(color: inActiveColor),),
@@ -199,7 +199,7 @@ class _DetailspageState extends State<Detailspage> {
                                             ],
                                           ),
                                           Row(
-                                            children: const [
+                                            children: [
                                               Icon(Icons.trip_origin, color: primary, size: 20,),
                                               SizedBox(width: 4,),
                                               Text("cheese:",style: TextStyle(color: inActiveColor),),

@@ -26,7 +26,7 @@ void main() {
   testWidgets('ShoppingListScreen should render correctly', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         home: ShoppingListScreen(),
       ),
     );

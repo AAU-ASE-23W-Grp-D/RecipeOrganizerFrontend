@@ -6,7 +6,6 @@ import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/models/user.dart';
 import 'package:recipe_organizer_frontend/screens/home_screen.dart';
 import 'package:recipe_organizer_frontend/utils/token_storage.dart';
-import 'package:recipe_organizer_frontend/screens/recipe_screen.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
 import '../screens/login_screen.dart';

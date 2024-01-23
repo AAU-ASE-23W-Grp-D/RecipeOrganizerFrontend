@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     key: const Key('registrationButton'),
                     onPressed: () {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => Registration()));
+                          context, MaterialPageRoute(builder: (context) => const Registration()));
                     },
                     child: const Text('Sign up!'),
                   ),

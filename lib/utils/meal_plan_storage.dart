@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/utils/secure_storage.dart';
 
 class SecureStorageMealPlanning {
@@ -7,7 +8,7 @@ class SecureStorageMealPlanning {
   final String _keyMealPlan = 'meal_planning';
 
   Future<void> insertRecipe(String day, String recipe) async {
-    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
+    final Map<String, List<String>> mealPlanning = await getMealPlanning();
     final List<String> recipes = mealPlanning[day] ?? [];
     recipes.add(recipe);
     mealPlanning[day] = recipes;
@@ -18,7 +19,7 @@ class SecureStorageMealPlanning {
   }
 
   Future<void> deleteRecipe(String day, String recipe) async {
-    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
+    final Map<String, List<String>> mealPlanning = await getMealPlanning();
     final List<String> recipes = mealPlanning[day] ?? [];
     recipes.remove(recipe);
     mealPlanning[day] = recipes;
@@ -29,7 +30,7 @@ class SecureStorageMealPlanning {
   }
 
   Future<void> deleteAllRecipes(String day) async {
-    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
+    final Map<String, List<String>> mealPlanning = await getMealPlanning();
     mealPlanning.remove(day);
     await _secureStorage.write(
       key: _keyMealPlan,
@@ -38,7 +39,7 @@ class SecureStorageMealPlanning {
   }
 
   Future<List<String>> getRecipes(String day) async {
-    final Map<String, List<String>> mealPlanning = await getMealPlanning()!;
+    final Map<String, List<String>> mealPlanning = await getMealPlanning();
     return mealPlanning[day] ?? [];
   }
 
@@ -64,7 +65,9 @@ class SecureStorageMealPlanning {
 
       return result;
     } catch (e) {
-      print('Error decoding meal planning: $e');
+      if (kDebugMode) {
+        print('Error decoding meal planning: $e');
+      }
       return {};
     }
   }

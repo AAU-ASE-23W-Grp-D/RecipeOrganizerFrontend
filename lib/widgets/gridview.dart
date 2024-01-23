@@ -8,7 +8,7 @@ import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
-SecureStorageMealPlanning _pref_mp = SecureStorageMealPlanning();
+SecureStorageMealPlanning _prefMP = SecureStorageMealPlanning();
 
 
 class GridB extends StatefulWidget {
@@ -209,8 +209,8 @@ class _GridBState extends State<GridB> {
   Future<void> _showDialog(BuildContext context, String name) async {
     String selectedDay = 'Monday'; // Initial value
 
-  void _insertMealPlan(String day, String recipe) async {
-    await _pref_mp.insertRecipe(day,recipe);
+  void insertMealPlan(String day, String recipe) async {
+    await _prefMP.insertRecipe(day,recipe);
   }
 
     showDialog(
@@ -249,7 +249,7 @@ class _GridBState extends State<GridB> {
                 ElevatedButton(
                   onPressed: () {
                     // Handle assignment logic here
-                    _insertMealPlan(selectedDay, name);
+                    insertMealPlan(selectedDay, name);
                     Navigator.pop(context); // Close the dialog
                   },
                   child: const Text('Assign'),

@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
-import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 
 void main() {
-
-  setUpAll(() async {
-    SecureStorageMealPlanning ml = SecureStorageMealPlanning();
-    //await ml.insertRecipe("Monday", "recipe");
-  });
   
   group("Meal Plan Testing", () { 
   testWidgets('MealPlanningScreen Appbar test', (WidgetTester tester) async {
     // Build our app and trigger a frame
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(const MaterialApp(
       home: MealPlanningScreen(),
     ));
 
     // Verify that the MealPlanningScreen is rendered
-    expect(find.byKey(Key("mealplanappbar")), findsOneWidget);
+    expect(find.byKey(const Key("mealplanappbar")), findsOneWidget);
   });
 
   testWidgets('MealPlanningScreen AlertDialog test', (WidgetTester tester) async {
     // Build our app and trigger a frame
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(const MaterialApp(
       home: MealPlanningScreen(),
     ));
 
@@ -39,7 +33,7 @@ void main() {
     // Example: Test if the 'OK' button is displayed in the dialog
     expect(find.text('OK'), findsOneWidget);
 
-    expect(find.byKey(Key("RecipeDropDown")),findsOneWidget);
+    expect(find.byKey(const Key("RecipeDropDown")),findsOneWidget);
 
     // Example: Test if the 'Cancel' button is displayed in the dialog
     expect(find.text('Cancel'), findsOneWidget);
@@ -55,7 +49,7 @@ void main() {
 
     testWidgets('MealPlanningScreen DeleteButtons test', (WidgetTester tester) async {
     // Build our app and trigger a frame
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(const MaterialApp(
       home: MealPlanningScreen(),
     ));
 
@@ -77,7 +71,7 @@ void main() {
 
     testWidgets('MealPlanningScreen Card test', (WidgetTester tester) async {
     // Build our app and trigger a frame
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(const MaterialApp(
       home: MealPlanningScreen(),
     ));
 
