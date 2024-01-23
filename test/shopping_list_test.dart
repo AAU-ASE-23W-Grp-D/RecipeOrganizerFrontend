@@ -12,7 +12,6 @@ void main() {
         home: IngredientListItem(
           ingredients: ShoppingListItem(name: "Test Ingredient", quantity: "Test Quantity"),
           onDelete: () {},
-          onBuy: () {},
         ),
       ),
     );

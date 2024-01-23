@@ -3,15 +3,15 @@ import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/models/shopping_list_item.dart';
 import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
 
+// Ingredient list item widget
 class IngredientListItem extends StatelessWidget {
   final ShoppingListItem ingredients;
   final VoidCallback onDelete;
-  final VoidCallback onBuy;
 
-  const IngredientListItem({super.key, 
+  const IngredientListItem({
+    super.key,
     required this.ingredients,
     required this.onDelete,
-    required this.onBuy,
   });
 
   @override
@@ -52,10 +52,6 @@ class IngredientListItem extends StatelessWidget {
           Column(
             children: [
               IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: onBuy,
-              ),
-              IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: onDelete,
               ),
@@ -67,6 +63,7 @@ class IngredientListItem extends StatelessWidget {
   }
 }
 
+// Shopping List screen widget
 class ShoppingListScreen extends StatefulWidget {
   const ShoppingListScreen({super.key});
 
@@ -74,6 +71,7 @@ class ShoppingListScreen extends StatefulWidget {
   ShoppingListScreenState createState() => ShoppingListScreenState();
 }
 
+// Shopping List screen state
 class ShoppingListScreenState extends State<ShoppingListScreen> {
   final SecureStorageShoppingList _slStorage = SecureStorageShoppingList();
   List<ShoppingListItem> ingredientsList = [];
@@ -81,10 +79,10 @@ class ShoppingListScreenState extends State<ShoppingListScreen> {
   @override
   void initState() {
     super.initState();
-    //_insertExample();
     _updateShoppingList();
   }
 
+  // Update shopping list
   void _updateShoppingList() async {
     List<ShoppingListItem> list = await _slStorage.getShoppingListItems();
 
@@ -93,11 +91,13 @@ class ShoppingListScreenState extends State<ShoppingListScreen> {
     });
   }
 
+  // Delete item from shopping list
   void deleteItem(int index) async {
     await _slStorage.deleteShoppingListItem(index);
     _updateShoppingList();
   }
 
+  // Delete all items from shopping list
   void deleteAllItems() async {
     await _slStorage.deleteAllShoppingListItems();
     _updateShoppingList();
@@ -133,9 +133,6 @@ class ShoppingListScreenState extends State<ShoppingListScreen> {
                   return IngredientListItem(
                     ingredients: ingredientsList[index],
                     onDelete: () => deleteItem(index),
-                    onBuy: () {
-                      // Add your logic for handling "Bought" action
-                    },
                   );
                 },
               ),
