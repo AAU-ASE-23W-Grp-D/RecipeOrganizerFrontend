@@ -8,9 +8,10 @@ import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
+// Instance of SecureStorageMealPlanning for meal planning operations
 SecureStorageMealPlanning _prefMP = SecureStorageMealPlanning();
 
-
+// Widget for displaying a grid of recipes
 class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
 
@@ -21,7 +22,6 @@ class GridB extends StatefulWidget {
 }
 
 class _GridBState extends State<GridB> {
-
   late Future<List<Recipe>> futureRecipes;
   int totalCreatedRecipes = 0; // Track the total number of recipes of user
 
@@ -34,15 +34,14 @@ class _GridBState extends State<GridB> {
   bool isFavorite = false;
   Set<int> favoriteRecipes = <int>{};
 
-
+  // Calculate the number of cross-axis items based on screen width
   int calculateCrossAxisCount(double screenWidth) {
     int baseCount = 7; // Adjust this based on your initial design
-    int calculatedCount = (screenWidth / 200)
-        .round(); // Adjust 200 based on your item width
+    int calculatedCount =
+        (screenWidth / 200).round(); // Adjust 200 based on your item width
 
     return calculatedCount > baseCount ? calculatedCount : baseCount;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +55,8 @@ class _GridBState extends State<GridB> {
         } else {
           List<Recipe> recipes = snapshot.data as List<Recipe>;
 
-          if(widget.fetchFunction == Api().fetchUserRecipes) { //if profile page is loaded calculate total created recipes
+          if (widget.fetchFunction == Api().fetchUserRecipes) {
+            // If the profile page is loaded, calculate total created recipes
             totalCreatedRecipes = recipes.length;
             UserStorage().saveTotalCreatedRecipes(totalCreatedRecipes);
           }
@@ -64,10 +64,7 @@ class _GridBState extends State<GridB> {
           return LayoutBuilder(
             builder: (context, constraints) {
               int crossAxisCount =
-              (MediaQuery
-                  .of(context)
-                  .size
-                  .width ~/ 209).toInt();
+                  (MediaQuery.of(context).size.width ~/ 209).toInt();
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -116,17 +113,15 @@ class _GridBState extends State<GridB> {
                             children: [
                               Text(
                                 recipe.name,
-                                style:
-                                Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
                                     .merge(
-                                  const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                      const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                               ),
                               const SizedBox(
                                 height: 8.0,
@@ -135,34 +130,34 @@ class _GridBState extends State<GridB> {
                                 children: [
                                   Text(
                                     "${recipe.rating} ",
-                                    style:
-                                    Theme
-                                        .of(context)
+                                    style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
                                         .merge(
-                                      TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.grey.shade500,
-                                      ),
-                                    ),
+                                          TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.grey.shade500,
+                                          ),
+                                        ),
                                   ),
                                   const Icon(Icons.star, color: Colors.grey),
                                   IconButton(
                                     onPressed: () {
                                       setState(() {
-                                        if(favoriteRecipes.contains(recipe.ID)){
+                                        if (favoriteRecipes
+                                            .contains(recipe.ID)) {
                                           favoriteRecipes.remove(recipe.ID);
-                                          //Remove from favorites
+                                          // Remove from favorites
                                         } else {
                                           favoriteRecipes.add(recipe.ID);
-                                          //Add to favorites
+                                          // Add to favorites
                                         }
                                       });
                                     },
-                                    color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
-                                    icon: const Icon(
-                                        CupertinoIcons.heart_fill),
+                                    color: favoriteRecipes.contains(recipe.ID)
+                                        ? Colors.red
+                                        : Colors.grey,
+                                    icon: const Icon(CupertinoIcons.heart_fill),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -170,7 +165,9 @@ class _GridBState extends State<GridB> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              RecipeDetailScreenWeb(recipe: recipe,),
+                                              RecipeDetailScreenWeb(
+                                            recipe: recipe,
+                                          ),
                                         ),
                                       );
                                     },
@@ -181,7 +178,6 @@ class _GridBState extends State<GridB> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-
                                       _showDialog(context, recipe.name);
                                     },
                                     color: Colors.black,
@@ -206,12 +202,13 @@ class _GridBState extends State<GridB> {
     );
   }
 
+  // Function to show a dialog for assigning a recipe to a day
   Future<void> _showDialog(BuildContext context, String name) async {
     String selectedDay = 'Monday'; // Initial value
 
-  void insertMealPlan(String day, String recipe) async {
-    await _prefMP.insertRecipe(day,recipe);
-  }
+    void insertMealPlan(String day, String recipe) async {
+      await _prefMP.insertRecipe(day, recipe);
+    }
 
     showDialog(
       context: context,
@@ -248,7 +245,7 @@ class _GridBState extends State<GridB> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle assignment logic here
+                    // inserts into meal plan
                     insertMealPlan(selectedDay, name);
                     Navigator.pop(context); // Close the dialog
                   },
@@ -261,7 +258,6 @@ class _GridBState extends State<GridB> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
-                
               },
               child: const Text('Close'),
             ),
