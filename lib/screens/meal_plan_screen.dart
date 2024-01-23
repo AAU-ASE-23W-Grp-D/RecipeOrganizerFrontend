@@ -84,7 +84,7 @@ void _showAddRecipeDialog(String day) {
           height: 150,
           child: Column(
             children: [
-              Text('Select a recipe:'),
+              const Text('Select a recipe:'),
               DropdownButton<String>(
                 key: const Key("RecipeDropDown"),
                 value: selectedRecipe,

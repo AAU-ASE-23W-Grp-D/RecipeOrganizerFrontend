@@ -163,13 +163,13 @@ final List<String> _menuItems = <String>[
 enum Menu { itemOne, itemTwo, itemThree }
 
 class ProfileIcon extends StatefulWidget {
-  const ProfileIcon({Key? key}) : super(key: key);
+  const ProfileIcon({super.key});
 
   @override
-  _ProfileIconState createState() => _ProfileIconState();
+  ProfileIconState createState() => ProfileIconState();
 }
 
-class _ProfileIconState extends State<ProfileIcon> {
+class ProfileIconState extends State<ProfileIcon> {
   final UserStorage _userStorage = UserStorage();
   int ownRecipes = 0;
 

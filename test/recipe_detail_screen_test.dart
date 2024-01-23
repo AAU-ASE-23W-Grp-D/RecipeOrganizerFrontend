@@ -3,13 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
-import 'package:network_image_mock/network_image_mock.dart';
-import 'package:recipe_organizer_frontend/screens/shopping_list_screen.dart';
 void main() {
   late Uint8List imageData;
   late Recipe recipe;
@@ -51,8 +47,8 @@ void main() {
     expect(find.byType(IngridientColumn), findsOneWidget);
     expect(find.byType(Ingridientitem), findsAny);
     expect(find.byIcon(CupertinoIcons.add), findsAny);
-    expect(find.byKey(Key("ing_name")), findsAny);
-    expect(find.byKey(Key("ing_measurement")), findsAny);
+    expect(find.byKey(const Key("ing_name")), findsAny);
+    expect(find.byKey(const Key("ing_measurement")), findsAny);
     expect(find.byIcon(Icons.trip_origin), findsAny);
   });
 
@@ -71,7 +67,7 @@ void main() {
     );
 
     // Verify that the DescriptionColumn widget is rendered.
-    expect(find.byKey(Key("descriptionColumn")), findsOneWidget);
+    expect(find.byKey(const Key("descriptionColumn")), findsOneWidget);
     expect(find.text('Description'), findsOneWidget);
     expect(find.text(recipe.description), findsOneWidget);
     expect(find.byType(SizedBox), findsOneWidget);
@@ -92,7 +88,7 @@ void main() {
     );
 
     // Verify that the ImageColumn widget is rendered.
-    expect(find.byKey(Key("imageColumn")), findsOneWidget);
+    expect(find.byKey(const Key("imageColumn")), findsOneWidget);
     expect(find.byType(Padding), findsOneWidget);
     expect(find.byType(Column), findsOneWidget);
     expect(find.byType(ClipRRect), findsOneWidget);
@@ -114,8 +110,8 @@ void main() {
     );
 
     // Verify that the CreatorRecipe widget is rendered.
-    expect(find.byKey(Key("RecipeCreator")), findsOneWidget);
-    expect(find.byKey(Key("profilePicture")), findsOneWidget);
+    expect(find.byKey(const Key("RecipeCreator")), findsOneWidget);
+    expect(find.byKey(const Key("profilePicture")), findsOneWidget);
     expect(find.text('Ratings: ${recipe.rating_amount}'), findsOneWidget); // Replace '5' with the expected rating amount.
 
     // Verify the number of stars based on the expected rating.

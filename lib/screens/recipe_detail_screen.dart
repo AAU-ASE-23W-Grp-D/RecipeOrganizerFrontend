@@ -247,7 +247,7 @@ class Ingridientitem extends StatelessWidget {
         Text(key: const Key("ing_name"), name,style: const TextStyle(color: inActiveColor),),
         const Text(": "),
         Text(key: const Key("ing_measurement"), measurement),
-        Spacer(),
+        const Spacer(),
         IconButton(onPressed: () {
           _insertShoppingList(name, measurement);
         }, icon: const Icon(CupertinoIcons.add))
@@ -280,8 +280,8 @@ class CreatorRecipe extends StatelessWidget {
           children:  [
             Row(
               children: [
-                 CircleAvatar(
-                  key: const Key("profilePicture"),
+                 const CircleAvatar(
+                  key: Key("profilePicture"),
                   radius: 20,
                   backgroundImage: AssetImage(("assets/user_icon.png")),
                 ),

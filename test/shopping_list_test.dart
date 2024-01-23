@@ -40,7 +40,7 @@ void main() {
   testWidgets('ShoppingListScreen should delete item when delete button is pressed', (WidgetTester tester) async {
     // Build our widget and trigger a frame.
     await tester.pumpWidget(
-      MaterialApp(
+      const MaterialApp(
         home: ShoppingListScreen(),
       ),
     );

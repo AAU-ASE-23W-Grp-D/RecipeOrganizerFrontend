@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:recipe_organizer_frontend/screens/home_screen.dart';
-import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
 import 'package:recipe_organizer_frontend/widgets/footer.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 
@@ -29,7 +28,7 @@ void main() {
 
       testWidgets('ProfileIcon shows PopupMenu', (WidgetTester tester) async {
     // Build our widget and trigger a frame
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(const MaterialApp(
       home: Scaffold(
         body: ProfileIcon(),
       ),
