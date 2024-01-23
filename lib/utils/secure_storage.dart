@@ -8,7 +8,8 @@ class SecureStorage {
   }
 
   Future<void> write({required String key, required String? value}) async {
-    print("Written to storage: $key, $value");
+    //Written to storage print:
+    print('Written to storage: $key');
     await _storage.write(key: key, value: value);
   }
 
