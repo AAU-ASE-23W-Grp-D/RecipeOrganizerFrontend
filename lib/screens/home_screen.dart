@@ -78,12 +78,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
                       ),
 
                       ),
-                     /*Padding(
-                       padding: EdgeInsets.all(8.0),
-                       child: SearchBarApp(),
-                     ),*/
                    ),
-                   //SizedBox(height: 1000,),
                    Padding(
                      padding: EdgeInsets.symmetric(horizontal:MediaQuery.sizeOf(context).width*0.05, vertical: 8.0),
                      child: GridB(fetchFunction: Api().fetchRecipes),
@@ -116,26 +111,7 @@ Widget _navBarItems(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      // Your search bar widget
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 16),
-        child: SizedBox(
-          width: 200, // Adjust the width as needed
-          child: TextField(
-            decoration: const InputDecoration(
-              hintText: 'Search...',
-            ),
-            onChanged: (searchQuery) {
-              // Handle search query changes
-            },
-          ),
-        ),
-      ),
-
-      // Spacer to separate the search bar from menu items
-      const SizedBox(width: 16),
-
-      // Your menu items
+      // The mapping for the Navbar items
       ...filteredMenuItems.map(
         (item) => InkWell(
           onTap: () {
@@ -178,7 +154,6 @@ Widget _navBarItems(BuildContext context) {
 }
 
 final List<String> _menuItems = <String>[
-  'Home',
   'Meal Plan',
   'Shopping List',
   'Login',
