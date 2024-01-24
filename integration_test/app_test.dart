@@ -4,6 +4,7 @@ import 'package:recipe_organizer_frontend/main.dart' as app;
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/home_screen.dart';
+import 'package:recipe_organizer_frontend/screens/login_screen.dart';
 import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
 import 'package:recipe_organizer_frontend/screens/profile_screen.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
@@ -30,11 +31,34 @@ void main() {
 
   group('Full App Test', () {
     testWidgets("Register and Navigate to Login", (WidgetTester tester) async {
-      //Add register logic here
+      app.main();
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('registrationButton')));
+      await tester.pumpAndSettle();
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(0), 'tester');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(1), 'tester@email.com');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(2), '12345678');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.tap(find.byKey(const Key('registerButton')));
+      await tester.pumpAndSettle();
+      expect(find.byType(LoginPage), findsOneWidget);
+      await Future.delayed(const Duration(seconds: 3));
+      await tester.enterText(find.byType(TextFormField).at(0), 'tester');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(1), '12345678');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.tap(find.byKey(const Key('loginButton')));
+      await tester.pumpAndSettle();
+      await Future.delayed(const Duration(seconds: 3));
+      debugDumpApp();
+      expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
     });
 
     testWidgets("Login and Navigate to Home", (WidgetTester tester) async {
-      //Add login logic here
+      login(tester);
     });
 
     testWidgets('Test if the app opens', (WidgetTester tester) async {
