@@ -96,7 +96,7 @@ void main() {
       expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
     });
 
-    testWidgets('Test if you can add a new recipe', (WidgetTester tester) async {
+    testWidgets('Test if you can add and delete a new recipe', (WidgetTester tester) async {
       await login(tester);
 
       //navigate to profile page
@@ -141,7 +141,29 @@ void main() {
       //Expect success alert dialog (Delay for backend response time)
       await Future.delayed(const Duration(seconds: 2));
       expect(find.byType(AlertDialog), findsOneWidget);
+
+      //Click out of the alert dialog
+      await tester.tap(find.byType(AlertDialog));
+      await tester.pump(const Duration(seconds: 3));
+
+
+      //navigate to profile page
+      await tester.tap(find.byIcon(Icons.person));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byWidgetPredicate((widget) => widget is PopupMenuItem<Menu> && widget.value == Menu.itemOne));
+      await tester.pumpAndSettle();
+      expect(find.byType(UserProfilePage), findsOneWidget);
+
+      //Expect the recipe to be there
+      expect(find.text("Test Recipe 101"), findsOneWidget);
+
+      //Delete the recipe with name Test Recipe 101
+      await tester.tap(find.byKey(const Key('delete_Test Recipe 101')));
+      await tester.pumpAndSettle();
+      expect(find.text("Test Recipe 101"), findsNothing);
     });
+
+
 //Ich hab die Integration Test auskommentiert weil sie auf Github noch nicht funktionieren
 //Lokal sollte es gehen wenn das Backend läuft.
     /*testWidgets('Test if the meal plan works', (WidgetTester tester) async {

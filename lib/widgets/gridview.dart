@@ -210,6 +210,7 @@ class _GridBState extends State<GridB> {
                                   Visibility(
                                     visible: widget.ableToDelete,
                                     child: IconButton(
+                                      key: Key('delete_${recipe.name}'),
                                       onPressed: () async {
                                         await Api().deleteRecipe(recipe.ID);
                                         setState(() {
