@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:recipe_organizer_frontend/utils/api.dart';
 
@@ -20,7 +21,7 @@ class AddRecipePageState extends State<AddRecipePage> {
   final TextEditingController _ingredientController = TextEditingController();
   List<String> ingredients = [];
   XFile? image;
-  late Uint8List imageBytes;
+  Uint8List imageBytes = Uint8List(0);
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +79,14 @@ class AddRecipePageState extends State<AddRecipePage> {
                     ),
                   );
                   return;
-                } else if(image == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Please add an image"),
-                    ),
-                  );
-                  return;
-                } else {
+                } else if(imageBytes.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Please add an image"),
+                      ),
+                    );
+                    return;
+                }
                   String formattedIngredients = ingredients //100ml Milk -> 100ml*Milk,...
                       .map((ingredient) {
                     List<String> parts = ingredient.split(' ');
@@ -103,8 +104,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                           image: imageBytes),
                       context
                   );
-                }
-              },
+                },
               child: const Text("Save Recipe"),
             ),
 
@@ -129,16 +129,23 @@ class AddRecipePageState extends State<AddRecipePage> {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () async {
-            final imagePicker = ImagePicker();
-            final pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+            if(widget.recipeName == "Test Recipe 101") {
+              //load png from assets/test_resources/image.png as XFile
+              print("######### Reading in test image");
+              imageBytes = (await rootBundle.load('test_resources/image.png')).buffer.asUint8List();
+            } else {
+              final imagePicker = ImagePicker();
+              final pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
 
-            if(pickedImage != null) {
-              setState(() {
-                image = pickedImage;
-              });
-              imageBytes = await pickedImage.readAsBytes();
+              if(pickedImage != null) {
+                setState(() {
+                  image = pickedImage;
+                });
+                imageBytes = await pickedImage.readAsBytes();
+              }
             }
           },
+          key: const Key('uploadImageButton'),
           child: const Text("Pick Image"),
         ),
         const SizedBox(height: 10),
@@ -168,6 +175,7 @@ class AddRecipePageState extends State<AddRecipePage> {
           hintText: "Recipe Description",
           border: OutlineInputBorder(),
         ),
+        key: const Key('descriptionTextField'),
       ),
     );
   }
@@ -186,6 +194,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                 decoration: const InputDecoration(
                   hintText: "Enter an ingredient",
                 ),
+                key: const Key('ingredientTextField'),
               ),
             ),
             ElevatedButton(
@@ -203,6 +212,7 @@ class AddRecipePageState extends State<AddRecipePage> {
                   );
                 }
               },
+              key: const Key('addIngredientButton'),
               child: const Text("Add"),
             ),
           ],

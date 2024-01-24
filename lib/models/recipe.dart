@@ -45,4 +45,16 @@ class Recipe {
       _ => throw const FormatException('Failed to load recipe.'),
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': ID,
+      'name': name,
+      'ingredients': ingredients,
+      'description': description,
+      'rating': rating,
+      'rating_amount': rating_amount,
+      'image': base64.encode(image),
+    };
+  }
 }

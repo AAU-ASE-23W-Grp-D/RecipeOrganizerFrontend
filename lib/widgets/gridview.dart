@@ -5,17 +5,19 @@ import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/favorited_recipes_storage.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
-// Instance of SecureStorageMealPlanning for meal planning operations
 SecureStorageMealPlanning _prefMP = SecureStorageMealPlanning();
+FavoritedRecipesStorage _favoritedRecipesStorage = FavoritedRecipesStorage();
 
 // Widget for displaying a grid of recipes
 class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
+  final bool ableToDelete;
 
-  const GridB({super.key, required this.fetchFunction});
+  const GridB({super.key, required this.fetchFunction, this.ableToDelete = false});
 
   @override
   State<GridB> createState() => _GridBState();
@@ -24,15 +26,29 @@ class GridB extends StatefulWidget {
 class _GridBState extends State<GridB> {
   late Future<List<Recipe>> futureRecipes;
   int totalCreatedRecipes = 0; // Track the total number of recipes of user
+  Set<int> favoriteRecipes = <int>{};
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     futureRecipes = widget.fetchFunction();
+    _loadFavoriteRecipes();
   }
 
-  bool isFavorite = false;
-  Set<int> favoriteRecipes = <int>{};
+  Future<void> _loadFavoriteRecipes() async {
+    favoriteRecipes = (await _favoritedRecipesStorage.getFavoritedRecipesId()).toSet();
+  }
+
+  Future<void> _updateFavoriteRecipe(Recipe recipe, bool isFavorite) async {
+    if (isFavorite) {
+      await _favoritedRecipesStorage.addRecipe(recipe);
+      print("Recipe added to favorites");
+    } else {
+      await _favoritedRecipesStorage.removeRecipe(recipe);
+      print("Recipe removed from favorites");
+    }
+  }
 
   // Calculate the number of cross-axis items based on screen width
   int calculateCrossAxisCount(double screenWidth) {
@@ -45,6 +61,7 @@ class _GridBState extends State<GridB> {
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
       future: futureRecipes,
       builder: (context, snapshot) {
@@ -141,23 +158,23 @@ class _GridBState extends State<GridB> {
                                         ),
                                   ),
                                   const Icon(Icons.star, color: Colors.grey),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (favoriteRecipes
-                                            .contains(recipe.ID)) {
+                                  Visibility(
+                                    visible: !widget.ableToDelete,
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        if(favoriteRecipes.contains(recipe.ID)){
                                           favoriteRecipes.remove(recipe.ID);
-                                          // Remove from favorites
+                                          await _updateFavoriteRecipe(recipe, false);
                                         } else {
                                           favoriteRecipes.add(recipe.ID);
-                                          // Add to favorites
+                                          await _updateFavoriteRecipe(recipe, true);
                                         }
-                                      });
-                                    },
-                                    color: favoriteRecipes.contains(recipe.ID)
-                                        ? Colors.red
-                                        : Colors.grey,
-                                    icon: const Icon(CupertinoIcons.heart_fill),
+                                        setState(() {});
+                                      },
+                                      color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
+                                      icon: const Icon(
+                                          CupertinoIcons.heart_fill),
+                                    ),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -185,6 +202,22 @@ class _GridBState extends State<GridB> {
                                       CupertinoIcons.add,
                                     ),
                                   ),
+                                  Visibility(
+                                    visible: widget.ableToDelete,
+                                    child: IconButton(
+                                      key: Key('delete_${recipe.name}'),
+                                      onPressed: () async {
+                                        await Api().deleteRecipe(recipe.ID);
+                                        setState(() {
+                                          futureRecipes = widget.fetchFunction();
+                                        });
+                                      },
+                                      color: Colors.redAccent,
+                                      icon: const Icon(
+                                        CupertinoIcons.delete,
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
