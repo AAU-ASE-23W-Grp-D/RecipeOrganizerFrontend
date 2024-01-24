@@ -12,13 +12,13 @@ import 'package:recipe_organizer_frontend/utils/api.dart';
 SecureStorageShoppingList _SlStorage = SecureStorageShoppingList();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
-  final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  final Image image = Image.asset("assets/test_resources/image.png");
   final String name = "Cheeseburger";
   final String username = "Moser";
-  final String userimage = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  final Image userimage = Image.asset("assets/user_icon.png");
   final Recipe recipe;
 
-  const RecipeDetailScreenWeb({super.key, required this.recipe});
+  RecipeDetailScreenWeb({super.key, required this.recipe});
 
 
   @override
@@ -246,9 +246,9 @@ class Ingridientitem extends StatelessWidget {
       children: [
         Icon(Icons.trip_origin, color: primary, size: 20,),
         SizedBox(width: 4,),
-        Text(this.name,style: TextStyle(color: inActiveColor),),
+        Text(key: Key("ing_name"), name,style: TextStyle(color: inActiveColor),),
         Text(": "),
-        Text(this.measurement),
+        Text(key: Key("ing_measurement"),this.measurement),
         Spacer(),
         IconButton(onPressed: () {
           _insertShoppingList(name, measurement);
@@ -285,7 +285,7 @@ class CreatorRecipe extends StatelessWidget {
                  CircleAvatar(
                   key: const Key("profilePicture"),
                   radius: 20,
-                  backgroundImage: NetworkImage(widget.userimage),
+                  backgroundImage: AssetImage(("assets/user_icon.png")),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left:8.0,top: 8),

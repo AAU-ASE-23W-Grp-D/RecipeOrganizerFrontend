@@ -3,21 +3,27 @@ name: Integration Tests
 on:
   push:
     branches:
-      - 'main'
-      - 'develop'
       - 'frontend_testing'
   pull_request:
     branches:
-      - 'main'
+      - 'frontend_testing'
 
 run-name: Integration Test by ${{ github.actor }}
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      backend:
+        image: recipeorganizer/recipeorganizer-ase-develop:latest
+        env:
+          PORT: 8080
+        ports:
+          - 8080:8080
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - uses: subosito/flutter-action@v2
         with:
