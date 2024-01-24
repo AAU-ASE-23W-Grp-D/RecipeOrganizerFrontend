@@ -8,7 +8,6 @@ import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/utils/favorited_recipes_storage.dart';
-import 'package:recipe_organizer_frontend/utils/favorited_recipes_storage.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
@@ -18,7 +17,6 @@ FavoritedRecipesStorage _favoritedRecipesStorage = FavoritedRecipesStorage();
 // Widget for displaying a grid of recipes
 class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
-  final bool ableToDelete;
   final bool ableToDelete;
 
   const GridB(
@@ -31,8 +29,6 @@ class GridB extends StatefulWidget {
 class _GridBState extends State<GridB> {
   late Future<List<Recipe>> futureRecipes;
   int totalCreatedRecipes = 0; // Track the total number of recipes of user
-  Set<int> favoriteRecipes = <int>{};
-  bool isFavorite = false;
   Set<int> favoriteRecipes = <int>{};
   bool isFavorite = false;
 
