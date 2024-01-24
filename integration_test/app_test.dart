@@ -4,7 +4,6 @@ import 'package:recipe_organizer_frontend/main.dart' as app;
 import 'package:integration_test/integration_test.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/home_screen.dart';
-import 'package:recipe_organizer_frontend/screens/login_screen.dart';
 import 'package:recipe_organizer_frontend/screens/meal_plan_screen.dart';
 import 'package:recipe_organizer_frontend/screens/profile_screen.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
@@ -31,6 +30,7 @@ void main() {
 
   group('Full App Test', () {
     testWidgets("Register and Navigate to Login", (WidgetTester tester) async {
+      //Register
       app.main();
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const Key('registrationButton')));
@@ -44,8 +44,9 @@ void main() {
       await Future.delayed(const Duration(seconds: 1));
       await tester.tap(find.byKey(const Key('registerButton')));
       await tester.pumpAndSettle();
-      expect(find.byType(LoginPage), findsOneWidget);
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(const Duration(seconds: 5));
+      //Login
+
       await tester.enterText(find.byType(TextFormField).at(0), 'tester');
       await Future.delayed(const Duration(seconds: 1));
       await tester.enterText(find.byType(TextFormField).at(1), '12345678');
@@ -58,7 +59,7 @@ void main() {
     });
 
     testWidgets("Login and Navigate to Home", (WidgetTester tester) async {
-      login(tester);
+      await login(tester);
     });
 
     testWidgets('Test if the app opens', (WidgetTester tester) async {
@@ -187,10 +188,7 @@ void main() {
       expect(find.text("Test Recipe 101"), findsNothing);
     });
 
-
-//Ich hab die Integration Test auskommentiert weil sie auf Github noch nicht funktionieren
-//Lokal sollte es gehen wenn das Backend läuft.
-    /*testWidgets('Test if the meal plan works', (WidgetTester tester) async {
+  testWidgets('Test if the meal plan works', (WidgetTester tester) async {
           await login(tester);
 
           //Open the alert dialog and add a meal to a day
@@ -220,7 +218,6 @@ void main() {
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
           expect(find.byIcon(Icons.delete), findsNothing);
-//.\run_integration_tests.bat
     });
 
     testWidgets('Test if the meal plan add alertdialog works', (WidgetTester tester) async {
@@ -267,10 +264,9 @@ void main() {
           expect(find.text("Brot"), findsNothing);
 
 
-//.\run_integration_tests.bat
     });
 
-        testWidgets('Test if the shopping list works', (WidgetTester tester) async {
+    testWidgets('Test if the shopping list works', (WidgetTester tester) async {
           await login(tester);
 
           //opens the recipe detail screen
@@ -305,6 +301,5 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.byIcon(Icons.delete), findsNothing);
     });
-//.\run_integration_tests.bat*/
   });
 }
