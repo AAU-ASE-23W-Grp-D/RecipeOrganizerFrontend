@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/screens/home_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';

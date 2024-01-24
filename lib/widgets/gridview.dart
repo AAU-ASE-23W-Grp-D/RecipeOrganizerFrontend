@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
@@ -17,7 +19,8 @@ class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
   final bool ableToDelete;
 
-  const GridB({super.key, required this.fetchFunction, this.ableToDelete = false});
+  const GridB(
+      {super.key, required this.fetchFunction, this.ableToDelete = false});
 
   @override
   State<GridB> createState() => _GridBState();
@@ -37,7 +40,8 @@ class _GridBState extends State<GridB> {
   }
 
   Future<void> _loadFavoriteRecipes() async {
-    favoriteRecipes = (await _favoritedRecipesStorage.getFavoritedRecipesId()).toSet();
+    favoriteRecipes =
+        (await _favoritedRecipesStorage.getFavoritedRecipesId()).toSet();
   }
 
   Future<void> _updateFavoriteRecipe(Recipe recipe, bool isFavorite) async {
@@ -61,7 +65,6 @@ class _GridBState extends State<GridB> {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
       future: futureRecipes,
       builder: (context, snapshot) {
@@ -162,18 +165,23 @@ class _GridBState extends State<GridB> {
                                     visible: !widget.ableToDelete,
                                     child: IconButton(
                                       onPressed: () async {
-                                        if(favoriteRecipes.contains(recipe.ID)){
+                                        if (favoriteRecipes
+                                            .contains(recipe.ID)) {
                                           favoriteRecipes.remove(recipe.ID);
-                                          await _updateFavoriteRecipe(recipe, false);
+                                          await _updateFavoriteRecipe(
+                                              recipe, false);
                                         } else {
                                           favoriteRecipes.add(recipe.ID);
-                                          await _updateFavoriteRecipe(recipe, true);
+                                          await _updateFavoriteRecipe(
+                                              recipe, true);
                                         }
                                         setState(() {});
                                       },
-                                      color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
-                                      icon: const Icon(
-                                          CupertinoIcons.heart_fill),
+                                      color: favoriteRecipes.contains(recipe.ID)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                      icon:
+                                          const Icon(CupertinoIcons.heart_fill),
                                     ),
                                   ),
                                   IconButton(
@@ -209,7 +217,8 @@ class _GridBState extends State<GridB> {
                                       onPressed: () async {
                                         await Api().deleteRecipe(recipe.ID);
                                         setState(() {
-                                          futureRecipes = widget.fetchFunction();
+                                          futureRecipes =
+                                              widget.fetchFunction();
                                         });
                                       },
                                       color: Colors.redAccent,

@@ -164,9 +164,7 @@ void main() {
     });
 
 
-//Ich hab die Integration Test auskommentiert weil sie auf Github noch nicht funktionieren
-//Lokal sollte es gehen wenn das Backend läuft.
-    /*testWidgets('Test if the meal plan works', (WidgetTester tester) async {
+    testWidgets('Test if the meal plan works', (WidgetTester tester) async {
           await login(tester);
 
           //Open the alert dialog and add a meal to a day
@@ -215,7 +213,7 @@ void main() {
           await Future.delayed(const Duration(seconds: 2));
           expect(find.byType(AlertDialog), findsOneWidget);
           await Future.delayed(const Duration(seconds: 2));
-          await tester.tap(find.byKey(Key("RecipeDropDown")));
+          await tester.tap(find.byKey(const Key("RecipeDropDown")));
           await tester.pumpAndSettle();
           await Future.delayed(const Duration(seconds: 2));
           await tester.tap(find.text("Brot").first);

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:recipe_organizer_frontend/utils/secure_storage.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
