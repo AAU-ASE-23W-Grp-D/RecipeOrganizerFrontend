@@ -29,12 +29,52 @@ void main() {
   }
 
   group('Full App Test', () {
+  Future<void> login(WidgetTester tester) async {
+    app.main();
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextFormField).at(0), 'admin');
+    await Future.delayed(const Duration(seconds: 1));
+    await tester.enterText(find.byType(TextFormField).at(1), '12345678');
+    await Future.delayed(const Duration(seconds: 1));
+    await tester.tap(find.byKey(const Key('loginButton')));
+    await tester.pumpAndSettle();
+    await Future.delayed(const Duration(seconds: 5));
+    debugDumpApp();
+    expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
+  }
+
+  group('Full App Test', () {
     testWidgets("Register and Navigate to Login", (WidgetTester tester) async {
-      //Add register logic here
+      //Register
+      app.main();
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const Key('registrationButton')));
+      await tester.pumpAndSettle();
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(0), 'tester');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(1), 'tester@email.com');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(2), '12345678');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.tap(find.byKey(const Key('registerButton')));
+      await tester.pumpAndSettle();
+      await Future.delayed(const Duration(seconds: 5));
+      //Login
+
+      await tester.enterText(find.byType(TextFormField).at(0), 'tester');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.enterText(find.byType(TextFormField).at(1), '12345678');
+      await Future.delayed(const Duration(seconds: 1));
+      await tester.tap(find.byKey(const Key('loginButton')));
+      await tester.pumpAndSettle();
+      await Future.delayed(const Duration(seconds: 3));
+      debugDumpApp();
+      expect(find.byType(ResponsiveNavBarPage), findsOneWidget);
     });
 
     testWidgets("Login and Navigate to Home", (WidgetTester tester) async {
-      //Add login logic here
+      await login(tester);
     });
 
     testWidgets('Test if the app opens', (WidgetTester tester) async {
@@ -163,8 +203,7 @@ void main() {
       expect(find.text("Test Recipe 101"), findsNothing);
     });
 
-
-    testWidgets('Test if the meal plan works', (WidgetTester tester) async {
+  testWidgets('Test if the meal plan works', (WidgetTester tester) async {
           await login(tester);
 
           //Open the alert dialog and add a meal to a day
@@ -194,7 +233,6 @@ void main() {
           await Future.delayed(const Duration(seconds: 2));
           await tester.pumpAndSettle();
           expect(find.byIcon(Icons.delete), findsNothing);
-//.\run_integration_tests.bat
     });
 
     testWidgets('Test if the meal plan add alertdialog works', (WidgetTester tester) async {
@@ -241,10 +279,9 @@ void main() {
           expect(find.text("Brot"), findsNothing);
 
 
-//.\run_integration_tests.bat
     });
 
-        testWidgets('Test if the shopping list works', (WidgetTester tester) async {
+    testWidgets('Test if the shopping list works', (WidgetTester tester) async {
           await login(tester);
 
           //opens the recipe detail screen
@@ -279,6 +316,5 @@ void main() {
           await tester.pumpAndSettle();
           expect(find.byIcon(Icons.delete), findsNothing);
     });
-//.\run_integration_tests.bat*/
   });
 }
