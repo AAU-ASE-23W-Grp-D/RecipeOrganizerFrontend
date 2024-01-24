@@ -214,7 +214,7 @@ class Api {
     String jwtToken = await storage.getToken();
 
     final response = await http.delete(
-      Uri.parse('$baseUrl/recipes/$recipeId'),
+      Uri.parse('$baseUrl/auth/deleteRecipe/$recipeId'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $jwtToken',
@@ -230,7 +230,7 @@ class Api {
   }
 
   void _navigateToHomeScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResponsiveNavBarPage()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ResponsiveNavBarPage()));
   }
 
   void _navigateToLoginScreen(BuildContext context) {

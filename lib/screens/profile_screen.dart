@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_organizer_frontend/screens/home_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 import 'package:recipe_organizer_frontend/screens/liked_recipes_screen.dart';
@@ -27,120 +28,126 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Profile'),
-      ),
-      body: ListView(
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage(userProfile.profileImage),
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ResponsiveNavBarPage()));
+          return false; // Prevents the default back button behavior
+        },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('My Profile'),
+        ),
+        body: ListView(
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage(userProfile.profileImage),
+                      ),
                     ),
                   ),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      userProfile.name,
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                  ),
-                ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
-                            profile: Profile(
-                              name: userProfile.name,
-                              profileImage: userProfile.profileImage,
-                              likedRecipes: userProfile.likedRecipes,
-                            )
-                        )
-                        )
-                        );
-                      },
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
                       child: Text(
-                        'Liked Recipes: ${userProfile.likedRecipes}',
+                        userProfile.name,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => LikedRecipesPage(
+                              profile: Profile(
+                                name: userProfile.name,
+                                profileImage: userProfile.profileImage,
+                                likedRecipes: userProfile.likedRecipes,
+                              )
+                          )
+                          )
+                          );
+                        },
+                        child: Text(
+                          'Liked Recipes: ${userProfile.likedRecipes}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: Text(
+                        'Created Recipes: ${userProfile.createdRecipes}',
                         style: const TextStyle(fontSize: 12),
                       ),
                     ),
                   ),
-                ),
-
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
+                  const Divider(
+                    thickness: 2,
+                  ),
+                  const Padding(
+                      padding: EdgeInsets.all(8.0),
                     child: Text(
-                      'Created Recipes: ${userProfile.createdRecipes}',
-                      style: const TextStyle(fontSize: 12),
+                      'My Recipes',
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GridB(fetchFunction: Api().fetchUserRecipes, ableToDelete: true), //Insert own gridview here
+                  ),
+                ],
+              ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                String recipeName = ''; // Initialize an empty string
+
+                return AlertDialog(
+                  title: const Text("Add Recipe"),
+                  content: SizedBox(
+                    height: 150,
+                    child: Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(labelText: 'Recipe Name'),
+                          onChanged: (value) {
+                            recipeName = value; // Update recipeName when the text changes
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddRecipePage(recipeName: recipeName),
+                              ),
+                            );
+                          },
+                          child: const Text("Add"),
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-                const Divider(
-                  thickness: 2,
-                ),
-                const Padding(
-                    padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'My Recipes',
-                    style: TextStyle(fontSize: 18),
                   )
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridB(fetchFunction: Api().fetchUserRecipes,), //Insert own gridview here
-                ),
-              ],
-            ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              String recipeName = ''; // Initialize an empty string
 
-              return AlertDialog(
-                title: const Text("Add Recipe"),
-                content: SizedBox(
-                  height: 150,
-                  child: Column(
-                    children: [
-                      TextField(
-                        decoration: const InputDecoration(labelText: 'Recipe Name'),
-                        onChanged: (value) {
-                          recipeName = value; // Update recipeName when the text changes
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddRecipePage(recipeName: recipeName),
-                            ),
-                          );
-                        },
-                        child: const Text("Add"),
-                      ),
-                    ],
-                  ),
-                )
-
-              );
-            },
-          );
-        },
-        child: const Icon(Icons.add),
+                );
+              },
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

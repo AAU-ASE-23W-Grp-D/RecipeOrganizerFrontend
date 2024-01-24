@@ -15,8 +15,9 @@ FavoritedRecipesStorage _favoritedRecipesStorage = FavoritedRecipesStorage();
 
 class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
+  final bool ableToDelete;
 
-  const GridB({super.key, required this.fetchFunction});
+  const GridB({super.key, required this.fetchFunction, this.ableToDelete = false});
 
   @override
   State<GridB> createState() => _GridBState();
@@ -60,6 +61,7 @@ class _GridBState extends State<GridB> {
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
       future: futureRecipes,
       builder: (context, snapshot) {
@@ -162,20 +164,23 @@ class _GridBState extends State<GridB> {
                                     ),
                                   ),
                                   const Icon(Icons.star, color: Colors.grey),
-                                  IconButton(
-                                    onPressed: () async {
-                                      if(favoriteRecipes.contains(recipe.ID)){
-                                        favoriteRecipes.remove(recipe.ID);
-                                        await _updateFavoriteRecipe(recipe, false);
-                                      } else {
-                                        favoriteRecipes.add(recipe.ID);
-                                        await _updateFavoriteRecipe(recipe, true);
-                                      }
-                                      setState(() {});
-                                    },
-                                    color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
-                                    icon: const Icon(
-                                        CupertinoIcons.heart_fill),
+                                  Visibility(
+                                    visible: !widget.ableToDelete,
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        if(favoriteRecipes.contains(recipe.ID)){
+                                          favoriteRecipes.remove(recipe.ID);
+                                          await _updateFavoriteRecipe(recipe, false);
+                                        } else {
+                                          favoriteRecipes.add(recipe.ID);
+                                          await _updateFavoriteRecipe(recipe, true);
+                                        }
+                                        setState(() {});
+                                      },
+                                      color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
+                                      icon: const Icon(
+                                          CupertinoIcons.heart_fill),
+                                    ),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -202,17 +207,21 @@ class _GridBState extends State<GridB> {
                                       CupertinoIcons.add,
                                     ),
                                   ),
-                                  if(widget.fetchFunction == Api().fetchUserRecipes)
-                                    IconButton(
+                                  Visibility(
+                                    visible: widget.ableToDelete,
+                                    child: IconButton(
                                       onPressed: () async {
                                         await Api().deleteRecipe(recipe.ID);
-                                        setState(() {});
+                                        setState(() {
+                                          futureRecipes = widget.fetchFunction();
+                                        });
                                       },
-                                      color: Colors.black,
+                                      color: Colors.redAccent,
                                       icon: const Icon(
                                         CupertinoIcons.delete,
                                       ),
                                     ),
+                                  )
                                 ],
                               ),
                             ],
