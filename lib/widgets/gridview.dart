@@ -202,6 +202,17 @@ class _GridBState extends State<GridB> {
                                       CupertinoIcons.add,
                                     ),
                                   ),
+                                  if(widget.fetchFunction == Api().fetchUserRecipes)
+                                    IconButton(
+                                      onPressed: () async {
+                                        await Api().deleteRecipe(recipe.ID);
+                                        setState(() {});
+                                      },
+                                      color: Colors.black,
+                                      icon: const Icon(
+                                        CupertinoIcons.delete,
+                                      ),
+                                    ),
                                 ],
                               ),
                             ],
