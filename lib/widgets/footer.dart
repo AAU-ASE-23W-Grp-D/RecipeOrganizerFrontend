@@ -51,7 +51,6 @@ class Footer extends StatelessWidget {
                 'Merlin Christopher Godot Volkmer',
                 style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
