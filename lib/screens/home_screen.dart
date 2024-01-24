@@ -83,7 +83,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
                 style:
                     TextStyle(color: secondary, fontWeight: FontWeight.bold),
               ),
-              if (isLargeScreen) Expanded(child: _navBarItems(context))
+              if (isLargeScreen) Expanded(child: navBarItems(context))
             ],
           ),
         ),
@@ -98,7 +98,7 @@ class ResponsiveNavBarPage extends StatelessWidget {
 }
 
 //The items for the navbar
-final List<String> _menuItems = <String>[
+final List<String> menuItems = <String>[
   'Meal Plan',
   'Shopping List',
 ];
@@ -106,7 +106,7 @@ final List<String> _menuItems = <String>[
 //Drawer that appears when the screen gets to small
 Widget _drawer(BuildContext context) => Drawer(
       child: ListView(
-        children: _menuItems
+        children: menuItems
             .map((item) => ListTile(
                   onTap: () {
                     _handleDrawerItemClick(context, item);
@@ -118,17 +118,17 @@ Widget _drawer(BuildContext context) => Drawer(
     );
 
 //items from the navbar and the navigation to the right screen
-Widget _navBarItems(BuildContext context) {
-  List<String> filteredMenuItems = loggedIn
-      ? _menuItems.where((item) => item != "Login").toList()
-      : _menuItems;
+Widget navBarItems(BuildContext context) {
+
   return Row(
+    key: const Key("navbaritems"),
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       // The mapping for the Navbar items
-      ...filteredMenuItems.map(
+      ...menuItems.map(
         (item) => InkWell(
+
           onTap: () {
             _handleNavbarItemClick(context, item);
           },
@@ -168,8 +168,6 @@ void _handleDrawerItemClick(BuildContext context, String item) {
   Navigator.pop(context); // Close the drawer after selecting an item
   _handleNavbarItemClick(context, item); // Reuse the same logic as the navbar
 }
-
-
 
 //The profile icon and the dropdown to navigate to ther user screens
 enum Menu { itemOne, itemTwo, itemThree }

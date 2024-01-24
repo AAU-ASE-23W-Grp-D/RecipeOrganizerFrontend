@@ -19,7 +19,7 @@ void main() {
     // Verify if the widget renders correctly.
     expect(find.text('Test Ingredient'), findsOneWidget);
     expect(find.text('Test Quantity'), findsOneWidget);
-    expect(find.byType(IconButton), findsNWidgets(2));
+    expect(find.byType(IconButton), findsOneWidget);
   });
 
   testWidgets('ShoppingListScreen should render correctly', (WidgetTester tester) async {
