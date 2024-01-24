@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/favorited_recipes_storage.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
 
 class Profile {
@@ -16,8 +16,9 @@ class Profile {
 
 class LikedRecipesPage extends StatelessWidget {
   final Profile profile;
+  final FavoritedRecipesStorage _favoritedRecipesStorage = FavoritedRecipesStorage();
 
-  const LikedRecipesPage({super.key, required this.profile});
+  LikedRecipesPage({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +70,9 @@ class LikedRecipesPage extends StatelessWidget {
             ),
           ),
 
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: GridB(fetchFunction: fetchLikedRecipes,),
+           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridB(fetchFunction: _favoritedRecipesStorage.getFavoritedRecipes,),
           )
         ]
       )

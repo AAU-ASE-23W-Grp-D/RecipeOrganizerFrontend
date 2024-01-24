@@ -1,86 +1,56 @@
 import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
+  const Footer({super.key});
+
+//Footer with the names of the team.
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.sizeOf(context).height*0.2,
+      height: MediaQuery.sizeOf(context).height * 0.2,
       color: Colors.black, // Black background color
-      padding: EdgeInsets.symmetric(vertical: 10),
-      child: Row(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // Column 1
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Home',
+                "Created by: Sandro Moser,",
                 style: TextStyle(
-                  color: Colors.white, // White text color
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12),
               ),
               Text(
-                'Meal Plan',
+                "Mario Leopold,",
                 style: TextStyle(
-                  color: Colors.white,
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12),
               ),
               Text(
-                'Shopping List',
+                "Christian Schönberg,",
                 style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-
-          // Column 2
-          Column(
-            children: [
-              Text(
-                'Profile',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12),
               ),
               Text(
-                'Liked Recipes',
+                "Stefan Philipp Schellander,",
                 style: TextStyle(
-                  color: Colors.white,
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12),
               ),
               Text(
-                'Sign Out',
+                "and Merlin Volkmer",
                 style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-
-          // Column 3
-          Column(
-            children: [
-              Text(
-                'Recipes',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Create Recipe',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              Text(
-                'My Recipes',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12),
               ),
             ],
           ),

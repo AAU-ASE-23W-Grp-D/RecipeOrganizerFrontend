@@ -1,0 +1,55 @@
+name: Integration Tests
+
+on:
+  push:
+    branches:
+      - 'frontend_testing'
+  pull_request:
+    branches:
+      - 'frontend_testing'
+
+run-name: Integration Test by ${{ github.actor }}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      backend:
+        image: recipeorganizer/recipeorganizer-ase-develop:latest
+        env:
+          PORT: 8080
+        ports:
+          - 8080:8080
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+          architecture: x64
+
+      - name: Disable analytics
+        run: |
+          flutter config --no-analytics
+          dart --disable-analytics
+
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: '120.0.6099.109'
+
+      - name: Run Chromedriver
+        run: |
+          sudo apt-get install -yqq unzip
+          wget -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/linux64/chromedriver-linux64.zip
+          unzip /tmp/chromedriver.zip chromedriver-linux64/chromedriver -d /usr/local/bin/
+          chromedriver --port=4444 &
+
+      - name: Run tests
+        run: |
+          flutter drive --driver=test_driver/app.dart --target=integration_test/app_test.dart -d web-server

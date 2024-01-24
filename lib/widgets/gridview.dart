@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
@@ -5,47 +7,65 @@ import 'package:flutter/foundation.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/screens/recipe_detail_screen.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/favorited_recipes_storage.dart';
 import 'package:recipe_organizer_frontend/utils/meal_plan_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-SecureStorageMealPlanning _pref_mp = SecureStorageMealPlanning();
 
+SecureStorageMealPlanning _prefMP = SecureStorageMealPlanning();
+FavoritedRecipesStorage _favoritedRecipesStorage = FavoritedRecipesStorage();
 
+// Widget for displaying a grid of recipes
 class GridB extends StatefulWidget {
   final Future<List<Recipe>> Function() fetchFunction;
+  final bool ableToDelete;
 
-  const GridB({super.key, required this.fetchFunction});
+  const GridB(
+      {super.key, required this.fetchFunction, this.ableToDelete = false});
 
   @override
   State<GridB> createState() => _GridBState();
 }
 
 class _GridBState extends State<GridB> {
-
   late Future<List<Recipe>> futureRecipes;
   int totalCreatedRecipes = 0; // Track the total number of recipes of user
+  Set<int> favoriteRecipes = <int>{};
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     futureRecipes = widget.fetchFunction();
+    _loadFavoriteRecipes();
   }
 
-  bool isFavorite = false;
-  Set<int> favoriteRecipes = <int>{};
+  Future<void> _loadFavoriteRecipes() async {
+    favoriteRecipes =
+        (await _favoritedRecipesStorage.getFavoritedRecipesId()).toSet();
+  }
 
+  Future<void> _updateFavoriteRecipe(Recipe recipe, bool isFavorite) async {
+    if (isFavorite) {
+      await _favoritedRecipesStorage.addRecipe(recipe);
+      print("Recipe added to favorites");
+    } else {
+      await _favoritedRecipesStorage.removeRecipe(recipe);
+      print("Recipe removed from favorites");
+    }
+  }
 
+  // Calculate the number of cross-axis items based on screen width
   int calculateCrossAxisCount(double screenWidth) {
     int baseCount = 7; // Adjust this based on your initial design
-    int calculatedCount = (screenWidth / 200)
-        .round(); // Adjust 200 based on your item width
+    int calculatedCount =
+        (screenWidth / 200).round(); // Adjust 200 based on your item width
 
     return calculatedCount > baseCount ? calculatedCount : baseCount;
   }
 
-
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
       future: futureRecipes,
       builder: (context, snapshot) {
@@ -56,7 +76,8 @@ class _GridBState extends State<GridB> {
         } else {
           List<Recipe> recipes = snapshot.data as List<Recipe>;
 
-          if(widget.fetchFunction == fetchUserRecipes) { //if profile page is loaded calculate total created recipes
+          if (widget.fetchFunction == Api().fetchUserRecipes) {
+            // If the profile page is loaded, calculate total created recipes
             totalCreatedRecipes = recipes.length;
             UserStorage().saveTotalCreatedRecipes(totalCreatedRecipes);
           }
@@ -64,10 +85,7 @@ class _GridBState extends State<GridB> {
           return LayoutBuilder(
             builder: (context, constraints) {
               int crossAxisCount =
-              (MediaQuery
-                  .of(context)
-                  .size
-                  .width ~/ 209).toInt();
+                  (MediaQuery.of(context).size.width ~/ 209).toInt();
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -116,17 +134,15 @@ class _GridBState extends State<GridB> {
                             children: [
                               Text(
                                 recipe.name,
-                                style:
-                                Theme
-                                    .of(context)
+                                style: Theme.of(context)
                                     .textTheme
                                     .titleMedium!
                                     .merge(
-                                  const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                      const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                               ),
                               const SizedBox(
                                 height: 8.0,
@@ -135,34 +151,39 @@ class _GridBState extends State<GridB> {
                                 children: [
                                   Text(
                                     "${recipe.rating} ",
-                                    style:
-                                    Theme
-                                        .of(context)
+                                    style: Theme.of(context)
                                         .textTheme
                                         .titleSmall!
                                         .merge(
-                                      TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.grey.shade500,
-                                      ),
-                                    ),
+                                          TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.grey.shade500,
+                                          ),
+                                        ),
                                   ),
                                   const Icon(Icons.star, color: Colors.grey),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if(favoriteRecipes.contains(recipe.ID)){
+                                  Visibility(
+                                    visible: !widget.ableToDelete,
+                                    child: IconButton(
+                                      onPressed: () async {
+                                        if (favoriteRecipes
+                                            .contains(recipe.ID)) {
                                           favoriteRecipes.remove(recipe.ID);
-                                          //Remove from favorites
+                                          await _updateFavoriteRecipe(
+                                              recipe, false);
                                         } else {
                                           favoriteRecipes.add(recipe.ID);
-                                          //Add to favorites
+                                          await _updateFavoriteRecipe(
+                                              recipe, true);
                                         }
-                                      });
-                                    },
-                                    color: favoriteRecipes.contains(recipe.ID)? Colors.red:Colors.grey,
-                                    icon: const Icon(
-                                        CupertinoIcons.heart_fill),
+                                        setState(() {});
+                                      },
+                                      color: favoriteRecipes.contains(recipe.ID)
+                                          ? Colors.red
+                                          : Colors.grey,
+                                      icon:
+                                          const Icon(CupertinoIcons.heart_fill),
+                                    ),
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -170,7 +191,9 @@ class _GridBState extends State<GridB> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              RecipeDetailScreenWeb(recipe: recipe,),
+                                              RecipeDetailScreenWeb(
+                                            recipe: recipe,
+                                          ),
                                         ),
                                       );
                                     },
@@ -181,7 +204,6 @@ class _GridBState extends State<GridB> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-
                                       _showDialog(context, recipe.name);
                                     },
                                     color: Colors.black,
@@ -189,6 +211,23 @@ class _GridBState extends State<GridB> {
                                       CupertinoIcons.add,
                                     ),
                                   ),
+                                  Visibility(
+                                    visible: widget.ableToDelete,
+                                    child: IconButton(
+                                      key: Key('delete_${recipe.name}'),
+                                      onPressed: () async {
+                                        await Api().deleteRecipe(recipe.ID);
+                                        setState(() {
+                                          futureRecipes =
+                                              widget.fetchFunction();
+                                        });
+                                      },
+                                      color: Colors.redAccent,
+                                      icon: const Icon(
+                                        CupertinoIcons.delete,
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
@@ -206,12 +245,13 @@ class _GridBState extends State<GridB> {
     );
   }
 
+  // Function to show a dialog for assigning a recipe to a day
   Future<void> _showDialog(BuildContext context, String name) async {
     String selectedDay = 'Monday'; // Initial value
 
-  void _insertMealPlan(String day, String recipe) async {
-    await _pref_mp.insertRecipe(day,recipe);
-  }
+    void insertMealPlan(String day, String recipe) async {
+      await _prefMP.insertRecipe(day, recipe);
+    }
 
     showDialog(
       context: context,
@@ -248,8 +288,8 @@ class _GridBState extends State<GridB> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle assignment logic here
-                    _insertMealPlan(selectedDay, name);
+                    // inserts into meal plan
+                    insertMealPlan(selectedDay, name);
                     Navigator.pop(context); // Close the dialog
                   },
                   child: const Text('Assign'),
@@ -261,7 +301,6 @@ class _GridBState extends State<GridB> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
-                
               },
               child: const Text('Close'),
             ),

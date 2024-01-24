@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
@@ -8,7 +10,9 @@ class SecureStorage {
   }
 
   Future<void> write({required String key, required String? value}) async {
-    print("Written to storage: $key, $value");
+    
+      print("Written to storage: $key, $value");
+    
     await _storage.write(key: key, value: value);
   }
 

@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     key: const Key('loginButton'),
                     onPressed: () {
-                      login(
+                      Api().login(
                         usernameController.text,
                         passwordController.text,
                         context,
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     key: const Key('registrationButton'),
                     onPressed: () {
                       Navigator.push(
-                          context, MaterialPageRoute(builder: (context) => Registration()));
+                          context, MaterialPageRoute(builder: (context) => const Registration()));
                     },
                     child: const Text('Sign up!'),
                   ),

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, constant_identifier_names
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -41,6 +43,18 @@ class Recipe {
           image: base64.decode(image),
         ),
       _ => throw const FormatException('Failed to load recipe.'),
+    };
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': ID,
+      'name': name,
+      'ingredients': ingredients,
+      'description': description,
+      'rating': rating,
+      'rating_amount': rating_amount,
+      'image': base64.encode(image),
     };
   }
 }

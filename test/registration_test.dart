@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_organizer_frontend/app.dart';
 import 'package:recipe_organizer_frontend/screens/registration_screen.dart';
 
 void main() {

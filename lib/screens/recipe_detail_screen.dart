@@ -1,33 +1,28 @@
-import 'dart:convert';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:recipe_organizer_frontend/colors.dart";
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/shopping_list_storage.dart';
-import 'package:recipe_organizer_frontend/utils/user_storage.dart';
-import 'package:recipe_organizer_frontend/utils/api.dart';
 
-SecureStorageShoppingList _SlStorage = SecureStorageShoppingList();
+// Create an instance of SecureStorageShoppingList
+SecureStorageShoppingList _slStorage = SecureStorageShoppingList();
 
 class RecipeDetailScreenWeb extends StatefulWidget {
-  final String image = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  final Image image = Image.asset("assets/test_resources/image.png");
   final String name = "Cheeseburger";
   final String username = "Moser";
-  final String userimage = "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  final Image userimage = Image.asset("assets/user_icon.png");
   final Recipe recipe;
 
-  const RecipeDetailScreenWeb({super.key, required this.recipe});
-
+  RecipeDetailScreenWeb({super.key, required this.recipe});
 
   @override
   State<RecipeDetailScreenWeb> createState() => _DetailspageState();
 }
+
 class _DetailspageState extends State<RecipeDetailScreenWeb> {
-
-
-@override
+  @override
   void initState() {
     super.initState();
   }
@@ -40,7 +35,9 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
         title: Text("Recipe: ${widget.recipe.name}"),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: MediaQuery.of(context).size.width * 0.1),
+        padding: EdgeInsets.symmetric(
+            vertical: 30.0,
+            horizontal: MediaQuery.of(context).size.width * 0.1),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -64,17 +61,17 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            constraints: BoxConstraints(maxHeight: 90.0),
+                            constraints: const BoxConstraints(maxHeight: 90.0),
                             child: Text(
                               widget.recipe.name,
                               textAlign: TextAlign.right,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          creatorRecipe(widget: widget),
+                          CreatorRecipe(widget: widget),
                         ],
                       ),
                     ),
@@ -85,18 +82,22 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(flex: 2, child: ingredientsColumn(widget: widget)),
-                    Expanded(flex: 2, child: descriptionColumn(widget: widget,)),
-                    Expanded(flex: 1, child: imageColumn(widget: widget)),
+                    Expanded(flex: 2, child: IngridientColumn(widget: widget)),
+                    Expanded(
+                        flex: 2,
+                        child: DescriptionColumn(
+                          widget: widget,
+                        )),
+                    Expanded(flex: 1, child: ImageColumn(widget: widget)),
                   ],
                 ),
               if (screenWidth <= 600)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    imageColumn(widget: widget),
-                    ingredientsColumn(widget: widget),
-                    descriptionColumn(widget: widget),
+                    ImageColumn(widget: widget),
+                    IngridientColumn(widget: widget),
+                    DescriptionColumn(widget: widget),
                   ],
                 ),
             ],
@@ -107,10 +108,9 @@ class _DetailspageState extends State<RecipeDetailScreenWeb> {
   }
 }
 
-
-
-class imageColumn extends StatelessWidget {
-  const imageColumn({
+// Column that displays the image of the recipe
+class ImageColumn extends StatelessWidget {
+  const ImageColumn({
     super.key,
     required this.widget,
   });
@@ -120,6 +120,7 @@ class imageColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: const Key("imageColumn"),
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
@@ -133,14 +134,14 @@ class imageColumn extends StatelessWidget {
             ),
           ),
         ],
-                  
       ),
     );
   }
 }
 
-class descriptionColumn extends StatelessWidget {
-  const descriptionColumn({
+// Column that displays the recipe description
+class DescriptionColumn extends StatelessWidget {
+  const DescriptionColumn({
     super.key,
     required this.widget,
   });
@@ -149,28 +150,30 @@ class descriptionColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children:[
+    return Column(key: const Key("descriptionColumn"), children: [
       const Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Text("Description",style: TextStyle(fontSize: 16))),
-        Text(widget.recipe.description,
+          padding: EdgeInsets.all(20.0),
+          child: Text("Description", style: TextStyle(fontSize: 16))),
+      Text(
+        widget.recipe.description,
         style: const TextStyle(color: inActiveColor),
-        ),
-        const SizedBox(height: 40,)]
-              
-    );
+      ),
+      const SizedBox(
+        height: 40,
+      )
+    ]);
   }
 }
 
-class ingredientsColumn extends StatelessWidget {
-  const ingredientsColumn({
+// Column that displays the ingredients of the recipe
+class IngridientColumn extends StatelessWidget {
+  const IngridientColumn({
     super.key,
     required this.widget,
   });
 
   final RecipeDetailScreenWeb widget;
-
+// Function to parse the formatted ingredients and create a list of Ingridientitem
   List<Ingridientitem> parseIngredients(String formattedIngredients) {
     List<String> ingredientsList = formattedIngredients.split(',');
 
@@ -182,80 +185,93 @@ class ingredientsColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Ingridientitem> ingredientItems = parseIngredients(widget.recipe.ingredients);
+    List<Ingridientitem> ingredientItems =
+        parseIngredients(widget.recipe.ingredients);
 
     return Column(
+      key: const Key("ingridientList"),
       children: [
+        const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text("Ingredients", style: TextStyle(fontSize: 16)),
+        ),
         Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Text("Ingredients",style: TextStyle(fontSize: 16),),
+          padding: const EdgeInsets.only(right: 8.0),
+          child: DottedBorder(
+            borderType: BorderType.Rect,
+            strokeWidth: 0.8,
+            dashPattern: const [1],
+            color: inActiveColor,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: ingredientItems,
                   ),
-        Padding(
-                    padding: EdgeInsets.only(right:8.0),
-                    child: DottedBorder(
-                      borderType: BorderType.Rect,
-                      strokeWidth: 0.8,
-                      dashPattern: const [1,],
-                      color: inActiveColor,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: ingredientItems,
-                            ),
-                          ),
-                          
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: TextButton(
-                              onPressed: null, 
-                              child: Text("Add to Shopping List"))
-                          ),
-                        ],
-                      ) ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: null,
+                    child: Text("Add to Shopping List"),
                   ),
-      ]
-    );
-  }
-}
-
-class Ingridientitem extends StatelessWidget {
-  final String name;
-  final String measurement;
-
-
-   const Ingridientitem({
-    super.key,
-    this.name = "",
-    this.measurement = ""
-  });
-
-  void _insertShoppingList(String name, String quantity) async {
-    await _SlStorage.insertShoppingListItem2(name,quantity);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(Icons.trip_origin, color: primary, size: 20,),
-        SizedBox(width: 4,),
-        Text(this.name,style: TextStyle(color: inActiveColor),),
-        Text(": "),
-        Text(this.measurement),
-        Spacer(),
-        IconButton(onPressed: () {
-          _insertShoppingList(name, measurement);
-        }, icon: Icon(CupertinoIcons.add))
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
 }
 
-class creatorRecipe extends StatelessWidget {
-  const creatorRecipe({
+// Class representing an ingredient item
+class Ingridientitem extends StatelessWidget {
+  final String name;
+  final String measurement;
+
+  const Ingridientitem({super.key, this.name = "", this.measurement = ""});
+
+  void _insertShoppingList(String name, String quantity) async {
+    await _slStorage.insertShoppingListItem2(name, quantity);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      key: const Key("Ingridientitem"),
+      children: [
+        const Icon(
+          Icons.trip_origin,
+          color: primary,
+          size: 20,
+        ),
+        const SizedBox(
+          width: 4,
+        ),
+        Text(
+          key: const Key("ing_name"),
+          name,
+          style: const TextStyle(color: inActiveColor),
+        ),
+        const Text(": "),
+        Text(key: const Key("ing_measurement"), measurement),
+        const Spacer(),
+        IconButton(
+            onPressed: () {
+              _insertShoppingList(name, measurement);
+            },
+            icon: const Icon(CupertinoIcons.add))
+      ],
+    );
+  }
+}
+
+// Column that displays information about the recipe creator
+class CreatorRecipe extends StatelessWidget {
+  const CreatorRecipe({
     super.key,
     required this.widget,
   });
@@ -265,36 +281,40 @@ class creatorRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:60,
-      
+      key: const Key("RecipeCreator"),
+      height: 60,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-         border: Border.all(color:labelColor,width: 0.1 )
-      ),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: labelColor, width: 0.1)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children:  [
+          children: [
             Row(
               children: [
-                 CircleAvatar(
+                const CircleAvatar(
+                  key: Key("profilePicture"),
                   radius: 20,
-                  backgroundImage: NetworkImage(widget.userimage),
+                  backgroundImage: AssetImage(("assets/user_icon.png")),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left:8.0,top: 8),
+                  padding: const EdgeInsets.only(left: 8.0, top: 8),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(widget.username,style: const TextStyle(fontSize: 14,color: textColor),)
+                    children: [
+                      Text(
+                        widget.username,
+                        style: const TextStyle(fontSize: 14, color: textColor),
+                      )
                     ],
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top:8.0),
+              key: const Key("rating"),
+              padding: const EdgeInsets.only(top: 8.0),
               child: Column(
                 children: [
                   Row(
@@ -309,7 +329,10 @@ class creatorRecipe extends StatelessWidget {
                         ),
                     ],
                   ),
-                  Text("Ratings: ${widget.recipe.rating_amount}",style: const TextStyle(fontSize: 12,color: textColor),)
+                  Text(
+                    "Ratings: ${widget.recipe.rating_amount}",
+                    style: const TextStyle(fontSize: 12, color: textColor),
+                  )
                 ],
               ),
             )
@@ -319,4 +342,3 @@ class creatorRecipe extends StatelessWidget {
     );
   }
 }
-
