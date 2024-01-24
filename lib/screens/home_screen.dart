@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_organizer_frontend/colors.dart';
 import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/utils/api.dart';
+import 'package:recipe_organizer_frontend/utils/favorited_recipes_storage.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 import 'package:recipe_organizer_frontend/widgets/footer.dart';
 import 'package:recipe_organizer_frontend/widgets/gridview.dart';
@@ -177,7 +178,10 @@ class ProfileIcon extends StatefulWidget {
 
 class _ProfileIconState extends State<ProfileIcon> {
   final UserStorage _userStorage = UserStorage();
+  final FavoritedRecipesStorage _favoritedRecipesStorage = FavoritedRecipesStorage();
   int ownRecipes = 0;
+  int? likedRecipes;
+  String? username;
 
   @override
   void initState() {
@@ -187,69 +191,69 @@ class _ProfileIconState extends State<ProfileIcon> {
         ownRecipes = recipes.length;
       });
     });
+    _userStorage.getUserName().then((value) => username = value);
   }
+
 
   @override
   Widget build(BuildContext context) {
-    String? username;
-
     if(loggedIn) {
-      _userStorage.getUserName().then((value) => username = value);
       _userStorage.saveTotalCreatedRecipes(ownRecipes);
     }
-
     return PopupMenuButton<Menu>(
+            offset: const Offset(0, 40),
+        onSelected: (Menu item) async {
+            int likedRecipes = (await _favoritedRecipesStorage.getFavoritedRecipes()).length;
+            navigateToScreen(item, context, likedRecipes);
+          },
         icon: const Icon(Icons.person),
-        offset: const Offset(0, 40),
-        onSelected: (Menu item) {
-          if (item == Menu.itemOne) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => UserProfilePage(
-        userProfile: UserProfile(
-          name: username ?? '',
-          profileImage: 'assets/user_icon.png',
-          likedRecipes: 50,
-          createdRecipes:  ownRecipes,
-        ),
-                      ),
-                      ),
-                    );
-                  }
-          else if (item == Menu.itemTwo) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LikedRecipesPage(
-                  profile: Profile(
-                    name: 'John Doe',
-                    profileImage: 'assets/user_icon.png',
-                    likedRecipes: 50
-                  ),
-                ),
-              ),
-            );
-          }
-          else if (item == Menu.itemThree) {
-            Api().signout(context);
-          }
-
-        },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
-              const PopupMenuItem<Menu>(
-                value: Menu.itemOne,
-                child: Text('Profile'),
-                
-              ),
-              const PopupMenuItem<Menu>(
-                value: Menu.itemTwo,
-                child: Text('Liked Recipes'),
-              ),
-              const PopupMenuItem<Menu>(
-                value: Menu.itemThree,
-                child: Text('Sign Out'),
-              ),
-            ]);
+                  const PopupMenuItem<Menu>(
+                    value: Menu.itemOne,
+                    child: Text('Profile'),
+
+                  ),
+                  const PopupMenuItem<Menu>(
+                    value: Menu.itemTwo,
+                    child: Text('Liked Recipes'),
+                  ),
+                  const PopupMenuItem<Menu>(
+                    value: Menu.itemThree,
+                    child: Text('Sign Out'),
+                  ),
+                ]);
+  }
+
+  void navigateToScreen(Menu item, BuildContext context, int likedRecipes) {
+    if (item == Menu.itemOne) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserProfilePage(
+            userProfile: UserProfile(
+              name: username ?? '',
+              profileImage: 'assets/user_icon.png',
+              likedRecipes: likedRecipes,
+              createdRecipes: ownRecipes,
+            ),
+          ),
+        ),
+      );
+    } else if (item == Menu.itemTwo) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LikedRecipesPage(
+            profile: Profile(
+              name: username ?? '',
+              profileImage: 'assets/user_icon.png',
+              likedRecipes: likedRecipes,
+            ),
+          ),
+        ),
+      );
+    } else if (item == Menu.itemThree) {
+      Api().signout(context);
+    }
   }
 }

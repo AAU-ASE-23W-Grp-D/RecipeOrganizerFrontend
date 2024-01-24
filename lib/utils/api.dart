@@ -6,7 +6,6 @@ import 'package:recipe_organizer_frontend/models/recipe.dart';
 import 'package:recipe_organizer_frontend/models/user.dart';
 import 'package:recipe_organizer_frontend/screens/home_screen.dart';
 import 'package:recipe_organizer_frontend/utils/token_storage.dart';
-import 'package:recipe_organizer_frontend/screens/recipe_screen.dart';
 import 'package:recipe_organizer_frontend/utils/user_storage.dart';
 
 import '../screens/login_screen.dart';
@@ -129,9 +128,6 @@ class Api {
     }
   }
 
-
-
-
   Future<List<Recipe>> fetchRecipes() async {
     final TokenStorage storage = TokenStorage();
     String jwtToken = await storage.getToken();
@@ -213,8 +209,28 @@ class Api {
     }
   }
 
+  Future<void> deleteRecipe(int recipeId) async {
+    final TokenStorage storage = TokenStorage();
+    String jwtToken = await storage.getToken();
+
+    final response = await http.delete(
+      Uri.parse('$baseUrl/auth/deleteRecipe/$recipeId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $jwtToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('Recipe deleted successfully');
+    } else {
+      print('Recipe deletion failed');
+      print('StatusCode:${response.statusCode}');
+    }
+  }
+
   void _navigateToHomeScreen(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResponsiveNavBarPage()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ResponsiveNavBarPage()));
   }
 
   void _navigateToLoginScreen(BuildContext context) {
@@ -237,5 +253,4 @@ class Api {
       },
     );
   }
-
 }
