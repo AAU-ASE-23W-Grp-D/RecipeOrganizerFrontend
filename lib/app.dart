@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
           elevation: 0, // Remove shadow
         ),
       ),
-      home: const LoginPage(title: "Login")
+      home: const LoginPage(title: "Login to Demo")
     );
   }
 }
